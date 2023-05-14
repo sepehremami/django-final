@@ -3,10 +3,11 @@ from django.contrib.auth.models import AbstractUser
 
 
 class BaseModel(models.Model):
-    '''
+    """
     Common attributes of all modesl
     All models extend BaseModel
-    '''
+    """
+
     is_deleted = models.BooleanField(default=False)
     create_date = models.DateField(auto_now_add=True)
     modified_date = models.DateField(auto_now=True)
@@ -22,7 +23,6 @@ class BaseModel(models.Model):
         super().delete()
 
 
-
 class User(AbstractUser):
     pass
 
@@ -30,5 +30,5 @@ class User(AbstractUser):
 class Visitor(User):
     is_visitor = True
 
-    class Meta: 
+    class Meta:
         proxy = True
