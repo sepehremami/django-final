@@ -33,4 +33,3 @@ class Visitor(User):
 
     class Meta: 
         proxy = True
-
