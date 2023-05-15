@@ -8,7 +8,7 @@ class ShoppingSession(BaseModel):
 
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    session_id = models.(max_length=500)
+    session_id = models.CharField(max_length=500)
     status = models.CharField(
         max_length=3,
         choices=[
@@ -18,9 +18,6 @@ class Cart(BaseModel):
         default="U",
     )
     total = models.DecimalField(null=True, blank=True)
-
-    
-
 
 
 class Product(BaseModel):
@@ -34,3 +31,9 @@ class Product(BaseModel):
     discount = models.ForeignKey(
         "Discount", on_delete=models.RESTRICT, null=True, blank=True
     )
+
+class CartItem(BaseModel):
+    cart = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, on_delete=models.RESTRICT)
+    quantity = models.SmallIntegerField()
+    
