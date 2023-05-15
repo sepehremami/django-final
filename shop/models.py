@@ -43,3 +43,9 @@ class CartItem(BaseModel):
     cart = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)
     quantity = models.SmallIntegerField()
+
+
+class Discount(BaseModel):
+    name = models.CharField(max_length=100)
+    desc = models.TextField(validators=[validate_is_profane])
+    discount_percent = models.IntegerField()
