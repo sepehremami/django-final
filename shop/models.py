@@ -17,7 +17,12 @@ class Cart(BaseModel):
         ],
         default="U",
     )
-    total = models.DecimalField(null=True, blank=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+
+class Category(BaseModel):
+    name = models.CharField(max_length=100)
+    desc = models.TextField()
 
 
 class Product(BaseModel):
@@ -27,13 +32,13 @@ class Product(BaseModel):
     category = models.ForeignKey(
         "Category", on_delete=models.RESTRICT, null=True, blank=True
     )
-    price = models.DecimalField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     discount = models.ForeignKey(
         "Discount", on_delete=models.RESTRICT, null=True, blank=True
     )
+
 
 class CartItem(BaseModel):
     cart = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)
     quantity = models.SmallIntegerField()
-    
