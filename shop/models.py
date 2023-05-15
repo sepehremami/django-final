@@ -1,5 +1,6 @@
 from django.db import models
 from core.models import BaseModel, User
+from profanity.validators import validate_is_profane
 
 
 class ShoppingSession(BaseModel):
@@ -22,12 +23,12 @@ class Cart(BaseModel):
 
 class Category(BaseModel):
     name = models.CharField(max_length=100)
-    desc = models.TextField()
+    desc = models.TextField(validators=[validate_is_profane])
 
 
 class Product(BaseModel):
     name = models.CharField(max_length=150)
-    desc = models.TextField()
+    desc = models.TextField(validators=[validate_is_profane])
     sku = models.CharField(max_length=100)
     category = models.ForeignKey(
         "Category", on_delete=models.RESTRICT, null=True, blank=True

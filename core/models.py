@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django_jalali.db import models as jmodels
 
 
 class BaseModel(models.Model):
@@ -9,8 +10,8 @@ class BaseModel(models.Model):
     """
 
     is_deleted = models.BooleanField(default=False)
-    create_date = models.DateField(auto_now_add=True)
-    modified_date = models.DateField(auto_now=True)
+    create_date = jmodels.jDateField(auto_now_add=True)
+    modified_date = jmodels.jDateField(auto_now=True)
 
     class Meta:
         abstract = True
