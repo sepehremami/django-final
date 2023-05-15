@@ -6,6 +6,9 @@ from profanity.validators import validate_is_profane
 class ShoppingSession(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self) -> str:
+        return f"{self.user.username} Shopping Session"
+
 
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -20,10 +23,16 @@ class Cart(BaseModel):
     )
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    def __str__(self) -> str:
+        return f"{self.user.email}'s + Cart" # type:ignore
+
 
 class Category(BaseModel):
     name = models.CharField(max_length=100)
     desc = models.TextField(validators=[validate_is_profane])
+
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 
 class Product(BaseModel):
@@ -38,14 +47,23 @@ class Product(BaseModel):
         "Discount", on_delete=models.RESTRICT, null=True, blank=True
     )
 
+    def __str__(self) -> str:
+        return f"{self.name}"
+
 
 class CartItem(BaseModel):
     cart = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)
     quantity = models.SmallIntegerField()
 
+    def __str__(self) -> str:
+        return f"{self.product.name}"
+
 
 class Discount(BaseModel):
     name = models.CharField(max_length=100)
     desc = models.TextField(validators=[validate_is_profane])
     discount_percent = models.IntegerField()
+
+    def __str__(self) -> str:
+        return f"{self.name}"
