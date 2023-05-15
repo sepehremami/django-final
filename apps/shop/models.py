@@ -74,3 +74,8 @@ class Discount(BaseModel):
 
     def get_absolute_url(self):
         return "/people/%i/" % self.pk
+
+
+class Media(BaseModel):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    img = models.ImageField(upload_to="_images", null=True, blank=True)

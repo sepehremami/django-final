@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    ## packages ##
     "profanity",
+    "bootstrap5",
+    ## apps ##
     "apps.core",
     "apps.shop",
 ]

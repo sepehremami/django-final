@@ -2,6 +2,14 @@
 
 {% block content %}
 {% for product in products %}
-    <a href="{{product.get_absolute_url}}"><li>{{product}}</li></a>
+<div class="bia bockoresh ">
+{% if product.media_set == None  %}
+    <img src="_images/default.jpg" alt="There are no images available right now.">
+{% else %}
+<img src="{{product.media_set}}" alt="{{product.name}}">
+{% endif %}
+    <a href="{{product.get_absolute_url}}">{{product.name}}</a></h1>
+</div>
 {% endfor %}
+
 {% endblock content %}
