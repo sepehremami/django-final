@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from core.models import BaseModel, User
 from profanity.validators import validate_is_profane
 
@@ -24,7 +25,7 @@ class Cart(BaseModel):
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self) -> str:
-        return f"{self.user.email}'s + Cart" # type:ignore
+        return f"{self.user.email}'s + Cart"  # type:ignore
 
 
 class Category(BaseModel):
@@ -50,6 +51,9 @@ class Product(BaseModel):
     def __str__(self) -> str:
         return f"{self.name}"
 
+    def get_absolute_url(self):
+        return reverse("product", args=[str(self.pk)])
+
 
 class CartItem(BaseModel):
     cart = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
@@ -67,3 +71,6 @@ class Discount(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.name}"
+
+    def get_absolute_url(self):
+        return "/people/%i/" % self.pk
