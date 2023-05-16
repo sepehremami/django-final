@@ -4,10 +4,9 @@ from django_jalali.admin.filters import JDateFieldListFilter
 import django_jalali.admin as jadmin
 
 
-# class ProductAdmin(admin.ModelAdmin):
-#     list_filter = (
-#         ("create_at", JDateFieldListFilter),
-#     )
+class ProductAdmin(admin.ModelAdmin):
+    list_filter = (("create_at", JDateFieldListFilter),)
+
 
 class DummyAdmin(admin.ModelAdmin):
     list_filter = (("dummy_date", JDateFieldListFilter),)
