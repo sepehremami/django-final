@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from apps.core.models import BaseModel, User
 from profanity.validators import validate_is_profane
+from django_jalali.db import models as jmodels
 
 
 class ShoppingSession(BaseModel):
@@ -72,10 +73,11 @@ class Discount(BaseModel):
     def __str__(self) -> str:
         return f"{self.name}"
 
-    def get_absolute_url(self):
-        return "/people/%i/" % self.pk
-
 
 class Media(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    img = models.ImageField(upload_to="_images", null=True, blank=True)
+    img = models.ImageField(upload_to="images", null=True, blank=True)
+
+
+class Dummy(models.Model):
+    dummy_date = jmodels.jDateTimeField()
