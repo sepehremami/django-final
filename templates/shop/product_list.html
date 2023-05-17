@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
- <div class="row row-cols-1 row-cols-md-3 m-100px g-4 ">
+ <div class="row row-cols-1 row-cols-md-3 m-100px g-4 " id="product_list">
     {% for product in products %}
-        <div class="col">
+        <div class="col" id="product">
             <div class="card h-100">
                 <img src="{% static 'default.jpg' %}" class="card-image" alt="There are no images available right now.">
                 <div class="card-body">
