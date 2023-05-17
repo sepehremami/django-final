@@ -5,7 +5,9 @@ from apps.shop.models import Category, Discount, Product
 class ProductModelTestCase(TestCase):
     def setUp(self):
         self.category = Category.objects.create(name="Test Category")
-        self.discount = Discount.objects.create(name="Test Discount", discount_percent=10)
+        self.discount = Discount.objects.create(
+            name="Test Discount", discount_percent=10
+        )
         self.product = Product.objects.create(
             name="Test Product",
             desc="Test Description",
@@ -33,10 +35,14 @@ class ProductModelTestCase(TestCase):
     def test_product_discount(self):
         self.assertEqual(self.product.discount, self.discount)
 
-    def test_user_cannot_modify_product(self): ...
+    def test_user_cannot_modify_product(self):
+        ...
 
-    def test_admin_can_modify_product(self): ...
+    def test_admin_can_modify_product(self):
+        ...
 
-    def test_staff_can_modify_product(self): ...
+    def test_staff_can_modify_product(self):
+        ...
 
-    def test_product_discount_works(self): ...
+    def test_product_discount_works(self):
+        ...

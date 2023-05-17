@@ -81,5 +81,3 @@ class Media(BaseModel):
 
 class Dummy(models.Model):
     dummy_date = jmodels.jDateTimeField()
-
-

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "profanity",
     "apps.core.apps.CoreConfig",
     "apps.shop.apps.ShopConfig",
+    "apps.accounts.apps.AccountsConfig",
+
 ]
 SITE_ID = 1
 
