@@ -75,7 +75,7 @@ class Membership(BaseModel):
 
 
 class UserRewardLog(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     reward_type = models.CharField(max_length=50)
     reward_point = models.IntegerField()
     operation_type = models.CharField(max_length=100)
