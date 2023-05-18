@@ -54,9 +54,9 @@ class SubProduct(BaseModel):
     sku = models.CharField(max_length=100)
     size = models.CharField(max_length=5, choices=product_size)
     colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
-    suppliers_price = models.IntegerField()
-    retail_price = models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    suppliers_price = models.DecimalField(max_digits=10, decimal_places=2)
+    retail_price = models.DecimalField(max_digits=10, decimal_places=2)
+
     discount = models.ForeignKey(
         "Discount", on_delete=models.RESTRICT, null=True, blank=True
     )
@@ -65,6 +65,8 @@ class SubProduct(BaseModel):
 class ProductColour(BaseModel):
     colour = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f"{self.colour}"
 
 class CartItem(BaseModel):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
