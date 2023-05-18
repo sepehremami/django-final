@@ -21,6 +21,7 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = "shop/product_detail.html"
     context_object_name = "product"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['shopping_cart'] = cache.get('cart')
@@ -32,9 +33,6 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     model = Product
     login_url = '/accounts/login'
     fields = "__all__"
-
-
-
 
 
 @login_required(login_url='/accounts/login')
