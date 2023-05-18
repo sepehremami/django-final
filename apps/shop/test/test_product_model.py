@@ -7,12 +7,10 @@ from django.test import TestCase
 from apps.shop.models import Category, Product
 
 
-
-
-
 class ProductModelTestCase(TestCase):
     def setUp(self):
         self.category = Category.objects.create(name="Test Category")
+
 
         self.product = Product.objects.create(
             name="Test Product",
@@ -28,7 +26,7 @@ class ProductModelTestCase(TestCase):
             self.product.full_clean()
 
     @pytest.mark.django_db
-    def test_product_desc(self):
+    def test_product_category(self):
         self.assertEqual(self.product.desc, "Test Description")
 
     def test_product_sku(self):
@@ -36,4 +34,3 @@ class ProductModelTestCase(TestCase):
 
     def test_product_category(self):
         self.assertEqual(self.product.category, self.category)
-

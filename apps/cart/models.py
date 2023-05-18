@@ -3,11 +3,9 @@ from django_jalali.db import models as jmodels
 from django.db import models
 from django.db import models
 from apps.core.models import BaseModel, User, Address
-from apps.shop.models import Product, SubProduct, Category
 
 
 class OrderInfo(BaseModel):
-
     ORDER_STATUS = {
         1: 'paid',
         2: 'shipped',
@@ -34,8 +32,8 @@ class OrderInfo(BaseModel):
 
 
 class OrderItem(BaseModel):
-    order = models.ForeignKey('OrderInfo', on_delete='CASCADE')
-    sku = models.ForeignKey(SubProduct, on_delete='CASCADE')
+    order = models.ForeignKey('OrderInfo', on_delete=models.CASCADE)
+    sku = models.ForeignKey('shop.SubProduct', on_delete=models.CASCADE)
     count = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     comment = models.CharField(max_length=256, default='')
@@ -45,7 +43,7 @@ class DiscountBase(BaseModel):
     coupon_code = models.CharField(primary_key=True, default=uuid.uuid4().hex[:5].upper(), max_length=50,
                                    editable=False)
     discount_value = models.IntegerField()
-    discount_unit = models.CharField(choices=[
+    discount_unit = models.CharField(max_length=1, choices=[
         ('t', 'Toman'),
         ('p', 'Percent'),
     ])
@@ -60,8 +58,10 @@ class DiscountBase(BaseModel):
 
 
 class CategoryDiscount(DiscountBase):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey('shop.Category', on_delete=models.CASCADE)
 
 
 class ProductDiscount(DiscountBase):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey('shop.Product', on_delete=models.CASCADE)
+
+# TODO:WISHLIST implementation

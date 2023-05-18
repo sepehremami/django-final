@@ -61,7 +61,7 @@ class Address(BaseModel):
     users can have many address
     for default address see AddressManager
     """
-    user = models.ForeignKey('User', on_delete='CASCADE')
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     receiver = models.CharField(max_length=24)
     province = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -79,7 +79,7 @@ class Membership(BaseModel):
     """
     user = models.ForeignKey(User, on_delete=models.RESTRICT)
     discount_value = models.IntegerField()
-    discount_unit = models.CharField(choices=[
+    discount_unit = models.CharField(max_length=1,choices=[
         ('t', 'Toman'),
         ('p', 'Percent'),
     ])

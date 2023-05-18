@@ -3,7 +3,7 @@ from django.urls import reverse
 from apps.core.models import BaseModel, User
 from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
-
+from apps.cart.models import CategoryDiscount, ProductDiscount
 
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -23,6 +23,7 @@ class Cart(BaseModel):
 
 
 class Category(BaseModel):
+    parent_id = models.ForeignKey('self', on_delete=models.RESTRICT, null=True, blank=True, editable=False)
     name = models.CharField(max_length=100)
     desc = models.TextField(validators=[validate_is_profane])
     image = models.ImageField(upload_to="images", null=True, blank=True)
@@ -35,6 +36,9 @@ class Product(BaseModel):
     name = models.CharField(max_length=150)
     desc = models.TextField(validators=[validate_is_profane])
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
+
+    class Meta:
+        app_label = 'shop'
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -60,11 +64,10 @@ class SubProduct(BaseModel):
     sku = models.CharField(max_length=100)
     size = models.CharField(max_length=5, choices=product_size)
     colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
-    price = models.ForeignKey(Pricing, on_delete=models.CASCADE)
+    price = models.ForeignKey(Pricing, on_delete=models.CASCADE, null=True)
 
-    discount = models.ForeignKey(
-        "Discount", on_delete=models.RESTRICT, null=True, blank=True
-    )
+    class Meta:
+        app_label = 'shop'
 
     def size_verbose(self):
         return dict(SubProduct.product_size)[self.size]
@@ -89,13 +92,13 @@ class CartItem(BaseModel):
         return f"{self.product.name}"
 
 
-
 class Media(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     img = models.ImageField(upload_to="images", null=True, blank=True)
 
 
 class ProductReview(BaseModel):
+    parent_id = models.ForeignKey('self', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
     rating = models.DecimalField(max_digits=5, decimal_places=0)
