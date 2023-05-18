@@ -22,13 +22,12 @@ class OrderInfo(BaseModel):
         (5, 'Completed')
     )
 
-    order_id = models.CharField(max_length=128, primary_key=True, )
+    order_id = models.UUIDField(default=uuid.uuid4(), editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, )
     addr = models.ForeignKey(Address, on_delete=models.CASCADE, )
     total_count = models.IntegerField(default=1, )
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, )
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
     order_status = models.SmallIntegerField(choices=ORDER_STATUS_CHOICES, default=1, )
-    trade_no = models.CharField(max_length=128, default='', )
 
 
 class OrderItem(BaseModel):
@@ -36,7 +35,6 @@ class OrderItem(BaseModel):
     sku = models.ForeignKey('shop.SubProduct', on_delete=models.CASCADE)
     count = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    comment = models.CharField(max_length=256, default='')
 
 
 class DiscountBase(BaseModel):

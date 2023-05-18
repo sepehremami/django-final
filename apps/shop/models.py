@@ -1,9 +1,11 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from apps.core.models import BaseModel, User
 from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
 from apps.cart.models import CategoryDiscount, ProductDiscount
+
 
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -97,12 +99,19 @@ class Media(BaseModel):
     img = models.ImageField(upload_to="images", null=True, blank=True)
 
 
+def validate_max_five(value):
+    if 0 <= value <= 5:
+        raise ValidationError(
+            "%(value)s is not between 0 and 5",
+            params={"value": value},)
+
+
 class ProductReview(BaseModel):
-    parent_id = models.ForeignKey('self', on_delete=models.CASCADE)
+    parent_id = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField()
-    rating = models.DecimalField(max_digits=5, decimal_places=0)
+    rating = models.DecimalField(max_digits=5, decimal_places=0, validators=[validate_max_five])
     text = models.CharField(max_length=200)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username}:{self.product}:{self.pk}"
