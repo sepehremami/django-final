@@ -2,11 +2,17 @@
 {% block content %}
 <h1>{{product.name}}</h1>
 <div>
+
     <h2>{{product.created_at}}</h2>
     <h2>{{product.desc}}</h2>
     {% if product.category %}
         <h2>{{product.category}}</h2>
-    {% else %}
     {% endif %}
+    <div>
+        {{ product.subproduct_set.all }}
+    </div>
+    <div>
+        <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary m-auto">Add to Cart</a>
+    </div>
 </div>
 {% endblock content %}

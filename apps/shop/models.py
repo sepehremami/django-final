@@ -5,7 +5,6 @@ from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
 
 
-
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     session_id = models.CharField(max_length=500)
@@ -40,13 +39,20 @@ class Product(BaseModel):
         return f"{self.name}"
 
     def get_absolute_url(self):
-        return reverse("product", args=[str(self.pk)])
+        return reverse("product-detail", args=[str(self.pk)])
 
 
 class SubProduct(BaseModel):
+    product_size = [
+        ('s', 'Small'),
+        ('m', 'Medium'),
+        ('l', 'Large'),
+        ('xl', 'Extra-Large'),
+        ('xxl', '2Extra-Large')
+    ]
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     sku = models.CharField(max_length=100)
-    size = models.ForeignKey("ProductSize", on_delete=models.RESTRICT)
+    size = models.CharField(max_length=5, choices=product_size)
     colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
     suppliers_price = models.IntegerField()
     retail_price = models.IntegerField()
@@ -58,22 +64,6 @@ class SubProduct(BaseModel):
 
 class ProductColour(BaseModel):
     colour = models.CharField(max_length=50)
-
-
-class ProductSize(BaseModel):
-    sizes = [
-        ('s', 'Small'),
-        ('m', 'Medium'),
-        ('l', 'Large'),
-        ('xl', 'Extra-Large'),
-        ('xxl', '2Extra-Large')
-    ]
-    size = models.CharField(max_length=3, choices=sizes)
-
-
-class ProductCategory(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.RESTRICT)
-    category_id = models.ForeignKey(Category, on_delete=models.RESTRICT)
 
 
 class CartItem(BaseModel):

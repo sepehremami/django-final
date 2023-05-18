@@ -30,6 +30,7 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     fields = "__all__"
 
 
+
 @login_required(login_url='/accounts/login')
 def wishlist(request):
     return HttpResponse('added')

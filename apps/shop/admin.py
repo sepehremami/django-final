@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Cart, CartItem, Category, Media, Dummy
+from .models import *
 from django_jalali.admin.filters import JDateFieldListFilter
 import django_jalali.admin as jadmin
 
@@ -12,6 +12,8 @@ class DummyAdmin(admin.ModelAdmin):
     list_filter = (("dummy_date", JDateFieldListFilter),)
 
 
+admin.site.register(ProductColour)
+admin.site.register(SubProduct)
 admin.site.register(Product)
 admin.site.register(Cart)
 admin.site.register(CartItem)
