@@ -43,6 +43,11 @@ class Product(BaseModel):
         return reverse("product-detail", args=[str(self.pk)])
 
 
+class Pricing(BaseModel):
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    is_active = models.BooleanField(default=True)
+
+
 class SubProduct(BaseModel):
     product_size = [
         ('s', 'Small'),
@@ -55,8 +60,7 @@ class SubProduct(BaseModel):
     sku = models.CharField(max_length=100)
     size = models.CharField(max_length=5, choices=product_size)
     colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
-    suppliers_price = models.DecimalField(max_digits=10, decimal_places=2)
-    retail_price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.ForeignKey(Pricing, on_delete=models.CASCADE)
 
     discount = models.ForeignKey(
         "Discount", on_delete=models.RESTRICT, null=True, blank=True
