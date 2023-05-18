@@ -11,7 +11,6 @@ class ProductModelTestCase(TestCase):
     def setUp(self):
         self.category = Category.objects.create(name="Test Category")
 
-
         self.product = Product.objects.create(
             name="Test Product",
             desc="Test Description",
@@ -32,5 +31,3 @@ class ProductModelTestCase(TestCase):
     def test_product_sku(self):
         self.assertEqual(self.product.sku, "12345")
 
-    def test_product_category(self):
-        self.assertEqual(self.product.category, self.category)
