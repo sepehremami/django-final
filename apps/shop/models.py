@@ -18,7 +18,7 @@ class Cart(BaseModel):
         ],
         default="U",
     )
-    total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, editable=False)
 
     def __str__(self) -> str:
         return f"{self.user.email}'s + Cart"  # type:ignore
@@ -50,8 +50,12 @@ class Product(BaseModel):
 
 
 class Pricing(BaseModel):
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    price = models.ForeignKey('shop.Product', on_delete=models.CASCADE, null=True)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.price}'
 
 
 class SubProduct(BaseModel):
@@ -66,7 +70,6 @@ class SubProduct(BaseModel):
     sku = models.CharField(max_length=100)
     size = models.CharField(max_length=5, choices=product_size)
     colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
-    price = models.ForeignKey(Pricing, on_delete=models.CASCADE, null=True)
 
     class Meta:
         app_label = 'shop'

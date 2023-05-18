@@ -12,6 +12,7 @@ class DummyAdmin(admin.ModelAdmin):
     list_filter = (("dummy_date", JDateFieldListFilter),)
 
 
+admin.site.register(Pricing)
 admin.site.register(ProductColour)
 admin.site.register(SubProduct)
 admin.site.register(Product)
@@ -20,4 +21,3 @@ admin.site.register(CartItem)
 admin.site.register(Category)
 admin.site.register(Media)
 admin.site.register(ProductReview)
-
