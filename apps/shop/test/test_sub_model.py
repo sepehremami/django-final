@@ -1,5 +1,6 @@
 from django.test import TestCase
-from ..models import SubProduct, Product, ProductColour, Category
+from ..models import SubProduct, Product, ProductColour, Category, Pricing
+
 
 class SubProductModelTest(TestCase):
     def setUp(self):
@@ -11,6 +12,7 @@ class SubProductModelTest(TestCase):
 
         # Create a SubProduct object for testing
         SubProduct.objects.create(product=product, sku='TS001', size='s', colour=colour)
+        pricing = Pricing.objects.create(price=subproduct, is_active=True)
 
     def test_size_verbose(self):
         subproduct = SubProduct.objects.get(id=1)
@@ -19,3 +21,8 @@ class SubProductModelTest(TestCase):
     def test_str(self):
         subproduct = SubProduct.objects.get(id=1)
         self.assertEqual(str(subproduct), 'T-Shirt')
+
+    def test_pricing_and_subproduct_relation(self):
+        pricing = Pricing.objects.get(id=1)
+        subproduct = SubProduct.objects.get(id=1)
+        self.assertEqual(pricing.price, subproduct)
