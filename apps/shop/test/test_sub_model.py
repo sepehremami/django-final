@@ -11,8 +11,8 @@ class SubProductModelTest(TestCase):
         product = Product.objects.create(name='T-Shirt', desc='A comfortable t-shirt', category=cat)
 
         # Create a SubProduct object for testing
-        SubProduct.objects.create(product=product, sku='TS001', size='s', colour=colour)
-        pricing = Pricing.objects.create(price=subproduct, is_active=True)
+        subproduct = SubProduct.objects.create(product=product, sku='TS001', size='s', colour=colour)
+        pricing = Pricing.objects.create(price=product, is_active=True)
 
     def test_size_verbose(self):
         subproduct = SubProduct.objects.get(id=1)

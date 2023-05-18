@@ -1,6 +1,5 @@
 from apps.core.models import User
 import pytest
-
 import logging
 
 
