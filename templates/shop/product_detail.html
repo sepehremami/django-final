@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load data_verbose %}
 {% block content %}
 <h1>{{product.name}}</h1>
 <div>
@@ -8,11 +9,21 @@
     {% if product.category %}
         <h2>{{product.category}}</h2>
     {% endif %}
-    <div>
-        {{ product.subproduct_set.all }}
+
+    {% for sub in product.subproduct_set.all %}
+        <div class="sub-colours">
+            <h5>{{ sub.colour }}{{ sub.fields }}</h5>
+        </div>
+
+        <div class="sub-sizes">
+            {{ sub.size_verbose }}
+        </div>
+    {% endfor %}
+    {{ shopping_cart }}
+
     </div>
     <div>
-        <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary m-auto">Add to Cart</a>
+        <a href="{% url 'add-to-cart' product_id=product.id %}" class="btn btn-outline-primary m-auto" id="add-to-cart">Add to Cart</a>
     </div>
 </div>
 {% endblock content %}

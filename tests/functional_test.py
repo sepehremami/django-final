@@ -51,7 +51,10 @@ class NewVisitorTest(LiveServerTestCase):
 
 
     def test_multiple_users_can_add_cart_item(self):
-        pass
+        self.browser.get(f'{self.live_server_url}/products/1')
+        add_to_cart = self.browser.find_element(By.ID, 'add-to-cart')
+        add_to_cart.click()
+        self.assertIn('server', self.browser.page_source)
 
 
     # def test_can_make_a_product_and_retrieve(self):

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "apps.core.apps.CoreConfig",
     "apps.shop.apps.ShopConfig",
     "apps.accounts.apps.AccountsConfig",
+    "apps.cart.apps.CartConfig",
 
 ]
 SITE_ID = 1
