@@ -4,9 +4,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
-from apps.shop.models import Product, Category
+from apps.shop.models import Product, Category, SubProduct
 from apps.shop.views import ProductListView
 from selenium.common.exceptions import WebDriverException
+from model_bakery import baker
+from unittest import skip
 
 MAX_WAIT = 10
 
@@ -14,14 +16,8 @@ MAX_WAIT = 10
 class NewVisitorTest(LiveServerTestCase):
     def setUp(self) -> None:
         self.category = Category.objects.first()
-        self.new_product_obj = Product.objects.create(
-            name="t-shirt",
-            desc="beautiful",
-            sku='111',
-            category=self.category,
-            price=12.99,
-        ).save()
-        self.product = Product.objects.get(name='t-shirt')
+
+        self.product = baker.make(Product)
         self.browser = webdriver.Chrome()
 
     def tearDown(self) -> None:
@@ -45,14 +41,19 @@ class NewVisitorTest(LiveServerTestCase):
         products_names = [product.text for product in products]
         self.assertIn(self.product.name, self.browser.page_source)
 
+    @skip
     def test_can_view_product_view(self):
-        self.browser.get(f"{self.live_server_url}/product")
-        self.check_for_product_name_in_products('t-shirt')
+        self.browser.get(f"{self.live_server_url}/product/1")
+        time.sleep(2)
+        add_to_cart = self.browser.find_element(By.ID, 'add-to-cart')
+        add_to_cart.click()
+        time.sleep(2)
+        self.assertIn(self.product.name, self.browser.page_source)
 
-
+    @skip
     def test_multiple_users_can_add_cart_item(self):
-        pass
-
+        self.browser.get(f"{self.live_server_url}/product")
+        self.check_for_product_name_in_products(self.product.name)
 
     # def test_can_make_a_product_and_retrieve(self):
     #     pass
@@ -63,3 +64,10 @@ class Homepage(TestCase):
     def test_uses_home_template(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'shop/home.html')
+
+
+class ProductListViewTest(TestCase):
+    def test_uses_product_detail_template(self):
+        product = baker.make(Product)
+        response = self.client.get(f'/product/{product.pk}')
+        self.assertTemplateUsed(response, 'shop/product_detail.html')

@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View, CreateView, ListView, DetailView
-
+from django.core.cache import cache
 from .forms import ProductForm
 from .models import Product
 
@@ -21,6 +21,11 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = "shop/product_detail.html"
     context_object_name = "product"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['shopping_cart'] = cache.get('cart')
+        return context
 
 
 class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):

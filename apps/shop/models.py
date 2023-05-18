@@ -5,7 +5,6 @@ from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
 
 
-
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     session_id = models.CharField(max_length=500)
@@ -26,6 +25,7 @@ class Cart(BaseModel):
 class Category(BaseModel):
     name = models.CharField(max_length=100)
     desc = models.TextField(validators=[validate_is_profane])
+    image = models.ImageField(upload_to="images", null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -40,40 +40,40 @@ class Product(BaseModel):
         return f"{self.name}"
 
     def get_absolute_url(self):
-        return reverse("product", args=[str(self.pk)])
+        return reverse("product-detail", args=[str(self.pk)])
 
 
 class SubProduct(BaseModel):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    sku = models.CharField(max_length=100)
-    size = models.ForeignKey("ProductSize", on_delete=models.RESTRICT)
-    colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
-    suppliers_price = models.IntegerField()
-    retail_price = models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    discount = models.ForeignKey(
-        "Discount", on_delete=models.RESTRICT, null=True, blank=True
-    )
-
-
-class ProductColour(BaseModel):
-    colour = models.CharField(max_length=50)
-
-
-class ProductSize(BaseModel):
-    sizes = [
+    product_size = [
         ('s', 'Small'),
         ('m', 'Medium'),
         ('l', 'Large'),
         ('xl', 'Extra-Large'),
         ('xxl', '2Extra-Large')
     ]
-    size = models.CharField(max_length=3, choices=sizes)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    sku = models.CharField(max_length=100)
+    size = models.CharField(max_length=5, choices=product_size)
+    colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
+    suppliers_price = models.DecimalField(max_digits=10, decimal_places=2)
+    retail_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    discount = models.ForeignKey(
+        "Discount", on_delete=models.RESTRICT, null=True, blank=True
+    )
+
+    def size_verbose(self):
+        return dict(SubProduct.product_size)[self.size]
+
+    def __str__(self):
+        return f"{self.product.name}"
 
 
-class ProductCategory(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.RESTRICT)
-    category_id = models.ForeignKey(Category, on_delete=models.RESTRICT)
+class ProductColour(BaseModel):
+    colour = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.colour}"
 
 
 class CartItem(BaseModel):
@@ -99,5 +99,11 @@ class Media(BaseModel):
     img = models.ImageField(upload_to="images", null=True, blank=True)
 
 
-class Dummy(models.Model):
-    dummy_date = jmodels.jDateTimeField()
+class ProductReview(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    rating = models.DecimalField(max_digits=5, decimal_places=0)
+    text = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.user.username
