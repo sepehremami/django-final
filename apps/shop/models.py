@@ -99,5 +99,11 @@ class Media(BaseModel):
     img = models.ImageField(upload_to="images", null=True, blank=True)
 
 
-class Dummy(models.Model):
-    dummy_date = jmodels.jDateTimeField()
+class ProductReview(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    rating = models.DecimalField(max_digits=5, decimal_places=0)
+    text = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.user.username

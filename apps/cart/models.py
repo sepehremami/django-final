@@ -50,8 +50,11 @@ class DiscountBase(BaseModel):
     description = models.TextField()
     valid_until = models.DateTimeField()
     expired = models.BooleanField(default=False)
+    minimum_order_value = models.IntegerField()
+    maximum_discount_amount = models.IntegerField()
 
     class Meta:
         abstract = True
 
 
+class CategoryDiscount(DiscountBase):
