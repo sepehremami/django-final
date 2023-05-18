@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 from django.contrib.auth.decorators import login_required
@@ -11,3 +12,4 @@ def add_to_cart(request, product_id):
     product = Product.objects.get(pk=product_id)
     cache.set('cart', product, timeout=50)
     print(cache.get('cart'))
+    return HttpResponse(cache.get("cart"))
