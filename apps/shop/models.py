@@ -9,7 +9,7 @@ from apps.cart.models import CategoryDiscount, ProductDiscount
 
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    session_id = models.CharField(max_length=500)
+
     status = models.CharField(
         max_length=3,
         choices=[
