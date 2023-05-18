@@ -7,6 +7,7 @@ from apps.shop.models import Product, SubProduct, Category
 
 
 class OrderInfo(BaseModel):
+
     ORDER_STATUS = {
         1: 'paid',
         2: 'shipped',
@@ -32,9 +33,9 @@ class OrderInfo(BaseModel):
     trade_no = models.CharField(max_length=128, default='', )
 
 
-class OrderGoods(BaseModel):
+class OrderItem(BaseModel):
     order = models.ForeignKey('OrderInfo', on_delete='CASCADE')
-    sku = models.ForeignKey(SubProduct.sku, on_delete='CASCADE')
+    sku = models.ForeignKey(SubProduct, on_delete='CASCADE')
     count = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     comment = models.CharField(max_length=256, default='')

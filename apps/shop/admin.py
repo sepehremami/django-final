@@ -19,4 +19,5 @@ admin.site.register(Cart)
 admin.site.register(CartItem)
 admin.site.register(Category)
 admin.site.register(Media)
-admin.site.register(Dummy, DummyAdmin)
+admin.site.register(ProductReview)
+

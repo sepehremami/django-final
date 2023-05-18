@@ -89,14 +89,6 @@ class CartItem(BaseModel):
         return f"{self.product.name}"
 
 
-class Discount(BaseModel):
-    name = models.CharField(max_length=100)
-    desc = models.TextField(validators=[validate_is_profane])
-    discount_percent = models.IntegerField()
-
-    def __str__(self) -> str:
-        return f"{self.name}"
-
 
 class Media(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
