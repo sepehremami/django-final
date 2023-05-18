@@ -61,12 +61,19 @@ class SubProduct(BaseModel):
         "Discount", on_delete=models.RESTRICT, null=True, blank=True
     )
 
+    def size_verbose(self):
+        return dict(SubProduct.product_size)[self.size]
+
+    def __str__(self):
+        return f"{self.product.name}"
+
 
 class ProductColour(BaseModel):
     colour = models.CharField(max_length=50)
 
     def __str__(self):
         return f"{self.colour}"
+
 
 class CartItem(BaseModel):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
