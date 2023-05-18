@@ -5,12 +5,6 @@ from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
 
 
-class ShoppingSession(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return f"{self.user.username} Shopping Session"
-
 
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -40,14 +34,7 @@ class Category(BaseModel):
 class Product(BaseModel):
     name = models.CharField(max_length=150)
     desc = models.TextField(validators=[validate_is_profane])
-    sku = models.CharField(max_length=100)
-    category = models.ForeignKey(
-        "Category", on_delete=models.RESTRICT, null=True, blank=True
-    )
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    discount = models.ForeignKey(
-        "Discount", on_delete=models.RESTRICT, null=True, blank=True
-    )
+    category = models.ForeignKey(Category, on_delete=models.RESTRICT)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -56,8 +43,41 @@ class Product(BaseModel):
         return reverse("product", args=[str(self.pk)])
 
 
+class SubProduct(BaseModel):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    sku = models.CharField(max_length=100)
+    size = models.ForeignKey("ProductSize", on_delete=models.RESTRICT)
+    colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
+    suppliers_price = models.IntegerField()
+    retail_price = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount = models.ForeignKey(
+        "Discount", on_delete=models.RESTRICT, null=True, blank=True
+    )
+
+
+class ProductColour(BaseModel):
+    colour = models.CharField(max_length=50)
+
+
+class ProductSize(BaseModel):
+    sizes = [
+        ('s', 'Small'),
+        ('m', 'Medium'),
+        ('l', 'Large'),
+        ('xl', 'Extra-Large'),
+        ('xxl', '2Extra-Large')
+    ]
+    size = models.CharField(max_length=3, choices=sizes)
+
+
+class ProductCategory(models.Model):
+    product_id = models.ForeignKey(Product, on_delete=models.RESTRICT)
+    category_id = models.ForeignKey(Category, on_delete=models.RESTRICT)
+
+
 class CartItem(BaseModel):
-    cart = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)
     quantity = models.SmallIntegerField()
 

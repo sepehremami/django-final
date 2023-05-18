@@ -6,7 +6,7 @@ import logging
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_logging():
-    config = logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO)
 
 
 @pytest.fixture
@@ -24,5 +24,3 @@ def test_create_user() -> None:
 def test_user_can_see_posts(normal_user):
     logging.info(f"{normal_user}")
     assert True
-
-
