@@ -4,18 +4,14 @@ from django.test import TestCase
 from apps.shop.models import Product
 from model_bakery import baker
 from django.test import TestCase
-from apps.shop.models import Category, Discount, Product
-
-
-
+from apps.shop.models import Category, Product
 
 
 class ProductModelTestCase(TestCase):
     def setUp(self):
         self.category = Category.objects.create(name="Test Category")
-        self.discount = Discount.objects.create(
-            name="Test Discount", discount_percent=10
-        )
+
+
         self.product = Product.objects.create(
             name="Test Product",
             desc="Test Description",
@@ -30,7 +26,7 @@ class ProductModelTestCase(TestCase):
             self.product.full_clean()
 
     @pytest.mark.django_db
-    def test_product_desc(self):
+    def test_product_category(self):
         self.assertEqual(self.product.desc, "Test Description")
 
     def test_product_sku(self):
@@ -38,4 +34,3 @@ class ProductModelTestCase(TestCase):
 
     def test_product_category(self):
         self.assertEqual(self.product.category, self.category)
-

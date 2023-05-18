@@ -27,6 +27,10 @@ class BaseModel(models.Model):
 
 
 class User(AbstractUser):
+    """
+    General User model
+    Django auth user
+    """
     phone_number = models.CharField(
         max_length=11,
         blank=True,
@@ -41,6 +45,7 @@ class User(AbstractUser):
 
 
 class AddressManager(models.Manager):
+    """"""
     def get_default_address(self, user):
         try:
             address = self.get(user=user, is_default=True)
@@ -51,8 +56,12 @@ class AddressManager(models.Manager):
 
 
 class Address(BaseModel):
-
-    user = models.ForeignKey('User', on_delete='CASCADE')
+    """
+    Address that will be written when order is being shipped
+    users can have many address
+    for default address see AddressManager
+    """
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     receiver = models.CharField(max_length=24)
     province = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -62,3 +71,29 @@ class Address(BaseModel):
     is_default = models.BooleanField(default=False)
 
     objects = AddressManager()
+
+
+class Membership(BaseModel):
+    """
+    defining memberships for users with benefits and offers
+    """
+    user = models.ForeignKey(User, on_delete=models.RESTRICT)
+    discount_value = models.IntegerField()
+    discount_unit = models.CharField(max_length=1,choices=[
+        ('t', 'Toman'),
+        ('p', 'Percent'),
+    ])
+    valid_until = jmodels.jDateTimeField()
+    free_shipping = models.BooleanField(default=False)
+
+
+class UserRewardLog(BaseModel):
+    """
+    log user reward activity
+    """
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    reward_type = models.CharField(max_length=50)
+    reward_point = models.IntegerField()
+    operation_type = models.CharField(max_length=100)
+
+

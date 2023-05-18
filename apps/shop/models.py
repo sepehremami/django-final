@@ -1,13 +1,15 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from apps.core.models import BaseModel, User
 from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
+from apps.cart.models import CategoryDiscount, ProductDiscount
 
 
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    session_id = models.CharField(max_length=500)
+
     status = models.CharField(
         max_length=3,
         choices=[
@@ -16,13 +18,14 @@ class Cart(BaseModel):
         ],
         default="U",
     )
-    total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, editable=False)
 
     def __str__(self) -> str:
         return f"{self.user.email}'s + Cart"  # type:ignore
 
 
 class Category(BaseModel):
+    parent_id = models.ForeignKey('self', on_delete=models.RESTRICT, null=True, blank=True, editable=False)
     name = models.CharField(max_length=100)
     desc = models.TextField(validators=[validate_is_profane])
     image = models.ImageField(upload_to="images", null=True, blank=True)
@@ -36,11 +39,23 @@ class Product(BaseModel):
     desc = models.TextField(validators=[validate_is_profane])
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
 
+    class Meta:
+        app_label = 'shop'
+
     def __str__(self) -> str:
         return f"{self.name}"
 
     def get_absolute_url(self):
         return reverse("product-detail", args=[str(self.pk)])
+
+
+class Pricing(BaseModel):
+
+    price = models.ForeignKey('shop.Product', on_delete=models.CASCADE, null=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.price}'
 
 
 class SubProduct(BaseModel):
@@ -55,12 +70,9 @@ class SubProduct(BaseModel):
     sku = models.CharField(max_length=100)
     size = models.CharField(max_length=5, choices=product_size)
     colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
-    suppliers_price = models.DecimalField(max_digits=10, decimal_places=2)
-    retail_price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    discount = models.ForeignKey(
-        "Discount", on_delete=models.RESTRICT, null=True, blank=True
-    )
+    class Meta:
+        app_label = 'shop'
 
     def size_verbose(self):
         return dict(SubProduct.product_size)[self.size]
@@ -85,25 +97,24 @@ class CartItem(BaseModel):
         return f"{self.product.name}"
 
 
-class Discount(BaseModel):
-    name = models.CharField(max_length=100)
-    desc = models.TextField(validators=[validate_is_profane])
-    discount_percent = models.IntegerField()
-
-    def __str__(self) -> str:
-        return f"{self.name}"
-
-
 class Media(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     img = models.ImageField(upload_to="images", null=True, blank=True)
 
 
+def validate_max_five(value):
+    if 0 <= value <= 5:
+        raise ValidationError(
+            "%(value)s is not between 0 and 5",
+            params={"value": value},)
+
+
 class ProductReview(BaseModel):
+    parent_id = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField()
-    rating = models.DecimalField(max_digits=5, decimal_places=0)
+    rating = models.DecimalField(max_digits=5, decimal_places=0, validators=[validate_max_five])
     text = models.CharField(max_length=200)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username}:{self.product}:{self.pk}"
