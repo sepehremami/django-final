@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.db import models
 from apps.core.models import BaseModel, User, Address
@@ -38,7 +40,8 @@ class OrderGoods(BaseModel):
     comment = models.CharField(max_length=256, default='')
 
 
-class Discount(BaseModel):
+class DiscountBase(BaseModel):
+    coupon_code = models.CharField(primary_key=True, default=uuid.uuid4().hex[:5].upper(), max_length=50, editable=False)
     discount_value = models.IntegerField()
     discount_unit = models.CharField(choices=[
         ('t', 'Toman'),
@@ -50,3 +53,5 @@ class Discount(BaseModel):
 
     class Meta:
         abstract = True
+
+
