@@ -51,7 +51,6 @@ class AddressManager(models.Manager):
 
 
 class Address(BaseModel):
-
     user = models.ForeignKey('User', on_delete='CASCADE')
     receiver = models.CharField(max_length=24)
     province = models.CharField(max_length=100)
@@ -62,3 +61,23 @@ class Address(BaseModel):
     is_default = models.BooleanField(default=False)
 
     objects = AddressManager()
+
+
+class Membership(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.RESTRICT)
+    discount_value = models.IntegerField()
+    discount_unit = models.CharField(choices=[
+        ('t', 'Toman'),
+        ('p', 'Percent'),
+    ])
+    valid_until = jmodels.jDateTimeField()
+    free_shipping = models.BooleanField(default=False)
+
+
+class UserRewardLog(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reward_type = models.CharField(max_length=50)
+    reward_point = models.IntegerField()
+    operation_type = models.CharField(max_length=100)
+
+

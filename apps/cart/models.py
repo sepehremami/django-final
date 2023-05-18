@@ -1,5 +1,5 @@
 import uuid
-
+from django_jalali.db import models as jmodels
 from django.db import models
 from django.db import models
 from apps.core.models import BaseModel, User, Address
@@ -49,7 +49,7 @@ class DiscountBase(BaseModel):
         ('p', 'Percent'),
     ])
     description = models.TextField()
-    valid_until = models.DateTimeField()
+    valid_until = jmodels.jDateTimeField()
     expired = models.BooleanField(default=False)
     minimum_order_value = models.IntegerField()
     maximum_discount_amount = models.IntegerField()
