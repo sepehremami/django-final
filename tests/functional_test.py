@@ -49,6 +49,11 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.get(f"{self.live_server_url}/product")
         self.check_for_product_name_in_products('t-shirt')
 
+
+    def test_multiple_users_can_add_cart_item(self):
+        pass
+
+
     # def test_can_make_a_product_and_retrieve(self):
     #     pass
 
