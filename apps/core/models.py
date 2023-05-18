@@ -40,8 +40,25 @@ class User(AbstractUser):
     )
 
 
-class Visitor(User):
-    is_visitor = True
+class AddressManager(models.Manager):
+    def get_default_address(self, user):
+        try:
+            address = self.get(user=user, is_default=True)
+        except self.model.DoesNotExist:
+            address = None
 
-    class Meta:
-        proxy = True
+        return address
+
+
+class Address(BaseModel):
+
+    user = models.ForeignKey('User', on_delete='CASCADE')
+    receiver = models.CharField(max_length=24)
+    province = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    addr = models.CharField(max_length=256)
+    zip_code = models.CharField(max_length=6, null=True)
+    phone = models.CharField(max_length=11)
+    is_default = models.BooleanField(default=False)
+
+    objects = AddressManager()
