@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from django.db import models
 from apps.core.models import BaseModel, User, Address
-from apps.shop.models import Product, SubProduct
+from apps.shop.models import Product, SubProduct, Category
 
 
 class OrderInfo(BaseModel):
@@ -41,7 +41,8 @@ class OrderGoods(BaseModel):
 
 
 class DiscountBase(BaseModel):
-    coupon_code = models.CharField(primary_key=True, default=uuid.uuid4().hex[:5].upper(), max_length=50, editable=False)
+    coupon_code = models.CharField(primary_key=True, default=uuid.uuid4().hex[:5].upper(), max_length=50,
+                                   editable=False)
     discount_value = models.IntegerField()
     discount_unit = models.CharField(choices=[
         ('t', 'Toman'),
@@ -58,3 +59,8 @@ class DiscountBase(BaseModel):
 
 
 class CategoryDiscount(DiscountBase):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+
+class ProductDiscount(DiscountBase):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
