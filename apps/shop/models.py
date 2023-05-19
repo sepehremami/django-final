@@ -8,6 +8,11 @@ from apps.cart.models import CategoryDiscount, ProductDiscount
 
 
 class Cart(BaseModel):
+    """
+    User cart
+    saves what users chooses
+    """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     status = models.CharField(
@@ -25,6 +30,10 @@ class Cart(BaseModel):
 
 
 class Category(BaseModel):
+    """
+    self-relation
+    product category
+    """
     parent_id = models.ForeignKey('self', on_delete=models.RESTRICT, null=True, blank=True, editable=False)
     name = models.CharField(max_length=100)
     desc = models.TextField(validators=[validate_is_profane])
@@ -35,6 +44,10 @@ class Category(BaseModel):
 
 
 class Product(BaseModel):
+    """
+    Products are the core reason we are writing this django website
+    """
+
     name = models.CharField(max_length=150)
     desc = models.TextField(validators=[validate_is_profane])
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
@@ -50,7 +63,9 @@ class Product(BaseModel):
 
 
 class Pricing(BaseModel):
-
+    """
+    pricing is defined for better control over price behaviour
+    """
     price = models.ForeignKey('shop.Product', on_delete=models.CASCADE, null=True)
     is_active = models.BooleanField(default=True)
 
@@ -59,6 +74,10 @@ class Pricing(BaseModel):
 
 
 class SubProduct(BaseModel):
+    """
+    Sub-products are essentially products but with more specific data on colour,
+    size, price,...
+    """
     product_size = [
         ('s', 'Small'),
         ('m', 'Medium'),
@@ -82,6 +101,10 @@ class SubProduct(BaseModel):
 
 
 class ProductColour(BaseModel):
+    """
+    colour of products,
+    split because of redundancy
+    """
     colour = models.CharField(max_length=50)
 
     def __str__(self):
@@ -89,6 +112,8 @@ class ProductColour(BaseModel):
 
 
 class CartItem(BaseModel):
+    """"
+    """
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)
     quantity = models.SmallIntegerField()
@@ -110,6 +135,9 @@ def validate_max_five(value):
 
 
 class ProductReview(BaseModel):
+    """
+    user's product review
+    """
     parent_id = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.DecimalField(max_digits=5, decimal_places=0, validators=[validate_max_five])

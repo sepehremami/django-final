@@ -6,6 +6,9 @@ from apps.core.models import BaseModel, User, Address
 
 
 class OrderInfo(BaseModel):
+    """
+    order instance save user's orders
+    """
     ORDER_STATUS = {
         1: 'paid',
         2: 'shipped',
@@ -31,6 +34,9 @@ class OrderInfo(BaseModel):
 
 
 class OrderItem(BaseModel):
+    """
+    Order item is each Sub-product user buys
+    """
     order = models.ForeignKey('OrderInfo', on_delete=models.CASCADE)
     sku = models.ForeignKey('shop.SubProduct', on_delete=models.CASCADE)
     count = models.IntegerField(default=1)
@@ -38,6 +44,9 @@ class OrderItem(BaseModel):
 
 
 class DiscountBase(BaseModel):
+    """
+    All discount models inherit from this Base model
+    """
     coupon_code = models.CharField(primary_key=True, default=uuid.uuid4().hex[:5].upper(), max_length=50,
                                    editable=False)
     discount_value = models.IntegerField()
@@ -56,10 +65,16 @@ class DiscountBase(BaseModel):
 
 
 class CategoryDiscount(DiscountBase):
+    """
+    this specific kind of discount can be applied to a category of products
+    """
     category = models.ForeignKey('shop.Category', on_delete=models.CASCADE)
 
 
 class ProductDiscount(DiscountBase):
+    """
+    this specific kind of discount is applied only on one Sub-product
+    """
     product = models.ForeignKey('shop.Product', on_delete=models.CASCADE)
 
 # TODO:WISHLIST implementation
