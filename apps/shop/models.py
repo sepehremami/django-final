@@ -35,10 +35,14 @@ class Category(BaseModel):
     self-relation
     product category
     """
-    parent_id = models.ForeignKey('self', on_delete=models.RESTRICT, null=True, blank=True, editable=False)
+    parent = models.ForeignKey('shop.Category', on_delete=models.RESTRICT, null=True, blank=True)
     name = models.CharField(max_length=100)
     desc = models.TextField(validators=[validate_is_profane])
     image = models.ImageField(upload_to="images", null=True, blank=True)
+
+
+    class Meta:
+        app_label = "shop"
 
     def __str__(self) -> str:
         return f"{self.name}"
