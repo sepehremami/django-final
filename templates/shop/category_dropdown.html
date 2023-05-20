@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+
+<label for="category-dropdown">
+
+</label>
+    <select id="category-dropdown">
+    <option value="">Select a category</option>
+    {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+        {% if category.children.all %}
+            {% for child in category.children.all %}
+                <option value="{{ child.id }}">- {{ child.name }}</option>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+</select>
+<script>
+$(document).ready(function() {
+    $('#category-dropdown').change(function() {
+        const category_id = $(this).val();
+        if (category_id) {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/product/category',
+                data: {
+
+                },
+                success: function(data) {
+                    console.log(data)
+                    $("#category-dropdown").val(data).trigger('change');
+                }
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

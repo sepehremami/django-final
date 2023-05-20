@@ -41,5 +41,5 @@ def wishlist(request):
 
 
 def category_dropdown(request):
-    categories = Category.objects.filter(parent__isnull=True)
+    categories = Category.objects.filter(parent_id__isnull=True)
     return render(request, 'shop/category_dropdown.html', {'categories': categories})
