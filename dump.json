@@ -1145,7 +1145,7 @@
     }
   } ,
   {
-    "model": "core.user" ,
+    "model": "user.user" ,
     "pk": 1 ,
     "fields": {
       "password": "pbkdf2_sha256$600000$Vyd9ScQbx6HJfuPcUbB7i7$e2VBchttkr/tcMJhlTJAPFtWFZfsYu5EOKt8y9QhFgI=" ,
@@ -1164,7 +1164,7 @@
     }
   } ,
   {
-    "model": "core.user" ,
+    "model": "user.user" ,
     "pk": 2 ,
     "fields": {
       "password": "user" ,

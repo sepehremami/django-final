@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.generic import View, CreateView, ListView, DetailView
 from django.core.cache import cache
 from .forms import ProductForm
-from .models import Product
+from .models import Product, Category
 
 from django.views.generic.edit import CreateView
 from apps.shop.models import Product
@@ -38,3 +38,8 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
 @login_required(login_url='/accounts/login')
 def wishlist(request):
     return HttpResponse('added')
+
+
+def category_dropdown(request):
+    categories = Category.objects.filter(parent__isnull=True)
+    return render(request, 'shop/category_dropdown.html', {'categories': categories})

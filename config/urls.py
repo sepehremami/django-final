@@ -25,4 +25,5 @@ urlpatterns = [
     path("product/", include("apps.shop.urls")),
     path("cart/", include("apps.cart.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("user/", include("apps.user.urls"))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
