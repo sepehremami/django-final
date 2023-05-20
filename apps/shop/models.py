@@ -1,7 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
-from apps.core.models import BaseModel, User
+from apps.core.models import BaseModel
+from apps.user.models import User
 from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
 from apps.cart.models import CategoryDiscount, ProductDiscount

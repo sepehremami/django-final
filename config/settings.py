@@ -39,9 +39,8 @@ INSTALLED_APPS = [
     "profanity",
     "apps.core.apps.CoreConfig",
     "apps.shop.apps.ShopConfig",
-    "apps.accounts.apps.AccountsConfig",
+    "apps.user.apps.UserConfig",
     "apps.cart.apps.CartConfig",
-
 ]
 SITE_ID = 1
 
@@ -130,13 +129,13 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-AUTH_USER_MODEL = "core.User"
+AUTH_USER_MODEL = "user.User"
 
 import os
 import sys
 
 PROJECT_ROOT = os.path.dirname(__file__)
-sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
+sys.path.insert(0, os.path.join(PROJECT_ROOT, "apps"))
 
 
 CACHES = {

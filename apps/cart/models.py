@@ -2,9 +2,8 @@ import uuid
 from django_jalali.db import models as jmodels
 from django.db import models
 from django.db import models
-from apps.core.models import BaseModel, User, Address
-
-
+from apps.core.models import BaseModel
+from apps.user.models import User, Address
 class OrderInfo(BaseModel):
     """
     order instance save user's orders
