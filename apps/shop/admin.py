@@ -8,10 +8,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = (("create_at", JDateFieldListFilter),)
 
 
-class DummyAdmin(admin.ModelAdmin):
-    list_filter = (("dummy_date", JDateFieldListFilter),)
-
-
 admin.site.register(Pricing)
 admin.site.register(ProductColour)
 admin.site.register(SubProduct)

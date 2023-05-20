@@ -33,19 +33,20 @@ class User(AbstractUser):
     """
     phone_number = models.CharField(
         max_length=11,
-        blank=True,
-        null=True,
         validators=[
             RegexValidator(
                 regex=r'^0\d{10}$',
-                message="Phone number must be entered in the format '+123456789'. Up to 15 digits allowed."
+                message="Phone number must be entered in the format '09023456789'. Up to 15 digits allowed."
             ),
         ],
+        blank=True,
+        null=True,
     )
 
 
 class AddressManager(models.Manager):
     """"""
+
     def get_default_address(self, user):
         try:
             address = self.get(user=user, is_default=True)
@@ -79,7 +80,7 @@ class Membership(BaseModel):
     """
     user = models.ForeignKey(User, on_delete=models.RESTRICT)
     discount_value = models.IntegerField()
-    discount_unit = models.CharField(max_length=1,choices=[
+    discount_unit = models.CharField(max_length=1, choices=[
         ('t', 'Toman'),
         ('p', 'Percent'),
     ])
@@ -95,5 +96,3 @@ class UserRewardLog(BaseModel):
     reward_type = models.CharField(max_length=50)
     reward_point = models.IntegerField()
     operation_type = models.CharField(max_length=100)
-
-
