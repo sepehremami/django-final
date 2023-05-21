@@ -11,7 +11,14 @@ from django.views.generic.edit import CreateView
 from apps.shop.models import Product
 
 
-class ProductListView(ListView):
+class CategoryMixin:
+    def get_context_data(self, **kwargs):
+        context = super(CategoryMixin, self).get_context_data(**kwargs)
+        context['categories'] = Category.objects.filter(parent__isnull=True)
+        return context
+
+
+class ProductListView(CategoryMixin, ListView):
     model = Product
     template_name = "shop/product_list.html"
     context_object_name = "products"
@@ -24,22 +31,22 @@ class ProductDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['shopping_cart'] = cache.get('cart')
+        context["shopping_cart"] = cache.get("cart")
         return context
 
 
 class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    permission_required = ['product.add_product']
+    permission_required = ["product.add_product"]
     model = Product
-    login_url = '/accounts/login'
+    login_url = "/accounts/login"
     fields = "__all__"
 
 
-@login_required(login_url='/accounts/login')
+@login_required(login_url="/accounts/login")
 def wishlist(request):
-    return HttpResponse('added')
+    return HttpResponse("added")
 
 
 def category_dropdown(request):
-    categories = Category.objects.filter(parent_id__isnull=True)
-    return render(request, 'shop/category_dropdown.html', {'categories': categories})
+    categories = Category.objects.filter(parent__isnull=True)
+    return render(request, "shop/../../templates/include/category_dropdown.html", {"categories": categories})

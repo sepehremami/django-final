@@ -1,0 +1,36 @@
+{% load static %}
+
+
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    دسته‌بندی‌ها
+  </button>
+  <ul class="dropdown-menu dropdown-menu-left pull-right" aria-labelledby="navbarDropdown">
+      {% for category in categories %}
+          {% if category.load_children %}
+              {% for item in category.parse_children %}
+              {% endfor %}
+               <li class="nav-item dropdown pull-right">
+                   <a class="dropdown-toggle" toggle="dropdown" href="#">{{ category }}</a>
+                    <ul class=" dropdown-menu dropdown-menu-right pull-right" aria-labelledby="dropdownMenuButton1">
+                        {% for child in category.parse_children %}
+                            <li class="nav-item dropdown-submenu">
+                                <a class="dropdown-item" href="#">{{ child }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+               </li>
+              {% else %}
+              <li class="nav-item dropdown"><a class="dropdown-item" href="#">{{ category }}</a></li>
+
+
+          {% endif %}
+
+      {% endfor %}
+  </ul>
+</div>
+<script>
+let el = document.querySelector('.dropdown-toggle');
+
+
+</script>

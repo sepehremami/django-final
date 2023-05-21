@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import QuerySet
 from django.urls import reverse
 from apps.core.models import BaseModel
 from apps.user.models import User
@@ -39,6 +40,19 @@ class Category(BaseModel):
     name = models.CharField(max_length=100)
     desc = models.TextField(validators=[validate_is_profane])
     image = models.ImageField(upload_to="images", null=True, blank=True)
+
+    def load_children(self):
+        if self.category_set.all():
+            return self.category_set.all()
+        return False
+
+    def parse_children(self):
+        if isinstance((self.load_children()), QuerySet):
+            for category in self.load_children():
+                yield category.name
+        else:
+            return None
+
 
 
     class Meta:
@@ -136,7 +150,7 @@ def validate_max_five(value):
     if 0 <= value <= 5:
         raise ValidationError(
             "%(value)s is not between 0 and 5",
-            params={"value": value},)
+            params={"value": value}, )
 
 
 class ProductReview(BaseModel):
