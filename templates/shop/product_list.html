@@ -10,11 +10,9 @@
         <div class="card ">
           <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
             data-mdb-ripple-color="light">
-              {% for image in product.image.all %}
-                {% if image.img %}
-                  <img src="{{ image.url }}" class="w-100 h-100"  alt="{{ image.name }}" >
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" class="w-100 h-100"  alt="{{ prodcut.name }}" >
                 {% endif %}
-              {% endfor %}
             <a href="#">
               <div class="mask">
                 <div class="d-flex justify-content-start align-items-end h-100">

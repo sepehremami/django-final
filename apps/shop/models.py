@@ -43,7 +43,6 @@ class Product(BaseModel):
     """
     Products are the core reason we are writing this django website
     """
-
     name = models.CharField(max_length=150)
     desc = models.TextField(validators=[validate_is_profane])
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
