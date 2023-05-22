@@ -1,0 +1,27 @@
+{% load static %}
+
+{% block navbar %}
+
+<nav id="navbar navbar-dark" class="navbar">
+    <ul>
+        <li><a class=" " href="#">خانه</a></li>
+        <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+                {% for category in categories %}
+                    {% if category.load_children %}
+                        <li class="dropdown"><a href="#"><span>{{ category }}</span> <i class="bi bi-chevron-right"></i></a>
+                            <ul>
+                            {% for child in category.parse_children %}
+                              <li><a href="#">{{ child }}</a></li>
+                            {% endfor %}
+                            </ul>
+                    {% else %}
+                        <li><a href="#">{{ category }}</a></li>
+                    {% endif %}
+
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+
+{% endblock %}

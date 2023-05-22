@@ -11,7 +11,7 @@ Icon
 .idea/*
 # Thumbnails
 ._*
-
+images
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
@@ -22,7 +22,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
+bootstrap
 
 ### Python ###
 # Byte-compiled / optimized / DLL files

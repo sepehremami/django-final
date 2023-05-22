@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -6,6 +7,12 @@ from rest_framework.views import APIView
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
+from django.contrib.auth.views import LoginView, TemplateView
+from apps.shop.views import CategoryMixin
+
+
+class UserLoginView(CategoryMixin, TemplateView):
+    template_name = 'registration/login.html'
 
 
 class TokenObtainPairViewNew(TokenObtainPairView):

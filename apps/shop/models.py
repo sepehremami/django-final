@@ -1,34 +1,13 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import QuerySet
+from django.db.models.functions import Greatest
 from django.urls import reverse
 from apps.core.models import BaseModel
 from apps.user.models import User
 from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
-from apps.cart.models import CategoryDiscount, ProductDiscount
-
-
-class Cart(BaseModel):
-    """
-    User cart
-    saves what users chooses
-    """
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-
-    status = models.CharField(
-        max_length=3,
-        choices=[
-            ("A", "Available"),
-            ("U", "Unavailable"),
-        ],
-        default="U",
-    )
-    total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, editable=False)
-
-    def __str__(self) -> str:
-        return f"{self.user.email}'s + Cart"  # type:ignore
+from apps.cart.models import CategoryDiscount, ProductDiscount, OrderInfo
 
 
 class Category(BaseModel):
@@ -53,8 +32,6 @@ class Category(BaseModel):
         else:
             return None
 
-
-
     class Meta:
         app_label = "shop"
 
@@ -70,6 +47,7 @@ class Product(BaseModel):
     name = models.CharField(max_length=150)
     desc = models.TextField(validators=[validate_is_profane])
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
+    image = models.ImageField(null=True)
 
     class Meta:
         app_label = 'shop'
@@ -85,11 +63,22 @@ class Pricing(BaseModel):
     """
     pricing is defined for better control over price behaviour
     """
-    price = models.ForeignKey('shop.Product', on_delete=models.CASCADE, null=True)
+    subproduct = models.ForeignKey('shop.SubProduct', on_delete=models.CASCADE, null=True)
+    price = models.IntegerField(verbose_name='Price of a Subproduct', null=True)
     is_active = models.BooleanField(default=True)
 
+    def test(self):
+        all_before_prices = self.subproduct.pricing_set.filter(subproduct__pricing=self)
+        return all_before_prices
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        super().save()
+
+
+
+
     def __str__(self):
-        return f'{self.price}'
+        return f'{self.price} id: {self.subproduct_id}'
 
 
 class SubProduct(BaseModel):
@@ -108,6 +97,7 @@ class SubProduct(BaseModel):
     sku = models.CharField(max_length=100)
     size = models.CharField(max_length=5, choices=product_size)
     colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
+    image = models.ImageField
 
     class Meta:
         app_label = 'shop'
@@ -131,9 +121,9 @@ class ProductColour(BaseModel):
 
 
 class CartItem(BaseModel):
-    """"
     """
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    """
+    cart = models.ForeignKey(OrderInfo, on_delete=models.CASCADE, null=True)
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)
     quantity = models.SmallIntegerField()
 
@@ -142,8 +132,12 @@ class CartItem(BaseModel):
 
 
 class Media(BaseModel):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    img = models.ImageField(upload_to="images", null=True, blank=True)
+    name = models.CharField(max_length=50, null=True)
+    subproduct = models.ForeignKey(SubProduct, on_delete=models.CASCADE, null=True, blank=True)
+    img = models.ImageField(upload_to="media/media", null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 
 def validate_max_five(value):

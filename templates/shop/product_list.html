@@ -1,26 +1,48 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
- <div class="row row-cols-1 row-cols-md-3 m-100px g-4 " id="product_list">
-    {% for product in products %}
-        <div class="col" id="product">
-            <div class="card h-100">
-                <img src="{% static 'default.jpg' %}" class="card-image" alt="There are no images available right now.">
-                <div class="card-body">
-                    <div CLASS="flex-row">
-                        <h4 class="card-title text-center mb-10">{{ product.name }}</h4>
-                    </div>
-                    <div class="d-flex m-10 p-10">
-                        <h5>{{ product.pk }}</h5>
-                        <a href="{% url 'wish-list' %}" class="btn btn-outline-primary m-auto">Add to Wishlist</a>
-                        <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary m-auto">Add to Cart</a>
-                    </div>
+<section style="background-color: #eee;">
+  <div class="text-center container py-5">
+    <h4 class="mt-4 mb-5"><strong>Bestsellers</strong></h4>
+    <div class="row">
+      {% for product in products %}
+      <div class="col me-3 p-2">
+        <div class="card ">
+          <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+            data-mdb-ripple-color="light">
+              {% for image in product.image.all %}
+                {% if image.img %}
+                  <img src="{{ image.url }}" class="w-100 h-100"  alt="{{ image.name }}" >
+                {% endif %}
+              {% endfor %}
+            <a href="#">
+              <div class="mask">
+                <div class="d-flex justify-content-start align-items-end h-100">
+                  <h5><span class="badge bg-primary ms-2">New</span></h5>
                 </div>
-            </div>
+              </div>
+              <div class="hover-overlay">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </div>
+            </a>
+          </div>
+          <div class="card-body">
+            <a href="" class="text-reset">
+              <h5 class="card-title mb-3">{{ product.name }}</h5>
+            </a>
+            <a href="" class="text-reset">
+              <p>Category</p>
+            </a>
+            <h6 class="mb-3">$61.99</h6>
+          </div>
         </div>
-    {% endfor %}
-        <a href="{{product.get_absolute_url}}">{{product.name}}</a>
-</div>
+          {% endfor  %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
 {% endblock content %}
 
 

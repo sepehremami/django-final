@@ -46,7 +46,3 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
 def wishlist(request):
     return HttpResponse("added")
 
-
-def category_dropdown(request):
-    categories = Category.objects.filter(parent__isnull=True)
-    return render(request, "shop/../../templates/include/category_dropdown.html", {"categories": categories})
