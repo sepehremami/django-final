@@ -80,3 +80,4 @@ class ProductDiscount(DiscountBase):
     product = models.ForeignKey('shop.Product', on_delete=models.CASCADE)
 
 # TODO:WISHLIST implementation
+# TODO:Fix Eternal Migration Loop
