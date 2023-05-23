@@ -28,7 +28,7 @@ class Category(BaseModel):
     def parse_children(self):
         if isinstance((self.load_children()), QuerySet):
             for category in self.load_children():
-                yield category.name
+                yield category
         else:
             return None
 
