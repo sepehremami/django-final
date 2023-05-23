@@ -3,26 +3,26 @@
     "model": "admin.logentry" ,
     "pk": 1 ,
     "fields": {
+      "action_flag": 1 ,
       "action_time": "2023-05-18T22:49:41.165" ,
-      "user": 1 ,
+      "change_message": "[{\"added\": {}}]" ,
       "content_type": 7 ,
       "object_id": "2" ,
       "object_repr": "user" ,
-      "action_flag": 1 ,
-      "change_message": "[{\"added\": {}}]"
+      "user": 1
     }
   } ,
   {
     "model": "admin.logentry" ,
     "pk": 2 ,
     "fields": {
+      "action_flag": 1 ,
       "action_time": "2023-05-18T22:51:15.927" ,
-      "user": 1 ,
+      "change_message": "[{\"added\": {}}]" ,
       "content_type": 12 ,
       "object_id": "1" ,
       "object_repr": "تی شرت" ,
-      "action_flag": 1 ,
-      "change_message": "[{\"added\": {}}]"
+      "user": 1
     }
   } ,
   {
@@ -114,6 +114,461 @@
       "object_repr": "ارغوانی" ,
       "action_flag": 1 ,
       "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 10 ,
+    "fields": {
+      "action_time": "2023-05-21T00:42:24.955" ,
+      "user": 1 ,
+      "content_type": 12 ,
+      "object_id": "3" ,
+      "object_repr": "بلوز یقه اسکی" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 11 ,
+    "fields": {
+      "action_time": "2023-05-21T00:43:10.597" ,
+      "user": 1 ,
+      "content_type": 12 ,
+      "object_id": "4" ,
+      "object_repr": "بلوز یقه کوتاه" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 12 ,
+    "fields": {
+      "action_time": "2023-05-22T07:43:01.787" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "1" ,
+      "object_repr": "tshirt-yaghe-eski" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 13 ,
+    "fields": {
+      "action_time": "2023-05-22T07:43:29.547" ,
+      "user": 1 ,
+      "content_type": 16 ,
+      "object_id": "1" ,
+      "object_repr": "تی شرت یقه اسکی" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 14 ,
+    "fields": {
+      "action_time": "2023-05-22T07:43:41.111" ,
+      "user": 1 ,
+      "content_type": 16 ,
+      "object_id": "2" ,
+      "object_repr": "تی شرت یقه اسکی" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 15 ,
+    "fields": {
+      "action_time": "2023-05-22T07:43:50.731" ,
+      "user": 1 ,
+      "content_type": 16 ,
+      "object_id": "3" ,
+      "object_repr": "تی شرت یقه اسکی" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 16 ,
+    "fields": {
+      "action_time": "2023-05-22T07:44:06.161" ,
+      "user": 1 ,
+      "content_type": 16 ,
+      "object_id": "4" ,
+      "object_repr": "بلوز طرح میکی ماوس" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 17 ,
+    "fields": {
+      "action_time": "2023-05-22T07:44:21.826" ,
+      "user": 1 ,
+      "content_type": 16 ,
+      "object_id": "5" ,
+      "object_repr": "بلوز طرح میکی ماوس" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 18 ,
+    "fields": {
+      "action_time": "2023-05-22T07:44:53.368" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "2" ,
+      "object_repr": "hoody" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 19 ,
+    "fields": {
+      "action_time": "2023-05-22T07:45:24.490" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "3" ,
+      "object_repr": "tshirt-yaghe-eski2" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 20 ,
+    "fields": {
+      "action_time": "2023-05-22T07:59:02.761" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "4" ,
+      "object_repr": "tshirt-yaghe-eski3" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 21 ,
+    "fields": {
+      "action_time": "2023-05-22T08:01:04.697" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "5" ,
+      "object_repr": "sepehr" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 22 ,
+    "fields": {
+      "action_time": "2023-05-22T08:03:01.231" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "5" ,
+      "object_repr": "sepehr" ,
+      "action_flag": 3 ,
+      "change_message": ""
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 23 ,
+    "fields": {
+      "action_time": "2023-05-22T08:03:01.459" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "4" ,
+      "object_repr": "tshirt-yaghe-eski3" ,
+      "action_flag": 3 ,
+      "change_message": ""
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 24 ,
+    "fields": {
+      "action_time": "2023-05-22T08:03:01.658" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "3" ,
+      "object_repr": "tshirt-yaghe-eski2" ,
+      "action_flag": 3 ,
+      "change_message": ""
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 25 ,
+    "fields": {
+      "action_time": "2023-05-22T08:03:01.813" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "2" ,
+      "object_repr": "hoody" ,
+      "action_flag": 3 ,
+      "change_message": ""
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 26 ,
+    "fields": {
+      "action_time": "2023-05-22T08:03:02.035" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "1" ,
+      "object_repr": "tshirt-yaghe-eski" ,
+      "action_flag": 3 ,
+      "change_message": ""
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 27 ,
+    "fields": {
+      "action_time": "2023-05-22T08:03:24.480" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "6" ,
+      "object_repr": "tshirt-yaghe-eski" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 28 ,
+    "fields": {
+      "action_time": "2023-05-22T08:03:47.054" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "7" ,
+      "object_repr": "tshirt-yaghe-eski2" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 29 ,
+    "fields": {
+      "action_time": "2023-05-22T08:32:30.621" ,
+      "user": 1 ,
+      "content_type": 18 ,
+      "object_id": "8" ,
+      "object_repr": "tshirt-yaghe-eski3" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 30 ,
+    "fields": {
+      "action_time": "2023-05-22T09:18:02.161" ,
+      "user": 1 ,
+      "content_type": 13 ,
+      "object_id": "1" ,
+      "object_repr": "10" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 31 ,
+    "fields": {
+      "action_time": "2023-05-22T09:18:12.778" ,
+      "user": 1 ,
+      "content_type": 13 ,
+      "object_id": "2" ,
+      "object_repr": "10" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 32 ,
+    "fields": {
+      "action_time": "2023-05-22T09:18:19.187" ,
+      "user": 1 ,
+      "content_type": 13 ,
+      "object_id": "3" ,
+      "object_repr": "12" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 33 ,
+    "fields": {
+      "action_time": "2023-05-22T09:18:25.146" ,
+      "user": 1 ,
+      "content_type": 13 ,
+      "object_id": "4" ,
+      "object_repr": "13" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 34 ,
+    "fields": {
+      "action_time": "2023-05-22T09:18:31.596" ,
+      "user": 1 ,
+      "content_type": 13 ,
+      "object_id": "5" ,
+      "object_repr": "-114" ,
+      "action_flag": 1 ,
+      "change_message": "[{\"added\": {}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 35 ,
+    "fields": {
+      "action_time": "2023-05-22T09:18:39.684" ,
+      "user": 1 ,
+      "content_type": 13 ,
+      "object_id": "5" ,
+      "object_repr": "14" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Price of a Subproduct\"]}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 36 ,
+    "fields": {
+      "action_time": "2023-05-22T21:17:44.242" ,
+      "user": 1 ,
+      "content_type": 14 ,
+      "object_id": "2" ,
+      "object_repr": "بلوز طرح میکی ماوس" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 37 ,
+    "fields": {
+      "action_time": "2023-05-22T21:17:53.576" ,
+      "user": 1 ,
+      "content_type": 14 ,
+      "object_id": "1" ,
+      "object_repr": "تی شرت یقه اسکی" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 38 ,
+    "fields": {
+      "action_time": "2023-05-22T21:34:01.306" ,
+      "user": 1 ,
+      "content_type": 14 ,
+      "object_id": "2" ,
+      "object_repr": "بلوز طرح میکی ماوس" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 39 ,
+    "fields": {
+      "action_time": "2023-05-22T21:34:12.135" ,
+      "user": 1 ,
+      "content_type": 14 ,
+      "object_id": "1" ,
+      "object_repr": "تی شرت یقه اسکی" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 40 ,
+    "fields": {
+      "action_time": "2023-05-23T04:27:16.201" ,
+      "user": 1 ,
+      "content_type": 12 ,
+      "object_id": "4" ,
+      "object_repr": "بلوز یقه کوتاه" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 41 ,
+    "fields": {
+      "action_time": "2023-05-23T04:27:23.714" ,
+      "user": 1 ,
+      "content_type": 12 ,
+      "object_id": "3" ,
+      "object_repr": "بلوز یقه اسکی" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 42 ,
+    "fields": {
+      "action_time": "2023-05-23T04:27:31.637" ,
+      "user": 1 ,
+      "content_type": 12 ,
+      "object_id": "2" ,
+      "object_repr": "بلوز" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 43 ,
+    "fields": {
+      "action_time": "2023-05-23T04:27:37.386" ,
+      "user": 1 ,
+      "content_type": 12 ,
+      "object_id": "1" ,
+      "object_repr": "تی شرت" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+  } ,
+  {
+    "model": "admin.logentry" ,
+    "pk": 44 ,
+    "fields": {
+      "action_time": "2023-05-23T06:23:18.261" ,
+      "user": 1 ,
+      "content_type": 3 ,
+      "object_id": "1" ,
+      "object_repr": "Manager" ,
+      "action_flag": 2 ,
+      "change_message": "[{\"changed\": {\"fields\": [\"Permissions\"]}}]"
     }
   } ,
   {
@@ -945,6 +1400,267 @@
     }
   } ,
   {
+    "model": "auth.permission" ,
+    "pk": 93 ,
+    "fields": {
+      "name": "Can add user" ,
+      "content_type": 24 ,
+      "codename": "add_user"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 94 ,
+    "fields": {
+      "name": "Can change user" ,
+      "content_type": 24 ,
+      "codename": "change_user"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 95 ,
+    "fields": {
+      "name": "Can delete user" ,
+      "content_type": 24 ,
+      "codename": "delete_user"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 96 ,
+    "fields": {
+      "name": "Can view user" ,
+      "content_type": 24 ,
+      "codename": "view_user"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 97 ,
+    "fields": {
+      "name": "Can add user reward log" ,
+      "content_type": 25 ,
+      "codename": "add_userrewardlog"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 98 ,
+    "fields": {
+      "name": "Can change user reward log" ,
+      "content_type": 25 ,
+      "codename": "change_userrewardlog"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 99 ,
+    "fields": {
+      "name": "Can delete user reward log" ,
+      "content_type": 25 ,
+      "codename": "delete_userrewardlog"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 100 ,
+    "fields": {
+      "name": "Can view user reward log" ,
+      "content_type": 25 ,
+      "codename": "view_userrewardlog"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 101 ,
+    "fields": {
+      "name": "Can add membership" ,
+      "content_type": 26 ,
+      "codename": "add_membership"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 102 ,
+    "fields": {
+      "name": "Can change membership" ,
+      "content_type": 26 ,
+      "codename": "change_membership"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 103 ,
+    "fields": {
+      "name": "Can delete membership" ,
+      "content_type": 26 ,
+      "codename": "delete_membership"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 104 ,
+    "fields": {
+      "name": "Can view membership" ,
+      "content_type": 26 ,
+      "codename": "view_membership"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 105 ,
+    "fields": {
+      "name": "Can add address" ,
+      "content_type": 27 ,
+      "codename": "add_address"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 106 ,
+    "fields": {
+      "name": "Can change address" ,
+      "content_type": 27 ,
+      "codename": "change_address"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 107 ,
+    "fields": {
+      "name": "Can delete address" ,
+      "content_type": 27 ,
+      "codename": "delete_address"
+    }
+  } ,
+  {
+    "model": "auth.permission" ,
+    "pk": 108 ,
+    "fields": {
+      "name": "Can view address" ,
+      "content_type": 27 ,
+      "codename": "view_address"
+    }
+  } ,
+  {
+    "model": "auth.group" ,
+    "pk": 1 ,
+    "fields": {
+      "name": "Manager" ,
+      "permissions": [
+        1 ,
+        2 ,
+        3 ,
+        4 ,
+        9 ,
+        10 ,
+        11 ,
+        12 ,
+        5 ,
+        6 ,
+        7 ,
+        8 ,
+        77 ,
+        78 ,
+        79 ,
+        80 ,
+        81 ,
+        82 ,
+        83 ,
+        84 ,
+        85 ,
+        86 ,
+        87 ,
+        88 ,
+        89 ,
+        90 ,
+        91 ,
+        92 ,
+        13 ,
+        14 ,
+        15 ,
+        16 ,
+        37 ,
+        38 ,
+        39 ,
+        40 ,
+        33 ,
+        34 ,
+        35 ,
+        36 ,
+        25 ,
+        26 ,
+        27 ,
+        28 ,
+        29 ,
+        30 ,
+        31 ,
+        32 ,
+        17 ,
+        18 ,
+        19 ,
+        20 ,
+        41 ,
+        42 ,
+        43 ,
+        44 ,
+        73 ,
+        74 ,
+        75 ,
+        76 ,
+        45 ,
+        46 ,
+        47 ,
+        48 ,
+        69 ,
+        70 ,
+        71 ,
+        72 ,
+        49 ,
+        50 ,
+        51 ,
+        52 ,
+        53 ,
+        54 ,
+        55 ,
+        56 ,
+        57 ,
+        58 ,
+        59 ,
+        60 ,
+        65 ,
+        66 ,
+        67 ,
+        68 ,
+        61 ,
+        62 ,
+        63 ,
+        64 ,
+        21 ,
+        22 ,
+        23 ,
+        24 ,
+        105 ,
+        106 ,
+        107 ,
+        108 ,
+        101 ,
+        102 ,
+        103 ,
+        104 ,
+        93 ,
+        94 ,
+        95 ,
+        96 ,
+        97 ,
+        98 ,
+        99 ,
+        100
+      ]
+    }
+  } ,
+  {
     "model": "contenttypes.contenttype" ,
     "pk": 1 ,
     "fields": {
@@ -1129,11 +1845,67 @@
     }
   } ,
   {
+    "model": "contenttypes.contenttype" ,
+    "pk": 24 ,
+    "fields": {
+      "app_label": "user" ,
+      "model": "user"
+    }
+  } ,
+  {
+    "model": "contenttypes.contenttype" ,
+    "pk": 25 ,
+    "fields": {
+      "app_label": "user" ,
+      "model": "userrewardlog"
+    }
+  } ,
+  {
+    "model": "contenttypes.contenttype" ,
+    "pk": 26 ,
+    "fields": {
+      "app_label": "user" ,
+      "model": "membership"
+    }
+  } ,
+  {
+    "model": "contenttypes.contenttype" ,
+    "pk": 27 ,
+    "fields": {
+      "app_label": "user" ,
+      "model": "address"
+    }
+  } ,
+  {
+    "model": "sessions.session" ,
+    "pk": "11kyohw8duioncoy1ms7savu1vrxlv15" ,
+    "fields": {
+      "session_data": ".eJxVjEsOAiEQBe_C2pCGphFduvcMhE8jowaSYWZlvLtOMgvdvqp6L-HDulS_Dp79lMVZKHH43WJID24byPfQbl2m3pZ5inJT5E6HvPbMz8vu_h3UMOq31hSREkAgYsvKkDlxdJoZNUB2uagjRoNaYwQCJuVKIQAoXKxDy-L9AccINyw:1q0T1g:tDkL8wJ65Md2KMicPJq4XzU_QTkvt-dARPa2vcitbDc" ,
+      "expire_date": "2023-06-03T23:48:04.692"
+    }
+  } ,
+  {
     "model": "sessions.session" ,
     "pk": "685u0zifo3q91ui9dnlk341vlnud2f1c" ,
     "fields": {
       "session_data": ".eJxVjEsOAiEQBe_C2pCGphFduvcMhE8jowaSYWZlvLtOMgvdvqp6L-HDulS_Dp79lMVZKHH43WJID24byPfQbl2m3pZ5inJT5E6HvPbMz8vu_h3UMOq31hSREkAgYsvKkDlxdJoZNUB2uagjRoNaYwQCJuVKIQAoXKxDy-L9AccINyw:1pzj7v:oOlh75EL3gyvlIz53xpBcQ7ebw-wZRPo4iBCnJvVpQY" ,
       "expire_date": "2023-06-01T22:47:27.601"
+    }
+  } ,
+  {
+    "model": "sessions.session" ,
+    "pk": "d6d15kzo65ffn8t7lkdqw0hqbo8bfdmu" ,
+    "fields": {
+      "session_data": ".eJxVjEsOAiEQBe_C2pCGphFduvcMhE8jowaSYWZlvLtOMgvdvqp6L-HDulS_Dp79lMVZKHH43WJID24byPfQbl2m3pZ5inJT5E6HvPbMz8vu_h3UMOq31hSREkAgYsvKkDlxdJoZNUB2uagjRoNaYwQCJuVKIQAoXKxDy-L9AccINyw:1q0Q5y:jxWoA49MDt5vq5Du-fhcryVdYDhXKPoslfyT1UeslsA" ,
+      "expire_date": "2023-06-03T20:40:18.750"
+    }
+  } ,
+  {
+    "model": "sessions.session" ,
+    "pk": "ugs0cqjt3xiled6nr9m785nbrwqd4nnp" ,
+    "fields": {
+      "session_data": ".eJxVjEsOAiEQBe_C2pCGphFduvcMhE8jowaSYWZlvLtOMgvdvqp6L-HDulS_Dp79lMVZKHH43WJID24byPfQbl2m3pZ5inJT5E6HvPbMz8vu_h3UMOq31hSREkAgYsvKkDlxdJoZNUB2uagjRoNaYwQCJuVKIQAoXKxDy-L9AccINyw:1q0T7v:6HjvxMQJ9P4JPNtUs6kVZcCFTpCN1lRDwAxBnzjkegY" ,
+      "expire_date": "2023-06-03T23:54:31.077"
     }
   } ,
   {
@@ -1145,54 +1917,16 @@
     }
   } ,
   {
-    "model": "core.user" ,
-    "pk": 1 ,
-    "fields": {
-      "password": "pbkdf2_sha256$600000$Vyd9ScQbx6HJfuPcUbB7i7$e2VBchttkr/tcMJhlTJAPFtWFZfsYu5EOKt8y9QhFgI=" ,
-      "last_login": "2023-05-18T22:47:27.423" ,
-      "is_superuser": true ,
-      "username": "nolimax" ,
-      "first_name": "" ,
-      "last_name": "" ,
-      "email": "" ,
-      "is_staff": true ,
-      "is_active": true ,
-      "date_joined": "2023-05-18T22:47:23.185" ,
-      "phone_number": null ,
-      "groups": [] ,
-      "user_permissions": []
-    }
-  } ,
-  {
-    "model": "core.user" ,
-    "pk": 2 ,
-    "fields": {
-      "password": "user" ,
-      "last_login": null ,
-      "is_superuser": false ,
-      "username": "user" ,
-      "first_name": "user" ,
-      "last_name": "usering" ,
-      "email": "user@e.com" ,
-      "is_staff": false ,
-      "is_active": true ,
-      "date_joined": "2023-05-18T22:49:02" ,
-      "phone_number": "09199999999" ,
-      "groups": [] ,
-      "user_permissions": []
-    }
-  } ,
-  {
     "model": "shop.category" ,
     "pk": 1 ,
     "fields": {
       "is_deleted": false ,
       "create_date": "1402-02-28" ,
-      "modified_date": "1402-02-28" ,
-      "parent_id": null ,
+      "modified_date": "1402-03-02" ,
+      "parent": null ,
       "name": "تی شرت" ,
       "desc": "این دسته از کالا ها برای ما فقط نشان دهنده غرب زدگی مدرن آمیزد این جغرافیازاد است." ,
-      "image": ""
+      "image": "images/baby-s-clothing-socks-d.jpg"
     }
   } ,
   {
@@ -1201,11 +1935,37 @@
     "fields": {
       "is_deleted": false ,
       "create_date": "1402-02-28" ,
-      "modified_date": "1402-02-28" ,
-      "parent_id": null ,
+      "modified_date": "1402-03-02" ,
+      "parent": null ,
       "name": "بلوز" ,
       "desc": "این دسته از لباسها دلیلی برای وجودشان بود ولی فراموش کردم متاسفانه" ,
-      "image": ""
+      "image": "images/sneakers.jpg"
+    }
+  } ,
+  {
+    "model": "shop.category" ,
+    "pk": 3 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-02-31" ,
+      "modified_date": "1402-03-02" ,
+      "parent": 2 ,
+      "name": "بلوز یقه اسکی" ,
+      "desc": "این بلوز یقه اسکی است" ,
+      "image": "images/blue-t-shirt.jpg"
+    }
+  } ,
+  {
+    "model": "shop.category" ,
+    "pk": 4 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-02-31" ,
+      "modified_date": "1402-03-02" ,
+      "parent": 2 ,
+      "name": "بلوز یقه کوتاه" ,
+      "desc": "این بلوز یقه کوتاه است" ,
+      "image": "images/tshirt.jpg"
     }
   } ,
   {
@@ -1214,10 +1974,11 @@
     "fields": {
       "is_deleted": false ,
       "create_date": "1402-02-28" ,
-      "modified_date": "1402-02-28" ,
+      "modified_date": "1402-03-01" ,
       "name": "تی شرت یقه اسکی" ,
       "desc": "زیباترین تی شرت بزنی زمین هوا میره" ,
-      "category": 1
+      "category": 1 ,
+      "image": "hoody.jpg"
     }
   } ,
   {
@@ -1226,10 +1987,136 @@
     "fields": {
       "is_deleted": false ,
       "create_date": "1402-02-28" ,
-      "modified_date": "1402-02-28" ,
+      "modified_date": "1402-03-01" ,
       "name": "بلوز طرح میکی ماوس" ,
       "desc": "این بلوز از صحراهای بسیار دورودرازی بعد از شکست اعتیاد خود به الکل به مغازه ما راه پیدا کرد و از ما تقاضا کرد که بفروشیمش" ,
-      "category": 2
+      "category": 2 ,
+      "image": "tshirt.jpg"
+    }
+  } ,
+  {
+    "model": "shop.pricing" ,
+    "pk": 1 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "subproduct": 1 ,
+      "price": 10 ,
+      "is_active": true
+    }
+  } ,
+  {
+    "model": "shop.pricing" ,
+    "pk": 2 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "subproduct": 2 ,
+      "price": 10 ,
+      "is_active": true
+    }
+  } ,
+  {
+    "model": "shop.pricing" ,
+    "pk": 3 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "subproduct": 4 ,
+      "price": 12 ,
+      "is_active": true
+    }
+  } ,
+  {
+    "model": "shop.pricing" ,
+    "pk": 4 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "subproduct": 5 ,
+      "price": 13 ,
+      "is_active": true
+    }
+  } ,
+  {
+    "model": "shop.pricing" ,
+    "pk": 5 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "subproduct": 4 ,
+      "price": 14 ,
+      "is_active": true
+    }
+  } ,
+  {
+    "model": "shop.subproduct" ,
+    "pk": 1 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "product": 1 ,
+      "sku": "113" ,
+      "size": "m" ,
+      "colour": 1
+    }
+  } ,
+  {
+    "model": "shop.subproduct" ,
+    "pk": 2 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "product": 1 ,
+      "sku": "114" ,
+      "size": "l" ,
+      "colour": 3
+    }
+  } ,
+  {
+    "model": "shop.subproduct" ,
+    "pk": 3 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "product": 1 ,
+      "sku": "115" ,
+      "size": "xl" ,
+      "colour": 4
+    }
+  } ,
+  {
+    "model": "shop.subproduct" ,
+    "pk": 4 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "product": 2 ,
+      "sku": "11115" ,
+      "size": "s" ,
+      "colour": 1
+    }
+  } ,
+  {
+    "model": "shop.subproduct" ,
+    "pk": 5 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "product": 2 ,
+      "sku": "1116" ,
+      "size": "xxl" ,
+      "colour": 3
     }
   } ,
   {
@@ -1270,6 +2157,80 @@
       "create_date": "1402-02-28" ,
       "modified_date": "1402-02-28" ,
       "colour": "ارغوانی"
+    }
+  } ,
+  {
+    "model": "shop.media" ,
+    "pk": 6 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "name": "tshirt-yaghe-eski" ,
+      "subproduct": null ,
+      "img": ""
+    }
+  } ,
+  {
+    "model": "shop.media" ,
+    "pk": 7 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "name": "tshirt-yaghe-eski2" ,
+      "subproduct": null ,
+      "img": "media/media/tshirt.jpg"
+    }
+  } ,
+  {
+    "model": "shop.media" ,
+    "pk": 8 ,
+    "fields": {
+      "is_deleted": false ,
+      "create_date": "1402-03-01" ,
+      "modified_date": "1402-03-01" ,
+      "name": "tshirt-yaghe-eski3" ,
+      "subproduct": null ,
+      "img": "media/media/hoody.jpg"
+    }
+  } ,
+  {
+    "model": "user.user" ,
+    "pk": 1 ,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$Vyd9ScQbx6HJfuPcUbB7i7$e2VBchttkr/tcMJhlTJAPFtWFZfsYu5EOKt8y9QhFgI=" ,
+      "last_login": "2023-05-20T23:54:30.907" ,
+      "is_superuser": true ,
+      "username": "nolimax" ,
+      "first_name": "" ,
+      "last_name": "" ,
+      "email": "" ,
+      "is_staff": true ,
+      "is_active": true ,
+      "date_joined": "2023-05-18T22:47:23.185" ,
+      "phone_number": null ,
+      "groups": [] ,
+      "user_permissions": []
+    }
+  } ,
+  {
+    "model": "user.user" ,
+    "pk": 2 ,
+    "fields": {
+      "password": "user" ,
+      "last_login": null ,
+      "is_superuser": false ,
+      "username": "user" ,
+      "first_name": "user" ,
+      "last_name": "usering" ,
+      "email": "user@e.com" ,
+      "is_staff": false ,
+      "is_active": true ,
+      "date_joined": "2023-05-18T22:49:02" ,
+      "phone_number": "09199999999" ,
+      "groups": [] ,
+      "user_permissions": []
     }
   }
 ]
