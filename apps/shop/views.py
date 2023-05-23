@@ -46,3 +46,13 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
 def wishlist(request):
     return HttpResponse("added")
 
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'shop/category_list.html'
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = 'shop/category_detail.html'
+
