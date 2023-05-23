@@ -26,7 +26,7 @@ class OrderInfo(BaseModel):
         (5, 'Completed')
     )
 
-    order_id = models.UUIDField(default=uuid.uuid4(), editable=False)
+    order_id = models.UUIDField(unique=True, default=uuid.uuid4(), editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, )
     addr = models.ForeignKey(Address, on_delete=models.CASCADE, )
     total_count = models.IntegerField(default=1, editable=False)
@@ -48,7 +48,8 @@ class DiscountBase(BaseModel):
     """
     All discount models inherit from this Base model
     """
-    coupon_code = models.CharField(primary_key=True, default=uuid.uuid4().hex[:5].upper(), max_length=50,
+
+    coupon_code = models.CharField(unique=True, default=uuid.uuid4().hex[:5].upper(), max_length=50,
                                    editable=False)
     discount_value = models.IntegerField()
     discount_unit = models.CharField(max_length=1, choices=[
