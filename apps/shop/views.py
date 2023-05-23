@@ -14,7 +14,7 @@ from apps.shop.models import Product
 class CategoryMixin:
     def get_context_data(self, **kwargs):
         context = super(CategoryMixin, self).get_context_data(**kwargs)
-        context['categories'] = Category.objects.filter(parent__isnull=True)
+        context['navbar_categories'] = Category.objects.filter(parent__isnull=True)
         return context
 
 
@@ -47,12 +47,14 @@ def wishlist(request):
     return HttpResponse("added")
 
 
-class CategoryListView(ListView):
+class CategoryListView(CategoryMixin, ListView):
     model = Category
     template_name = 'shop/category_list.html'
+    context_object_name = 'categories'
 
 
-class CategoryDetailView(DetailView):
+class CategoryDetailView(CategoryMixin, DetailView):
     model = Category
     template_name = 'shop/category_detail.html'
+    context_object_name = 'category'
 
