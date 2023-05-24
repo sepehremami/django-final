@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="home-clothe" id="home">
+
+    <div class="content-clothe">
+        <span>پیشنهاد ویژه</span>
+        <h3>فروش تا 50٪ تخفیف</h3>
+        <a href="#" class="btn">الان خرید کن</a>
+    </div>
+
+    <div class="image-clothe">
+        <img src="{% static 'images/home50.png' %}" alt="" class="w-100">
+    </div>
+
+</section>
+
+<section class="icons-container">
+
+    <div class="icons">
+        <i class="fas fa-shipping-fast"></i>
+        <div class="content-book">
+            <h3>ارسال رایگان</h3>
+            <p>سفارش بالای 100 هزار تومان</p>
+        </div>
+    </div>
+
+    <div class="icons">
+        <i class="fas fa-lock"></i>
+        <div class="content-book">
+            <h3>پرداخت امن</h3>
+            <p>100 پرداخت مطمئن</p>
+        </div>
+    </div>
+
+    <div class="icons">
+        <i class="fas fa-redo-alt"></i>
+        <div class="content-book">
+            <h3>بازگشت آسان</h3>
+            <p>10 روز مهلت بازگشت</p>
+        </div>
+    </div>
+
+    <div class="icons">
+        <i class="fas fa-headset"></i>
+        <div class="content-book">
+            <h3>پشتیبانی 7/24</h3>
+            <p>در هر زمان با ما تماس بگیرید</p>
+        </div>
+    </div>
+
+</section>
+
+
+
+<section class="category">
+
+    <h1 class="heading"> خرید بوسیله ی <span>دسته بندی</span> </h1>
+
+    <div class="box-clothe-container">
+
+        <div class="box-clothe">
+            <img src="{% static 'images/default.jpg' %}" alt="">
+            <div class="content-clothe">
+                <span>50٪ تخفیف</span>
+                <h3>برای زنان</h3>
+                <a href="#" class="btn">الان خرید کن</a>
+            </div>
+        </div>
+
+        <div class="box-clothe">
+            <img src="{% static 'images/default.jpg' %}" alt="">
+            <div class="content-clothe">
+                <span>50٪ تخفیف</span>
+                <h3>برای مردها</h3>
+                <a href="#" class="btn">الان خرید کن</a>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
