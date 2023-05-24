@@ -35,7 +35,6 @@ class Category(BaseModel):
     def get_absolute_url(self):
         return reverse('category', args=[self.id])
 
-
     class Meta:
         app_label = "shop"
 
@@ -70,12 +69,15 @@ class Pricing(BaseModel):
     price = models.IntegerField(verbose_name='Price of a Subproduct', null=True)
     is_active = models.BooleanField(default=True)
 
-    def test(self):
-        all_before_prices = self.subproduct.pricing_set.filter(subproduct__pricing=self)
-        return all_before_prices
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # If this is a new pricing object being added,
+            # deactivate all previous prices for this product.
+            Pricing.objects.filter(product=self.subproduct).update(active=False)
+        super().save(*args, **kwargs)
 
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save()
+    # last_price_for_product = Pricing.objects.filter(product_id= < product_id >, active = True).order_by(
+    #     '-date_added').first()
 
     def __str__(self):
         return f'{self.price} id: {self.subproduct_id}'
