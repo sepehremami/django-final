@@ -1,5 +1,10 @@
 from django.shortcuts import render
+from apps.shop.models import Product, Category
 
 
 def home(request):
-    return render(request, 'landing.html',{})
+    category = Category.objects.all()[:6]
+    products = Product.objects.all()[:6]
+    return render(request, 'landing.html', {'products': products, 'category':category})
+
+

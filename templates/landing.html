@@ -1,85 +1,204 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block styles %}
+    <style>
+        .carousel {
+            width: 200px;
+            height: 200px;
+        }
+
+
+        .carousel-inner {
+            padding: 1em;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            background-color: #e1e1e1;
+            width: 5vh;
+            height: 5vh;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+
+        @media (min-width: 768px) {
+
+            .carousel-inner .carousel-item-end.active,
+            .carousel-inner .carousel-item-next {
+                transform: translateX(25%);
+            }
+
+            .carousel-inner .carousel-item-start.active,
+            .carousel-inner .carousel-item-prev {
+                transform: translateX(-25%);
+            }
+        }
+
+        .carousel-inner .carousel-item-end,
+        .carousel-inner .carousel-item-start {
+            transform: translateX(0);
+        }
+
+        .mother {
+            box-sizing: border-box;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
 
-<section class="home-clothe" id="home">
+    <section class="home-clothe" id="home">
 
-    <div class="content-clothe">
-        <span>پیشنهاد ویژه</span>
-        <h3>فروش تا 50٪ تخفیف</h3>
-        <a href="#" class="btn">الان خرید کن</a>
-    </div>
-
-    <div class="image-clothe">
-        <img src="{% static 'images/home50.png' %}" alt="" class="w-100">
-    </div>
-
-</section>
-
-<section class="icons-container">
-
-    <div class="icons">
-        <i class="fas fa-shipping-fast"></i>
-        <div class="content-book">
-            <h3>ارسال رایگان</h3>
-            <p>سفارش بالای 100 هزار تومان</p>
+        <div class="content-clothe">
+            <span>پیشنهاد ویژه</span>
+            <h3>فروش تا 50٪ تخفیف</h3>
+            <a href="#" class="btn">الان خرید کن</a>
         </div>
-    </div>
 
-    <div class="icons">
-        <i class="fas fa-lock"></i>
-        <div class="content-book">
-            <h3>پرداخت امن</h3>
-            <p>100 پرداخت مطمئن</p>
+        <div class="image-clothe">
+            <img src="{% static 'images/home50.png' %}" alt="" class="w-100">
         </div>
-    </div>
 
-    <div class="icons">
-        <i class="fas fa-redo-alt"></i>
-        <div class="content-book">
-            <h3>بازگشت آسان</h3>
-            <p>10 روز مهلت بازگشت</p>
-        </div>
-    </div>
+    </section>
 
-    <div class="icons">
-        <i class="fas fa-headset"></i>
-        <div class="content-book">
-            <h3>پشتیبانی 7/24</h3>
-            <p>در هر زمان با ما تماس بگیرید</p>
-        </div>
-    </div>
+    <section class="icons-container">
 
-</section>
-
-
-
-<section class="category">
-
-    <h1 class="heading"> خرید بوسیله ی <span>دسته بندی</span> </h1>
-
-    <div class="box-clothe-container">
-
-        <div class="box-clothe">
-            <img src="{% static 'images/default.jpg' %}" alt="">
-            <div class="content-clothe">
-                <span>50٪ تخفیف</span>
-                <h3>برای زنان</h3>
-                <a href="#" class="btn">الان خرید کن</a>
+        <div class="icons">
+            <i class="fas fa-shipping-fast"></i>
+            <div class="content-book">
+                <h3>ارسال رایگان</h3>
+                <p>سفارش بالای 100 هزار تومان</p>
             </div>
         </div>
 
-        <div class="box-clothe">
-            <img src="{% static 'images/default.jpg' %}" alt="">
-            <div class="content-clothe">
-                <span>50٪ تخفیف</span>
-                <h3>برای مردها</h3>
-                <a href="#" class="btn">الان خرید کن</a>
+        <div class="icons">
+            <i class="fas fa-lock"></i>
+            <div class="content-book">
+                <h3>پرداخت امن</h3>
+                <p>100 پرداخت مطمئن</p>
             </div>
         </div>
 
-    </div>
+        <div class="icons">
+            <i class="fas fa-redo-alt"></i>
+            <div class="content-book">
+                <h3>بازگشت آسان</h3>
+                <p>10 روز مهلت بازگشت</p>
+            </div>
+        </div>
 
-</section>
+        <div class="icons">
+            <i class="fas fa-headset"></i>
+            <div class="content-book">
+                <h3>پشتیبانی 7/24</h3>
+                <p>در هر زمان با ما تماس بگیرید</p>
+            </div>
+        </div>
 
+    </section>
+
+
+
+    <section class="category">
+
+        <h1 class="heading"> خرید بوسیله ی <span>دسته بندی</span></h1>
+
+        <div class="box-clothe-container">
+
+            <div class="box-clothe">
+                <img src="{% static 'images/default.jpg' %}" alt="">
+                <div class="content-clothe">
+                    <span>50٪ تخفیف</span>
+                    <h3>برای زنان</h3>
+                    <a href="#" class="btn">الان خرید کن</a>
+                </div>
+            </div>
+
+            <div class="box-clothe">
+                <img src="{% static 'images/default.jpg' %}" alt="">
+                <div class="content-clothe">
+                    <span>50٪ تخفیف</span>
+                    <h3>برای مردها</h3>
+                    <a href="#" class="btn">الان خرید کن</a>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="row d-inline-flex align-items-center mb">
+        <div class="col ">
+            <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {% for product in products %}
+                        <div class="carousel-item  {% if forloop.counter0 == 0 %}active{% endif %}">
+                            <div class="card" >
+                                <img src="{{ product.image.url }}" class="card-img-top"
+                                     style="width: 100%;height: 15rem; object-fit: cover;"
+                                     alt="{{ product.name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.desc|truncatewords:35 }}</p>
+                                    <a href="#" class="btn btn-primary">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+
+                <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                        {% for product in products %}
+                            <div class="carousel-item  {% if forloop.counter0 == 0 %}active{% endif %}">
+                                <div class="card">
+                                    <img src="{{ product.image.url }}" class="card-img-top"
+                                         style="width: 100%;height: 15rem; object-fit: cover;"
+                                         alt="{{ product.name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                        <p class="card-text">{{ product.desc|truncatewords:35 }}</p>
+                                        <a href="#" class="btn btn-primary">Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+    {% block scripts %}
+        <script>
+            var myCarousel = document.getElementById('myCarousel');
+            var carousel = new bootstrap.Carousel(myCarousel, {
+                interval: 2000,
+
+            });
+
+        </script>
+    {% endblock scripts %}
 {% endblock %}
