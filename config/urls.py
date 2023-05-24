@@ -20,13 +20,21 @@ from django.conf import settings
 from django.conf.urls.static import static
 from apps.core.views import home
 
+import functools
+
+from django.conf import settings
+from django.urls import LocalePrefixPattern, URLResolver, get_resolver, path
+from django.views.i18n import set_language
+
+
 urlpatterns = [
-    path("", view=home),
-    path("admin/", admin.site.urls),
-    path("product/", include("apps.shop.urls")),
-    path("cart/", include("apps.cart.urls")),
-    path("accounts/", include("django.contrib.auth.urls")),
-    path("user/", include("apps.user.urls")),
+                  path("", view=home),
+                  path("admin/", admin.site.urls),
+                  path("product/", include("apps.shop.urls")),
+                  path("cart/", include("apps.cart.urls")),
+                  path("accounts/", include("django.contrib.auth.urls")),
+                  path("user/", include("apps.user.urls")),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
+                                                                                           document_root=settings.MEDIA_ROOT)
