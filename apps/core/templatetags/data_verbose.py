@@ -4,6 +4,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter(name='display')
 def display_value(value: Any, arg: str = None) -> str:
     """Returns the display value of a BoundField or other form fields"""
