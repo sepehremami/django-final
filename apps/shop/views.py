@@ -18,13 +18,20 @@ class CategoryMixin:
         return context
 
 
+def load_category_globally(request):
+    category = Category.objects.all()
+    return {'category':category}
+
 class ProductListView(CategoryMixin, ListView):
     model = Product
     template_name = "shop/product_list.html"
     context_object_name = "products"
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
+        context =  super().get_context_data(**kwargs)
+        best = Product.objects.all()
+        context['best_sellers'] = best
+        return context
 
     def get_queryset(self):
         query = self.request.GET.get("product")

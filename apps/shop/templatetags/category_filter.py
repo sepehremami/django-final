@@ -5,7 +5,7 @@ register = template.Library()
 
 def assistant(obj):
     string = ''
-    children = obj.category_set.all()
+    children = obj.category_set.all()[:3]
     if children.count() == 0:
         string = '<li>{}</li>'.format(obj)
     else:
@@ -28,12 +28,5 @@ def fcategory(unit):
 
 
 
-from math import ceil
 
 
-
-@register.filter(name="as_chunk")
-def as_chunks(lst, chunk_size):
-    limit = ceil(len(lst) / chunk_size)
-    for idx in range(limit):
-        yield lst[chunk_size * idx : chunk_size * (idx + 1)]

@@ -13,4 +13,5 @@ urlpatterns = [
     path("category", view=views.CategoryListView.as_view(), name="categories"),
     path("category/<int:pk>", view=views.CategoryDetailView.as_view(), name="category"),
     path("wishlist", view=views.wishlist, name="wish-list"),
+    
 ] + category_api_urls
