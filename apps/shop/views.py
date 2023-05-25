@@ -9,7 +9,7 @@ from .models import Product, Category
 
 from django.views.generic.edit import CreateView
 from apps.shop.models import Product
-
+from django.db.models import Q
 
 class CategoryMixin:
     def get_context_data(self, **kwargs):
@@ -22,6 +22,17 @@ class ProductListView(CategoryMixin, ListView):
     model = Product
     template_name = "shop/product_list.html"
     context_object_name = "products"
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        query = self.request.GET.get("product")
+        print(query)
+        object_list = Product.objects.filter(
+            Q(name__icontains=query) | Q(desc__icontains=query)
+        )
+        return object_list
 
 
 class ProductDetailView(DetailView):
@@ -57,4 +68,5 @@ class CategoryDetailView(CategoryMixin, DetailView):
     model = Category
     template_name = 'shop/category_detail.html'
     context_object_name = 'category'
+
 

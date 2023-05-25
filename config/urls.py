@@ -18,17 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from apps.core.views import home
-
-import functools
-
+from apps.core.views import HomeView
 from django.conf import settings
-from django.urls import LocalePrefixPattern, URLResolver, get_resolver, path
-from django.views.i18n import set_language
 
 
 urlpatterns = [
-                  path("", view=home),
+                  path("", view=HomeView.as_view(), name='landing'),
                   path("admin/", admin.site.urls),
                   path("product/", include("apps.shop.urls")),
                   path("cart/", include("apps.cart.urls")),

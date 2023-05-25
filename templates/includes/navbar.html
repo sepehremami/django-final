@@ -7,9 +7,12 @@
 
     <a href="{% url 'landing' %}" class="logo"> <img class="m-3" src="{% static 'images/favicon.png' %}"></img>فروشگاه</a>
 
-    <form action="" class="search-form">
-        <input type="search" name="" placeholder="جستجو کنید" id="search-box">
-        <label for="search-box" class="fas fa-search"></label>
+    <form action="{% url 'products' %}" class="search-form" method="get">
+     
+        <input type="search" name="product" placeholder="جستجو کنید" id="search-box">
+        <div class="d-block" style="">
+          <button type="" for="search-box" class="fas fa-search justify-content-between" style="padding: 2rem;"></button>
+        </div>
     </form>
 
     <div class="icons">
@@ -22,21 +25,26 @@
 </div>
 
 <div class="header-2">
-<nav class="navbar navbar-expand-lg navbar-light py-3">
-<div class="container d-flex justify-content-between align-items-center">
+<nav class="navbar navbar-expand-md py-3">
+<div class="collapse navbar-collapse container d-flex justify-content-between align-items-center">
   <a class="navbar-brand pb-2" href="{% url 'landing' %}">برندشاپ</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto mr-auto">
 
-        <li class="nav-item active">
+        <li class="nav-item">
             <a class="nav-link" href="{% url 'login' %}">عضویت<span class="sr-only">(current)</span></a>
         </li>
 
-        <li class="nav-item active">
-            <a class="nav-link" href="{% url 'login' %}">پرفروش‌ترین<span class="sr-only">(current)</span></a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#">پرفروش‌ترین<span class="sr-only">(current)</span></a>
+            <ul class="dropdown-menu">
+              <li><a href="" class="dropdown-item">a</a></li>
+              <li><a href="" class="dropdown-item">a</a></li>
+              <li><a href="" class="dropdown-item">a</a></li>
+            </ul>
         </li>
 
 
@@ -44,10 +52,10 @@
         <a class="nav-link dropdown-toggle" href="{% url 'categories' %}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           دسته‌بندی‌ها
         </a>
-        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 {% for category in navbar_categories %}
                     {% if category.load_children %}
-                        <li class="dropdown-submenu"><a class="dropdown-item" href="{{ category.get_abosolute_url }}"><span>{{ category }}</span> <i class="bi bi-chevron-right"></i></a>
+                        <li class="nav-item dropdown dropdown-submenu"><a class="dropdown-item" href="{{ category.get_abosolute_url }}"><span>{{ category }}</span> <i class="bi bi-chevron-right"></i></a>
                             <ul class="dropdown-menu">
                             {% for child in category.parse_children %}
 
@@ -59,7 +67,9 @@
                         <li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
                     {% endif %}
                 {% endfor %}
-        </ul>
+                    
+              <li> <a href="" class="nav-link">this is a link</a></li>
+            </ul>
       </li>
 
      <li class="nav-item active">
@@ -69,6 +79,9 @@
     </ul>
   </div>
 </div>
+</nav>
+</div>
+</header>
 </nav>
 
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import *
-from .permissions import *
+# from .permissions import *
 
 admin.site.register(User)
 admin.site.register(Address)

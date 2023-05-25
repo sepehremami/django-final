@@ -1,22 +1,38 @@
 {% extends "base.html" %}
 {% load static %}
+{% load category_filter %}
+
 {% block content %}
+
+{% for chunk in products|as_chunk:6 %}
+<div class="row">
+  {% for product in chunk %}
+    <div class="col-2">
+      {{ product.name }}
+    </div>
+  {% endfor %}
+</div>
+{% endfor %}
+
 <section style="page-section bg-primary">
   <div class="text-center container py-5">
     <h4 class="mt-4 mb-5"><strong>Bestsellers</strong></h4>
     <div class="row">
       {% for product in products %}
+      <a href="">
       <div class="col me-3 p-2">
         <div class="card ">
           <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
             data-mdb-ripple-color="light">
                 {% if product.image %}
-                  <img src="{{ product.image.url }}" class="w-100 h-100"  alt="{{ prodcut.name }}" >
+                  <img src="{{ product.image.url }}" class="card-img-top"
+                    style="width: 100%; height: 35rem; object-fit: cover; align-content: center; text-align: center;"
+                    alt="{{ prodcut.name }}" >
                 {% endif %}
             <a href="#">
               <div class="mask">
                 <div class="d-flex justify-content-start align-items-end h-100">
-                  <h5><span class="badge bg-primary ms-2">New</span></h5>
+                  <h5><span class="badge bg-primary ms-2">Add to card</span></h5>
                 </div>
               </div>
               <div class="hover-overlay">
@@ -36,6 +52,7 @@
         </div>
           {% endfor  %}
       </div>
+      </a>
     </div>
   </div>
 </section>
