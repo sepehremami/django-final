@@ -1,14 +1,12 @@
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
+from apps.user.models import User
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.views import LoginView, TemplateView
 from apps.shop.views import CategoryMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import authenticate, login
 
 
 class UserLoginView(CategoryMixin, TemplateView):
@@ -18,11 +16,25 @@ class UserLoginView(CategoryMixin, TemplateView):
 class TokenObtainPairViewNew(TokenObtainPairView):
     permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        refresh_token = response.data.get('refresh')
-        access_token = response.data.get('access')
+    def post(self,*args, **kwargs):
+        
+        username = self.request.POST.get('username')
+        passowrd = self.request.POST.get('passowrd')
+        user = authenticate(username=username, passowrd=passowrd)
+        response = super().post(self.request, *args, **kwargs)
+        if user is not None:
+            login(self.request, user)
+            refresh_token = response.data.get('refresh')
+            access_token = response.data.get('access')
 
         if refresh_token and access_token:
             response.set_cookie(key='refresh_token', value=refresh_token, httponly=True)
         return response
+
+
+
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    model = User
+    template_name = "user/profile.html"

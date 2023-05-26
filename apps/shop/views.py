@@ -71,9 +71,26 @@ class CategoryListView(CategoryMixin, ListView):
     context_object_name = 'categories'
 
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(parent__isnull=True)
+
+
 class CategoryDetailView(CategoryMixin, DetailView):
     model = Category
     template_name = 'shop/category_detail.html'
-    context_object_name = 'category'
+    context_object_name = 'category_detail'
+
+    def get(self, request, *args, **kwargs):
+        parent = super().get(self, request,*args, **kwargs)
+        return parent
+
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(self)
+        cateogry = Category.objects.get(pk=int(kwargs.get('pk')))
+        product = Product.objects.filter()
+        context['product'] = product
+        return context
+        
 
 

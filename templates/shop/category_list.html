@@ -2,33 +2,45 @@
 {% load category_filter%}
 {% block content %}
 
-<div id="portfolio">
-        <div class="container-fluid">
-            {% for category in categories %}
-                {% if forloop.first %}<div class="row">{% endif %}
-                <div class="col-xs-4 ">
-                    <a class="portfolio-box" href="{{ category.get_absolute_url }}" title="Project Name">
+<style>
 
-                        {% if category.image %}
-                            <img class="img-fluid" src="{{ category.image.url }}" alt="{{ category.name }}" />
-                        {% endif %}
+.category{
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
 
-                        <div class="portfolio-box-caption">
-                            <div class="project-category text-white-50">{{ category.name }}</div>
-                            <div class="project-name">Project Name</div>
-                        </div>
-                    </a>
+.category p {
+    display: none;
 
-                {% if forloop.counter0|divisibleby:3 %}</div><br/><div class="row">{% endif %}
-            {% if forloop.last %}</div>{% endif %}
-            {% endfor %}
-        </div>
+}
+.category li {
+    list-style-type: none;
+}
+.category a{
+    text-decoration: none;
+    
+    color: aliceblue;
+}
+
+.category a:hover{
+    text-decoration: underline;
+    color: red;
+}
+
+</style>
+
+<section>
+    <div class="category">
+
+
+        <div class="dropdown">
+        {% for cat in categories %}
+
+           {{cat|fcategory|safe}}
+        
+        {% endfor%}
     </div>
-</div>
 
-<div>
-    {% for unit in categories %}
-        <div>{{ unit|fcategory|safe }}</div>
-    {% endfor %}
-</div>
+    </div>
+</section>
 {% endblock %}

@@ -32,6 +32,10 @@ class Category(BaseModel):
         else:
             return None
 
+    def tohid(self):
+        if len(self.category_set.all())!=0 and self.parent is None:
+            return True
+
     def get_absolute_url(self):
         return reverse('category', args=[self.id])
 

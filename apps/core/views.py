@@ -2,6 +2,9 @@ from django.shortcuts import render
 from apps.shop.models import Product, Category
 from django.views.generic import TemplateView
 from apps.shop.views import CategoryMixin
+from apps.user.models import User
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def home(request):
@@ -24,6 +27,4 @@ class HomeView(CategoryMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['best_sellers'] = Product.objects.all()
         return context
-
-
 
