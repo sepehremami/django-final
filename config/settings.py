@@ -148,15 +148,21 @@ CACHES = {
     }
 }
 
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication',
+        'apps.user.backends.JWTAuthBackend',
     ],
 }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+
+JWT_CONF = {
+    'TOKEN_LIFETIME_HOURS': 1
 }
 
 MEDIA_URL = "/media/"
@@ -337,3 +343,10 @@ JAZZMIN_UI_TWEAKS = {
     },
 }
 JAZZMIN_SETTINGS["show_ui_builder"] = True
+
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend", 
+    "apps.user.backends.JWTAuthBackend",
+
+]
