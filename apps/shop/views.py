@@ -2,10 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import View, CreateView, ListView, DetailView
+from django.views.generic import View, CreateView, ListView, TemplateView, DetailView
 from django.core.cache import cache
 from .forms import ProductForm
-from .models import Product, Category
+from .models import Media, Product, Category, SubProduct
 
 from django.views.generic.edit import CreateView
 from apps.shop.models import Product
@@ -41,16 +41,24 @@ class ProductListView(CategoryMixin, ListView):
         )
         return object_list
 
-
-class ProductDetailView(DetailView):
+class ProductDetailView(TemplateView):
     model = Product
     template_name = "shop/product_detail.html"
-    context_object_name = "product"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context["shopping_cart"] = cache.get("cart")
+        context = super(ProductDetailView, self).get_context_data(**kwargs)
+        product = Product.objects.get(pk=self.kwargs.get('pk'))
+        context['product'] = product
+        subproducts = SubProduct.objects.filter(product=product)
+        context['subs'] = subproducts
+        list_image =[]
+        for sub in subproducts:
+            for image in sub.media_set.all():
+                list_image.append(image)
+
+        context['images'] = list_image
         return context
+
 
 
 class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -85,11 +93,11 @@ class CategoryDetailView(CategoryMixin, DetailView):
         parent = super().get(self, request,*args, **kwargs)
         return parent
 
-    def get_context_data(self, *args,**kwargs):
-        context = super().get_context_data(self)
-        cateogry = Category.objects.get(pk=int(kwargs.get('pk')))
-        product = Product.objects.filter()
-        context['product'] = product
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        cateogry = Category.objects.get(pk=int(self.kwargs.get('pk')))
+        product = Product.objects.filter(category=cateogry)
+        context['products'] = product
         return context
         
 
