@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {% load chunker %}
-
 {% block content %}
 <section class="category">
+  {{user}}
   <h1 class="heading">نتایج <span>جستجو</span></h1>
 {% for chunk in products|as_chunk:3 %}
 <div class="row">
