@@ -19,9 +19,11 @@
               {% endif %}
           <a href="#">
             <div class="mask">
+              {% comment %}
               <div class="d-flex justify-content-start align-items-end h-100">
                 <h5><span class="badge bg-primary ms-2">Add to card</span></h5>
               </div>
+              {% endcomment %}
             </div>
             <div class="hover-overlay">
               <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
@@ -33,11 +35,10 @@
             <h5 class="card-title mb-3">{{ product.name }}</h5>
           </a>
           <a href="" class="text-reset">
-            <p>Category</p>
+            <p>{{product.desc|truncatewords:40}}</p>
           </a>
-          <h6 class="mb-3">$61.99</h6>
         </div>
-      </div>{{ product.name }}
+      </div>
     </div>
   {% endfor %}
 </div>

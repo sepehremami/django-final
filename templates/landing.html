@@ -99,10 +99,12 @@
                                 <img src="{{ product.image.url }}" class="card-img-top"
                                      style="width: 100%;height: 35rem; object-fit: cover; align-content: center;text-align: center"
                                      alt="{{ product.name }}">
-                                <div class="card-body">
+                                <div class="card-body px-auto" style="margin: auto;">
                                     <h2 class="card-title">{{ product.name }}</h2>
                                     <p class="card-text">{{ product.desc|truncatewords:35 }}</p>
-                                    <a href="#" class="btn btn-primary">Details</a>
+                                    <a href="#" class="btn btn-primary fas fa-heart"></a>
+                                    <a href="{% url 'product-detail' pk=product.id%}" class="btn btn-primary fas fa-shopping-cart center" 
+                                    style=""></a>
                                 </div>
                             </div>
                         </div>
@@ -130,10 +132,10 @@
                                 <img src="{{ cat.img.url }}" class="card-img-top"
                                      style="width: 100%;height: 35rem; object-fit: cover; align-content: center;text-align: center"
                                      alt="{{ cat.name }}">
-                                <div class="card-body">
+                                <div class="card-body" style="margin: auto;"> 
                                     <h2 class="card-title">{{ cat.name }}</h2>
                                     <p class="card-text">{{ cat.desc|truncatewords:35 }}</p>
-                                    <a href="#" class="btn btn-primary">Details</a>
+                                    <a href="{{ cat.get_absolute_url }}" class="btn btn-primary fas fa-shipping-fast"></a>
                                 </div>
                             </div>
                         </div>
@@ -165,10 +167,11 @@
                     style="width: 100%; height: 35rem; object-fit: cover; align-content: center; text-align: center;"
                     alt="{{ prodcut.name }}" >
                 {% endif %}
-            <a href="#">
+            <a href="{% url 'product-detail' pk=product.id %}">
               <div class="mask">
-                <div class="d-flex justify-content-start align-items-end h-100">
-                  <h5><span class="badge bg-primary ms-2">Add to card</span></h5>
+                <div class="">
+                  <h5><span class="badge bg-primary ms-2 fa-heart"></span></h5>
+                  <h5><span class="badge bg-primary ms-2 fa-search"></span></h5>
                 </div>
               </div>
               <div class="hover-overlay">
@@ -176,17 +179,13 @@
               </div>
             </a>
           </div>
-          <div class="card-body">
-            <a href="" class="text-reset">
+          <a href="{% url 'product-detail' pk=product.id%}" class="text-reset">
+            <div class="card-body" style="margin: auto;">
               <h5 class="card-title mb-3">{{ product.name }}</h5>
+            </div>
             </a>
-            <a href="" class="text-reset">
-              <p>Category</p>
-            </a>
-            <h6 class="mb-3">$61.99</h6>
-          </div>
-        </div>{{ product.name }}
-      </div>
+        </div>
+    </div>
     {% endfor %}
   </div>
   {% endfor %}
