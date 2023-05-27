@@ -77,11 +77,11 @@
           aria-expanded="false"> 
           </button></div>
           <ul class="dropdown-menu" id="dropdown-user" aria-labelledby="MenuButton">
-            <li><a href="" class="dropdown-item">profile</a></li>
+            <li><a href="{% url 'profile' %}" class="dropdown-item">Profile</a></li>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}" class="dropdown-item">logout</a></li>
+            <li><a href="{% url 'logout' %}" class="dropdown-item">Logout</a></li>
             {% else %}
-            <li><a href="{% url 'login' %}" class="dropdown-item">login</a></li>
+            <li><a href="{% url 'login' %}" class="dropdown-item">Login</a></li>
             {% endif %}
           </ul> 
           </div>

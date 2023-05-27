@@ -7,7 +7,11 @@ from django.contrib.auth.views import LoginView, TemplateView
 from apps.shop.views import CategoryMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login
-
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from .serializer import UserSerializer, RegisterSerializer
+from django.contrib.auth.models import User
+from rest_framework import generics
 
 class UserLoginView(CategoryMixin, TemplateView):
     template_name = 'registration/login.html'
@@ -32,9 +36,11 @@ class TokenObtainPairViewNew(TokenObtainPairView):
         return response
 
 
-
-
-
 class ProfileView(LoginRequiredMixin, TemplateView):
     model = User
     template_name = "user/profile.html"
+
+
+class RegisterUserAPIView(generics.CreateAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
