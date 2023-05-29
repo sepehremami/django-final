@@ -13,68 +13,69 @@ from rest_framework import generics
 from rest_framework import permissions, views as api_views
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth import authenticate, login
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.decorators import permission_classes, api_view
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token 
 User = get_user_model()
 
+
 class UserLoginView(CategoryMixin, TemplateView):
-    template_name = 'registration/login.html'
+    template_name = "registration/login.html"
 
 
 class TokenObtainPairViewNew(TokenObtainPairView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, *args, **kwargs):
-        
-        username = self.request.POST.get('username')
-        passowrd = self.request.POST.get('passowrd')
+        username = self.request.POST.get("username")
+        passowrd = self.request.POST.get("passowrd")
         response = super().post(self.request, *args, **kwargs)
         user = authenticate(username=username, passowrd=passowrd)
         if user is not None:
             login(self.request, user)
-        refresh_token = response.data.get('refresh')
-        access_token = response.data.get('access')
+        refresh_token = response.data.get("refresh")
+        access_token = response.data.get("access")
 
         if refresh_token and access_token:
-            response.set_cookie(key='refresh_token', value=refresh_token, httponly=True)
+            response.set_cookie(key="refresh_token", value=refresh_token, httponly=True)
         return response
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(TemplateView):
     model = User
     template_name = "user/profile.html"
 
 
-
-class ObtainTokenView(api_views.APIView):
+class ObtainTokenView(ObtainAuthToken):
     permission_classes = [permissions.AllowAny]
     serializer_class = ObtainTokenSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer:ObtainTokenSerializer = self.serializer_class(data=request.data)
+        serializer: ObtainTokenSerializer = self.serializer_class(data=request.data,  context={'request': request})
         serializer.is_valid(raise_exception=True)
 
-        username_or_phone = serializer.validated_data.get('username')
-        password = serializer.validated_data.get('password')
-
+        username_or_phone = serializer.validated_data.get("username")
+        password = serializer.validated_data.get("password")
         user = User.objects.get(username=username_or_phone)
-        # if user is None:
-        #     user = User.objects.get(phone_number=username_or_phone)
         if user is None or not user.check_password(password):
-            return Response({'message': 'Invalid Credentials'})
-        
+            return Response({"message": "Invalid Credentials"})
+
         jwt_token = JWTAuthBackend.create_jwt(user)
-        
-        return Response({'access':jwt_token})
+
+        return Response({"token": jwt_token})
 
 
-def index(request:HttpRequest, *args, **kwargs):
-    user = authenticate(request=request)
-    print(user)
-    if user:
-        login(request, user, backend='apps.user.backends.JWTAUTHBackend')
-        return HttpResponse(f'you name is {user.username}')
-    # print(payload)
-    return HttpResponse('failed!')
+@api_view(["GET"])
+@permission_classes([permissions.IsAuthenticated])
+def index(request):
+    if request.user:
+        return Response(f"Responseyou name is {request.user.username}")
+    return Response("failed!")
 
 
-
-
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer()

@@ -11,11 +11,11 @@ import jwt
 User = get_user_model()
 
 
-class JWTAuthBackend(authentication.BaseAuthentication):
+class JWTAuthBackend(authentication.TokenAuthentication):
 
     def authenticate(self, request: Optional[HttpRequest]):
         jwt_token = request.META.get('HTTP_AUTHORIZATION')
-        print(jwt_token)
+        
         if jwt_token is None:
             return 
             
@@ -38,7 +38,7 @@ class JWTAuthBackend(authentication.BaseAuthentication):
             user = User.objects.filter(phone_number=user_identifier).first()
             if user is None:
                 raise AuthenticationFailed('User not found')
-        return user
+        return user, payload
 
 
     @classmethod

@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from rest_framework_simplejwt import views as jwt_views
-
+from rest_framework.authtoken import views as rest_views
 
 urlpatterns = [
     # path("", views.ExampleView.as_view(), name='example'),
