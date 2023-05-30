@@ -8,6 +8,8 @@
 {% block content %}
 
 
+<div id="js-framework-home"></div>
+
 <section class="home-clothe" id="home">
 
     <div class="content-clothe">
@@ -189,33 +191,21 @@
     {% endfor %}
 </section>
 
-{% block scripts %}
+
 <script>
-    const myCarousel = document.getElementById('myCarousel');
-    const carousel = new bootstrap.Carousel(myCarousel, {
+    const theCarousel = document.getElementById('myCarousel');
+    const myLovelyCarousel = new bootstrap.Carousel(theCarousel, {
         interval: 2000,
 
     });
 
     const myCategoryCarousel = document.getElementById('myCategoryCarousel');
-    const carouselCategory = new bootstrap.Carousel(myCarousel, {
+    const carouselCategory = new bootstrap.Carousel(myCategoryCarousel, {
         interval: 2000,
 
     });
 
-    const config = {
-        headers: {
-            "AUTHORIZATION": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkZW50aWZpZXIiOiJub2xpbWF4IiwiZXhwIjoxNjg1MjE0OTcwLCJpYXQiOjE2ODUyMTEzNzAuMzY5MDY3LCJ1c2VybmFtZSI6Im5vbGltYXgiLCJwaG9uZV9udW1iZXIiOm51bGx9.0fDcSGUJz6k_NPbWt6m72wxtwpvBg3OZHMU7m8le6Pg"
-        }
-    };
-    axios.get(
-        'http://127.0.0.1:8000/user/test', config
-    )
-        .then(function (response) {
-            console.log(response);
-        });
-
+   
 
 </script>
-{% endblock scripts %}
 {% endblock %}
