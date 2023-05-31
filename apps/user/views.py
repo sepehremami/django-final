@@ -1,13 +1,12 @@
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from apps.user.backends import JWTAuthBackend
-from apps.user.models import User
+from apps.user.models import User, Address
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.views import TemplateView
-from apps.shop.views import CategoryMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.response import Response
-from .serializers import ObtainTokenSerializer, UserSerializer
+from .serializers import ObtainTokenSerializer, UserSerializer, AddressSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import generics
 from rest_framework import permissions, views as api_views
@@ -18,11 +17,12 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token 
+
+
 User = get_user_model()
 
 
-class UserLoginView(CategoryMixin, TemplateView):
+class UserLoginView(TemplateView):
     template_name = "registration/login.html"
 
 
@@ -79,3 +79,16 @@ def index(request):
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer()
+
+
+class AddressViewSet(viewsets.ModelViewSet):
+    serializer_class = AddressSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+
+    def get_queryset(self):
+        """
+        Return a queryset of all addresses for the authenticated user.
+        """
+        if isinstance(self.request.user,User):
+            return Address.objects.filter(user=self.request.user)
