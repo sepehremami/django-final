@@ -66,25 +66,7 @@
     <div class="icons" style="width: 20rem;">
           <a href="#" class="fas fa-heart"></a>
           <a href="#" class="fas fa-shopping-cart"></a>
-        <div class="dropdown d-inline-flex">
-          <div class="fas fa-user">
-          <button 
-          class="dropdown-toggle" href=""
-          style="background:transparent;"
-          type="button"
-          id="MenuButton"
-          data-mdb-toggle="dropdown"
-          aria-expanded="false"> 
-          </button></div>
-          <ul class="dropdown-menu" id="dropdown-user" aria-labelledby="MenuButton">
-            <li><a href="{% url 'profile' %}" class="dropdown-item">Profile</a></li>
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}" class="dropdown-item">Logout</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}" class="dropdown-item">Login</a></li>
-            {% endif %}
-          </ul> 
-          </div>
+          <a href="{% if user.is_authenticated%}{% url 'profile' %}{% else %}{% url 'login' %}{% endif %}" class="fas fa-user"></a>
     </div>
 
 </div>
@@ -106,7 +88,7 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              دسته‌بندی‌ها
+              دسته‌بندی‌ها  
             </a>
             <ul class="dropdown-menu">
               {% for cat in category %}
