@@ -1,8 +1,13 @@
-import React from 'react';
-import ReactDOM from "react-dom";
+import config from './config.js';
 
 
-ReactDOM.render(
-    <h1>Hello, react!</h1>,
-    document.getElementById('root')
-);
+
+console.log(config.apiURL)
+
+axios.get(config.apiURL)
+    .then((response)=> {
+        console.log(response)
+    })
+    .catch((error)=> {
+        console.log(error)
+    })
