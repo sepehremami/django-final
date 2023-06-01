@@ -29,41 +29,61 @@
     <div class="col col-lg-6 mb-4 mb-lg-0">
       <div class="card mb-3" style="border-radius: .5rem;">
         <div class="row g-0">
-          <div class="col-md-4 gradient-custom text-center text-white"
-            style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem; margin: auto; ">
-            <h5 style="text-align: center;">{{user.username}}</h5>
-            <p style="text-align: center;">{{user.username}}</p>
+
+
+          <div class="col-md-4 gradient-custom text-center text-white d-flex" style="align-items: center;
+            justify-content: center; flex-direction: column;">
+            <div>
+              <h5 style="text-align: center;" id="username"></h5>
+            </div>
+            <div>
+               <p style="text-align: center;" id="phone_number"></p>
+             </div>
+             <div>
             <i class="far fa-edit mb-5"></i>
           </div>
+          </div>
+
+
           <div class="col-md-8 d-flex">
             <div class="card-body p-4 justify-content-center">
-              <h6>Information</h6>
-              <hr class="mt-0 mb-4">
               <div class="row pt-1">
+
+
                 <div class="col-6 mb-3">
-                  <h6>Email</h6>
-                  <p class="text-muted">{{user.email}}</p>
+                  <h6>ایمیل</h6>
+                  <p class="text-muted" id="email">{{user.email}}</p>
                 </div>
+
+
                 <div class="col-6 mb-3">
-                  <h6>Phone</h6>
-                  <p class="text-muted">{{user.phone}}</p>
+                  <h6>تلفن</h6>
+                  <p class="text-muted" id="telephone">{{user.phone}}</p>
                 </div>
+
+
               </div>
-              <h6>Projects</h6>
+
+
+              <h6>آدرس</h6>
               <hr class="mt-0 mb-4">
-              <div class="row pt-1">
-                <div class="col-6 mb-3">
-                  <h6>آدرس‌ها</h6>
 
-                  <div id="address-holder" class="row"></div>
-
-                </div>
+              <div id="loading-message" class="spinner-border" role="status" style="display: none;">
+                <span class="visually-hidden"></span>
               </div>
+
+              <div id="success-alert" class="alert alert-success" role="alert" style="display: none;">
+                آدرس با موفقیت انتخاب شد
+              </div>
+              <div id="address-holder" class=""></div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  </div>
 
 </section>
 <script src="{% static 'js/profile-bundle.js' %}"></script>
