@@ -31,7 +31,25 @@ class DjangoClient {
           reject(error)
         })
     })
-  };
+  }
+
+  setDefaultAddress(id) {
+    console.log('hello')
+    return new Promise((resolve, reject) => {
+      this.apiClient.patch(`/user/api/address/${id}/`, { "is_default": "true" })
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error)
+        })
+    })
+  }
+
+  getClient(){
+
+  }
 }
 
 function CookieInterceptor(config) {
