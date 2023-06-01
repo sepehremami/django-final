@@ -77,14 +77,39 @@ def index(request):
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
     serializer_class = UserSerializer()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        Return a queryset of the user itself for the authenticated self.
+        """
+        if isinstance(self.request.user,User):
+            return User.objects.filter(user=self.request.user)
 
 
 class AddressViewSet(viewsets.ModelViewSet):
     serializer_class = AddressSerializer
     permission_classes = [permissions.IsAuthenticated]
     
+    def partial_update(self, request, *args, **kwargs):
+        # Get the address object that is being updated
+        instance = self.get_object()
+
+        # Set the is_default field of the updated address to True
+        data = request.data.copy()
+        data['is_default'] = True
+
+        # Update all other addresses of the user to is_default=False
+        user = request.user
+        Address.objects.filter(user=user).exclude(id=instance.id).update(is_default=False)
+
+        # Call the update method with the modified data
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
 
     def get_queryset(self):
         """
@@ -92,3 +117,4 @@ class AddressViewSet(viewsets.ModelViewSet):
         """
         if isinstance(self.request.user,User):
             return Address.objects.filter(user=self.request.user)
+
