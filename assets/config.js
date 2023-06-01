@@ -1,5 +1,5 @@
 const config = {
-    apiURL: '127.0.0.1:8000'
+    apiURL: window.BASE_URL
 }
 
 export default config;
