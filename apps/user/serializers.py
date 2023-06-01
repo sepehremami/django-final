@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 class AddressSerializer(serializers.ModelSerializer):
   class Meta: 
     model = Address
-    fields = ['user','receiver','province','city','addr','zip_code','phone','is_default']
+    fields = ['id', 'user','receiver','province','city','addr','zip_code','phone','is_default']
 
   def validate_zipcode(self, value):
     pattern = r'^\d{5}$'
