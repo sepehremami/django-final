@@ -3,7 +3,9 @@ const path = require('path');
 module.exports = {
   entry: {
     index: './assets/index.js',
-    profile: './assets/profile.js'
+    profile: './assets/profile.js',
+    login: './assets/login.js',
+    navbar: './assets/navbar.js'
   },
   
   output: {
