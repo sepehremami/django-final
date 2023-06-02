@@ -77,7 +77,7 @@ class Pricing(BaseModel):
         if not self.pk:
             # If this is a new pricing object being added,
             # deactivate all previous prices for this product.
-            Pricing.objects.filter(product=self.subproduct).update(active=False)
+            Pricing.objects.filter(subproduct=self.subproduct).update(is_active=False)
         super().save(*args, **kwargs)
 
     # last_price_for_product = Pricing.objects.filter(product_id= < product_id >, active = True).order_by(
@@ -103,7 +103,8 @@ class SubProduct(BaseModel):
     sku = models.CharField(max_length=100)
     size = models.CharField(max_length=5, choices=product_size)
     colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
-    image = models.ImageField
+    stock = models.PositiveIntegerField()
+
 
     class Meta:
         app_label = 'shop'
@@ -112,7 +113,7 @@ class SubProduct(BaseModel):
         return dict(SubProduct.product_size)[self.size]
 
     def __str__(self):
-        return f"{self.product.name}"
+        return f"{self.product.name}:{self.sku}"
 
 
 class ProductColour(BaseModel):
