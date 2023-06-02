@@ -1,6 +1,6 @@
 import config from './config.js';
 import Cookies from 'js-cookie';
-
+import jwt_decode from 'jwt-decode';
 
 class DjangoClient {
   constructor(overrides) {
@@ -47,14 +47,28 @@ class DjangoClient {
     })
   }
 
-  getClient(){
+  getClientInfo() {
+    let id = Cookies.get('id')
+    return new Promise((resolve, reject) => {
+      this.apiClient.get(`user/api/profile/${id}/`)
+      .then(response => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error)
+      })
 
+    })
   }
 }
 
 function CookieInterceptor(config) {
   const headers = {};
   const authToken = Cookies.get('access');
+  console.log(authToken)
+  const decoded = jwt_decode(authToken);
+  Cookies.set('id', decoded.id);
   if (authToken) {
     headers['Authorization'] = `Bearer ${authToken}`;
   }
@@ -66,3 +80,6 @@ function CookieInterceptor(config) {
 };
 
 export default DjangoClient;
+
+// cart functionality
+

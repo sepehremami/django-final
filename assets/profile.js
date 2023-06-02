@@ -149,3 +149,22 @@ container.addEventListener('click', (event) => {
         });
     }
 });
+
+
+
+djangoClient.getClientInfo().then(response=> {
+    console.log(response)
+
+    const username = document.getElementById('username');
+    username.innerText = `${response.username}`;
+    
+    const phoneNumber = document.getElementById('phone_number');
+    phoneNumber.innerText = `${response.phone_number}`;
+
+    const email = document.getElementById('email');
+    email.innerText = response.email
+
+})
+.catch(error=> {
+    console.log(error)
+})
