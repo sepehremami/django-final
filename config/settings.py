@@ -28,7 +28,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
-    "jazzmin",
+    # "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -141,13 +141,17 @@ import sys
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "apps"))
 
+
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "example"
     }
 }
-
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
 
 REST_FRAMEWORK = {
@@ -332,3 +336,9 @@ AUTHENTICATION_BACKENDS = [
     # "apps.user.backends.JWTAuthBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
+
+
+CELERY_BROKER_URL = 'redis://localhost:6379/'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/'
+
+KAVENEGAR_KEY = '2F486E324243416270567931634D756C4256327A6E324237385038494E6953586754356F415641794532733D'
