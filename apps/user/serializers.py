@@ -9,12 +9,17 @@ from .models import Address
 class ObtainTokenSerializer(serializers.Serializer):
   username = serializers.CharField()
   password = serializers.CharField()
+  otp_code = serializers.CharField()
 
+
+class OTPCodeSerializer(serializers.Serializer):
+  username = serializers.CharField()
+  password = serializers.CharField()
 
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ["id", "first_name", "last_name", "username"]
+    fields = ["id", "username", "email", "first_name", "last_name", "phone_number"]
 
 
 class AddressSerializer(serializers.ModelSerializer):

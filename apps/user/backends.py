@@ -9,8 +9,9 @@ from typing import Optional
 from rest_framework import authentication
 import jwt
 User = get_user_model()
-
-
+# now this is my backend otp
+# # what I want us to do right now is to right a login view that has 2 fields: phonenumber, password.
+# 
 class JWTAuthBackend(authentication.TokenAuthentication):
 
     def authenticate(self, request: Optional[HttpRequest]):
@@ -44,11 +45,12 @@ class JWTAuthBackend(authentication.TokenAuthentication):
     @classmethod
     def create_jwt(cls, user:User):
         payload = {
+            'id': user.pk,
             'user_identifier': user.username,
             'exp': int((datetime.now() + timedelta(hours=settings.JWT_CONF['TOKEN_LIFETIME_HOURS'])).timestamp()),
             'iat': datetime.now().timestamp(),
             'username': user.username,
-            'phone_number': user.phone_number 
+            'phone_number': user.phone_number
         }
         jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
         return jwt_token
