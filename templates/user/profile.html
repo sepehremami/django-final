@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block styles %}
+<style>
+  .gradient-custom {
+    /* fallback for old browsers */
+    background: #f6d365;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+  }
+
+  .active {
+    color: green;
+    font-weight: bolder;
+
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="vh-100" style="">
+  <div class="row d-flex justify-content-center align-items-center" style="margin-top: 30px;">
+
+    <div class="col">
+
+      <div class="card mb-3" style="border-radius: .5rem;">
+        <div class="row g-0">
+
+
+          <div class="col-4 gradient-custom text-center text-white d-flex" style="align-items: center;
+            justify-content: center; flex-direction: column;">
+            <div>
+              <h5 style="text-align: center;" id="username"></h5>
+            </div>
+
+            <div>
+              <i class="far fa-edit mb-5"></i>
+            </div>
+          </div>
+
+
+          <div class="col-8 d-flex">
+            <div class="card-body p-4 justify-content-center">
+              <div class="row pt-1">
+
+
+                <div class="col-6 mb-3">
+                  <h6>ایمیل</h6>
+                  <p class="text-muted" id="email"></p>
+                </div>
+
+
+                <div class="col-6 mb-3">
+                  <h6>تلفن</h6>
+                  <p class="text-muted" id="phone_number"></p>
+                </div>
+
+
+              </div>
+
+
+              <h6>آدرس</h6>
+              <hr class="mt-0 mb-4">
+
+              <div id="loading-message" class="spinner-border" role="status" style="display: none;">
+                <span class="visually-hidden"></span>
+              </div>
+
+              <div id="success-alert" class="alert alert-success" role="alert" style="display: none;">
+                آدرس با موفقیت انتخاب شد
+              </div>
+              <div id="address-holder" class=""></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+</section>
+<script src="{% static 'js/profile-bundle.js' %}"></script>
+{% endblock %}

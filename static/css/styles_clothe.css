@@ -1,0 +1,36 @@
+@font-face {
+    font-family: "IRANSansWeb";
+    src: url(static/webfonts/IRANSansWeb.woff);
+}
+html {
+    --gray: #de1313;
+    --dark-color: #3a3a3a;
+    --black:#444;
+    --light-color:#666;
+    --border:.1rem solid rgba(0,0,0,.1);
+    --border-hover:.1rem solid var(--black);
+    --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
+    font-size: 62.5%;
+
+    scroll-padding-top: 5rem;
+    scroll-behavior: smooth;
+}
+
+a:link{text-decoration: none}
+*{
+
+}
+
+
+html::-webkit-scrollbar{
+    width:1rem;
+}
+
+html::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+html::-webkit-scrollbar-thumb{
+    background:var(--black);
+}
+

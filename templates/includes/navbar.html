@@ -1,53 +1,118 @@
 {% load static %}
+<style>
+  .dropdown {
+    position: relative;
+  }
 
-{% block navbar %}
-
-<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3">
-<div class="container d-flex justify-content-between align-items-center">
-  <a class="navbar-brand pb-2" href="{% url 'landing' %}">برندشاپ</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav ml-auto">
-
-        <li class="nav-item active">
-            <a class="nav-link" href="{% url 'login' %}">عضویت<span class="sr-only">(current)</span></a>
-        </li>
-
-        <li class="nav-item active">
-            <a class="nav-link" href="{% url 'login' %}">پرفروش‌ترین<span class="sr-only">(current)</span></a>
-        </li>
+  .dropdown:hover>#dropdown-user {
+    display: block;
+    position: absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    transform: translateY(28%);
+    z-index: 1;
 
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="{% url 'categories' %}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          دسته‌بندی‌ها
-        </a>
-        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                {% for category in navbar_categories %}
-                    {% if category.load_children %}
-                        <li class="dropdown-submenu"><a class="dropdown-item" href="{{ category.get_abosolute_url }}"><span>{{ category }}</span> <i class="bi bi-chevron-right"></i></a>
-                            <ul class="dropdown-menu">
-                            {% for child in category.parse_children %}
+  }
 
-                              <li><a class="dropdown-item" href="{% url 'category' pk=child.id %}">{{ child }}</a></li>
+  .dropdown>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+  }
 
-                            {% endfor %}
-                            </ul>
-                    {% else %}
-                        <li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
-                    {% endif %}
-                {% endfor %}
-        </ul>
-      </li>
+  .navbar-nav .nav-link {
+    color: #fff;
+  }
 
-     <li class="nav-item active">
-            <a class="nav-link" href="{% url 'login' %}">درباره ما<span class="sr-only">(current)</span></a>
-     </li>
+  .dropend .dropdown-toggle {
+    color: salmon;
+    margin-left: 1em;
+  }
 
-    </ul>
+  .dropdown-item:hover {
+    background-color: lightsalmon;
+    color: #fff;
+  }
+
+  .dropdown .dropdown-menu {
+    display: none;
+  }
+
+  .dropdown:hover>.dropdown-menu,
+  .dropend:hover>.dropdown-menu {
+    display: block;
+    margin-top: 0.125em;
+    margin-left: 0.125em;
+  }
+
+  @media screen and (min-width: 769px) {
+    .dropend:hover>.dropdown-menu {
+      position: absolute;
+      top: 0;
+      left: 100%;
+    }
+
+    .dropend .dropdown-toggle {
+      margin-left: 0.5em;
+    }
+  }
+</style>
+<header class="header">
+
+  <div class="header-1">
+
+    <a href="{% url 'landing' %}" class="logo"> <img class="m-3"
+        src="{% static 'images/favicon.png' %}"></img>فروشگاه</a>
+
+    <form action="{% url 'products' %}" class="search-form" method="get">
+
+      <input type="search" name="product" placeholder="جستجو کنید" id="search-box">
+      <div class="d-block">
+        <button type="" for="search-box" class="fas fa-search justify-content-between" style="padding: 2rem;"></button>
+      </div>
+    </form>
+
+    <div class="icons" style="width: 20rem;">
+      <a href="#" class="fas fa-heart"></a>
+      <a href="#" class="fas fa-shopping-cart"></a>
+      <a href="#" class="fas fa-user" id="login"></a>
+    </div>
+
   </div>
-</div>
-</nav>
-{% endblock %}
+
+  <section class="header">
+    <nav class="navbar navbar-expand-lg  header-2 navbar-dark" style="background-color: salmon;">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">برندشاپ</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">عضویت</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">بلاگ</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                دسته‌بندی‌ها
+              </a>
+              <ul class="dropdown-menu">
+                {% for cat in category %}
+                <li><a class="dropdown-item" href="{{cat.get_absolute_url}}">{{cat.name}}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link">درباره ما</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </section>
+</header>
+<script src="{% static 'js/navbar-bundle.js' %}"></script>

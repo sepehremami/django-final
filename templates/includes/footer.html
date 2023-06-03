@@ -1,84 +1,79 @@
- <footer class=" w-full fixed-bottom px-5 py-8 sm:py-12" id="footer" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+{% load static %}
 
-    <div class="footer-newsletter">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <h4>Our Newsletter</h4>
-            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-          </div>
-          <div class="col-lg-6">
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Subscribe">
-            </form>
-          </div>
+<section class="footer position-relative p-4 m-10">
+    <div class="box-container">
+        <div class="box">
+            <h3>دیگر شعبه ها</h3>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> تهران </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> مشهد </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> اصفهان </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> شیراز </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> تبریز </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> یزد </a>
         </div>
-      </div>
-    </div>
 
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Useful Links</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Our Services</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-contact">
-            <h4>Contact Us</h4>
-            <p>
-              A108 Adam Street <br>
-              New York, NY 535022<br>
-              United States <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> info@example.com<br>
-            </p>
-
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-info">
-            <h3>About Moderna</h3>
-            <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
-            <div class="social-links mt-3">
-              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-            </div>
-          </div>
-
+        <div class="box">
+            <h3>quick links</h3>
+            <a href="#"> <i class="fas fa-arrow-right"></i> خانه </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> ویژه </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> برجسته </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> نظرات </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> وبلاگ </a>
         </div>
-      </div>
+
+        <div class="box">
+            <h3>extra links</h3>
+            <a href="#"> <i class="fas fa-arrow-right"></i> حساب کاربری </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> اقلام سفارش داده شده </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> قوانین </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> روش پرداخت </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> دیگر سرویس ها </a>
+        </div>
+
+        <div class="box">
+            <h3>contact info</h3>
+            <a href="#"> <i class="fas fa-phone"></i> +123-456-7890 </a>
+            <a href="#"> <i class="fas fa-phone"></i> +111-222-3333 </a>
+            <a href="#"> <i class="fas fa-envelope"></i> admin@netcopy.ir </a>
+            <img src="{% static 'images/worldmap.png' %}" class="map" alt="">
+        </div>
+
     </div>
 
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong><span>Moderna</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
+    <div class="share">
+        <a class="fab fa-facebook-f text-center"></a>
+        <a href="#" class="fab fa-twitter text-center text-decoration-none"></a>
+        <a href="#" class="fab fa-instagram text-center text-decoration-none"></a>
+        <a href="#" class="fab fa-linkedin text-center text-decoration-none"></a>
     </div>
-  </footer><!-- End Footer -->
+
+
+</section>
+
+
+<!-- 
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+ -->

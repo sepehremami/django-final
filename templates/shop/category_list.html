@@ -1,26 +1,80 @@
 {% extends 'base.html' %}
+{% load category_filter%}
+{% load chunker %}
 {% block content %}
- <div id="portfolio">
-            <div class="container-fluid">
-                {% for category in categories %}
-                    {% if forloop.first %}<div class="row">{% endif %}
-                    <div class="col-xs-4 ">
-                        <a class="portfolio-box" href="{{ category.get_absolute_url }}" title="Project Name">
 
-                            {% if category.image %}
-                                <img class="img-fluid" src="{{ category.image.url }}" alt="{{ category.name }}" />
-                            {% endif %}
+<style>
 
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">{{ category.name }}</div>
-                                <div class="project-name">Project Name</div>
-                            </div>
-                        </a>
+.category{
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
 
-                    {% if forloop.counter0|divisibleby:3 %}</div><br/><div class="row">{% endif %}
-                {% if forloop.last %}</div>{% endif %}
-                {% endfor %}
-            </div>
- </div>
+.category p {
+    display: none;
 
+}
+.category li {
+    list-style-type: none;
+}
+.category a{
+    text-decoration: none;
+    
+    color: aliceblue;
+}
+
+.category a:hover{
+    text-decoration: underline;
+    color: red;
+}
+
+</style>
+
+<section>
+    <div class="category">
+
+
+        <div class="dropdown">
+        {% for cat in categories %}
+
+           {{cat|fcategory|safe}}
+        
+        {% endfor%}
+    </div>
+
+    </div>
+</section>
+
+
+<section class="category">
+    <h1 class="heading"><span>دسته‌بندی‌ها</span></h1>
+  {% for chunk in categories|as_chunk:3 %}
+  <div class="row">
+    {% for cat in chunk %}
+      <div class="col-4">
+        <div class="card ">
+          <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+            data-mdb-ripple-color="light">
+                {% if cat.image %}
+                  <img src="{{ cat.image.url }}" class="card-img-top"
+                    style="width: 100%; height: 35rem; object-fit: cover; align-content: center; text-align: center;"
+                    alt="{{ prodcut.name }}" >
+                {% endif %}
+              <div class="hover-overlay">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </div>
+            </a>
+          </div>
+          <div class="card-body">
+            <a href="" class="text-reset">
+              <h5 class="card-title mb-3">{{ cat.name }}</h5>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  </section>
 {% endblock %}

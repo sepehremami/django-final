@@ -1,29 +1,101 @@
 {% extends "base.html" %}
-{% load data_verbose %}
+{% load static %}
 {% block content %}
-<h1>{{product.name}}</h1>
-<div>
 
-    <h2>{{product.created_at}}</h2>
-    <h2>{{product.desc}}</h2>
-    {% if product.category %}
-        <h2>{{product.category}}</h2>
-    {% endif %}
 
-    {% for sub in product.subproduct_set.all %}
-        <div class="sub-colours">
-            <h5>{{ sub.colour }}{{ sub.fields }}</h5>
+<div class="card-wrapper">
+    <div class="card-image">
+        <!-- card left -->
+        <div class="product-imgs">
+            <div class="img-display">
+                <div class="img-showcase">
+                    {% for image in images %}
+                    <img class="img" src="{{image.img.url}}" alt="shoe image">
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="img-select">
+
+                {% for image in images %}
+                <div class="img-item">
+                    <a href="#" data-id="{{ forloop.counter }}">
+                        <img class="img" src="{{image.img.url}}" alt="shoe image">
+                    </a>
+                </div>
+                {% endfor %}
+
+            </div>
         </div>
 
-        <div class="sub-sizes">
-            {{ sub.size_verbose }}
-        </div>
-    {% endfor %}
-    {{ shopping_cart }}
 
-    </div>
-    <div>
-        <a href="{% url 'add-to-cart' product_id=product.id %}" class="btn btn-outline-primary m-auto" id="add-to-cart">Add to Cart</a>
+        <!-- card right -->
+        <div class="product-content">
+            <h2 class="product-title">{{product.name}}</h2>
+            <div class="product-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span></span>
+            </div>
+
+
+            {% comment %}
+            <div class="product-price">
+                <p class="last-price">Old Price: <span>$257.00</span></p>
+                <p class="new-price">New Price: <span>$249.00 (5%)</span></p>
+            </div>
+            {% endcomment %}
+
+            <div class="product-detail">
+                <p>{{product.desc}}</p>
+                {% comment %}
+                <ul>
+                    <li>رنگ: <span></span></li>
+                    <li>دسته: <span>{{product.category}}</span></li>
+                </ul>
+                {% endcomment %}
+            </div>
+
+            <table>
+                {% for subproduct in product.subproduct_set.all %}
+                <tr>
+                    <td>{{ subproduct.sku }}</td>
+                    <td>{{ subproduct.colour }}</td>
+                    <td>{{ subproduct.size }}</td>
+                    <td>
+                        <button type="button" class="btn add-to-cart" id="cart-button" data-subproduct-id="{{ subproduct.id }}">
+                            اضافه به سبد خرید <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+
+           
+
+            <div class="social-links">
+                <a href="#">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="#">
+                    <i class="fab fa-pinterest"></i>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
+
 {% endblock content %}
