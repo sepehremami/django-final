@@ -29,9 +29,9 @@ class OrderInfo(BaseModel):
     order_id = models.UUIDField(unique=True, default=uuid.uuid4(), editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, )
     addr = models.ForeignKey(Address, on_delete=models.CASCADE, )
-    total_count = models.IntegerField(default=1, editable=False)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
-    order_status = models.SmallIntegerField(choices=ORDER_STATUS_CHOICES, default=1, )
+    total_count = models.IntegerField(default=1)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    order_status = models.SmallIntegerField(choices=ORDER_STATUS_CHOICES, default=1)
 
 
 class OrderItem(BaseModel):
@@ -48,9 +48,6 @@ class DiscountBase(BaseModel):
     """
     All discount models inherit from this Base model
     """
-
-    coupon_code = models.CharField(unique=True, default=uuid.uuid4().hex[:5].upper(), max_length=50,
-                                   editable=False)
     discount_value = models.IntegerField()
     discount_unit = models.CharField(max_length=1, choices=[
         ('t', 'Toman'),
@@ -79,5 +76,5 @@ class ProductDiscount(DiscountBase):
     """
     product = models.ForeignKey('shop.Product', on_delete=models.CASCADE)
 
-# TODO:WISHLIST implementation
-# TODO:Fix Eternal Migration Loop
+# TODO: WISHLIST implementation
+# TODO: Fix Eternal Migration Loop
