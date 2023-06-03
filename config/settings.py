@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "apps.shop.apps.ShopConfig",
     "apps.user.apps.UserConfig",
     "apps.cart.apps.CartConfig",
+    "drf_yasg"
 ]
 SITE_ID = 1
 
@@ -342,3 +343,14 @@ CELERY_BROKER_URL = 'redis://localhost:6379/'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/'
 
 KAVENEGAR_KEY = '2F486E324243416270567931634D756C4256327A6E324237385038494E6953586754356F415641794532733D'
+
+
+SWAGGER_SETTINGS  = {
+    'PERSIST_AUTH': True,
+    'SECURITY_DEFINITIONS': {
+         'DRF Token': {
+               'type': 'apiKey',
+               'name': 'Authorization',
+               'in': 'header'
+         }}
+}
