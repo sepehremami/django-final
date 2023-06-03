@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+
+
 <div class="card-wrapper">
     <div class="card-image">
         <!-- card left -->
@@ -49,18 +51,31 @@
 
             <div class="product-detail">
                 <p>{{product.desc}}</p>
+                {% comment %}
                 <ul>
                     <li>رنگ: <span></span></li>
                     <li>دسته: <span>{{product.category}}</span></li>
                 </ul>
+                {% endcomment %}
             </div>
 
-            <div class="purchase-info">
-                <input type="number" min="0" value="1">
-                <button type="button" class="btn">
-                    اضافه به سبد خرید <i class="fas fa-shopping-cart"></i>
-                </button>
-            </div>
+            <table>
+                {% for subproduct in product.subproduct_set.all %}
+                <tr>
+                    <td>{{ subproduct.sku }}</td>
+                    <td>{{ subproduct.colour }}</td>
+                    <td>{{ subproduct.size }}</td>
+                    <td>
+                        <button type="button" class="btn add-to-cart" id="cart-button" data-subproduct-id="{{ subproduct.id }}">
+                            اضافه به سبد خرید <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+
+           
 
             <div class="social-links">
                 <a href="#">
@@ -83,25 +98,4 @@
     </div>
 </div>
 
-<script>
-    const imgs = document.querySelectorAll('.img-select a');
-    const imgBtns = [...imgs];
-    let imgId = 1;
-
-    imgBtns.forEach((imgItem) => {
-        imgItem.addEventListener('click', (event) => {
-            event.preventDefault();
-            imgId = imgItem.dataset.id;
-            slideImage();
-        });
-    });
-
-    function slideImage() {
-        const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
-
-        document.querySelector('.img-showcase').style.transform = `translateX(${(imgId - 1) * displayWidth}px)`;
-    }
-
-    window.addEventListener('resize', slideImage);
-</script>
 {% endblock content %}
