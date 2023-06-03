@@ -8,7 +8,7 @@ from apps.user.models import User
 from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
 from apps.cart.models import CategoryDiscount, ProductDiscount, OrderInfo
-
+from .managers import SubproductManager
 
 class Category(BaseModel):
     """
@@ -54,7 +54,7 @@ class Product(BaseModel):
     desc = models.TextField(validators=[validate_is_profane])
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     image = models.ImageField(null=True)
-
+    
     class Meta:
         app_label = 'shop'
 
@@ -84,7 +84,7 @@ class Pricing(BaseModel):
     #     '-date_added').first()
 
     def __str__(self):
-        return f'{self.price} id: {self.subproduct_id}'
+        return f'{self.price}'
 
 
 class SubProduct(BaseModel):
@@ -104,6 +104,7 @@ class SubProduct(BaseModel):
     size = models.CharField(max_length=5, choices=product_size)
     colour = models.ForeignKey("ProductColour", on_delete=models.RESTRICT)
     stock = models.PositiveIntegerField()
+    objects = SubproductManager()
 
 
     class Meta:
@@ -111,6 +112,9 @@ class SubProduct(BaseModel):
 
     def size_verbose(self):
         return dict(SubProduct.product_size)[self.size]
+
+    def get_active_price(self):
+        return self.pricing_set.get(is_active=True)
 
     def __str__(self):
         return f"{self.product.name}:{self.sku}"

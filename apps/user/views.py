@@ -76,14 +76,12 @@ class AddressViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     
     def partial_update(self, request, *args, **kwargs):
-        # Get the address object that is being updated
         instance = self.get_object()
 
-        # Set the is_default field of the updated address to True
         data = request.data.copy()
         data['is_default'] = True
 
-        # Update all other addresses of the user to is_default=False
+        # Update all other addresses of the user to is_default=
         user = request.user
         Address.objects.filter(user=user).exclude(id=instance.id).update(is_default=False)
 

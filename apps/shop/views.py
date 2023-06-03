@@ -6,10 +6,14 @@ from django.views.generic import View, CreateView, ListView, TemplateView, Detai
 from django.core.cache import cache
 from .forms import ProductForm
 from .models import Media, Product, Category, SubProduct
-
+from django.db.models import F
 from django.views.generic.edit import CreateView
 from apps.shop.models import Product
 from django.db.models import Q
+
+def load_category_globally(request):
+    category = Category.objects.all()
+    return {'category':category}
 
 class CategoryMixin:
     def get_context_data(self, **kwargs):
@@ -18,11 +22,7 @@ class CategoryMixin:
         return context
 
 
-def load_category_globally(request):
-    category = Category.objects.all()
-    return {'category':category}
-
-class ProductListView(CategoryMixin, ListView):
+class ProductListView(ListView):
     model = Product
     template_name = "shop/product_list.html"
     context_object_name = "products"
@@ -44,12 +44,15 @@ class ProductListView(CategoryMixin, ListView):
 class ProductDetailView(TemplateView):
     model = Product
     template_name = "shop/product_detail.html"
+    
 
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         product = Product.objects.get(pk=self.kwargs.get('pk'))
         context['product'] = product
         subproducts = SubProduct.objects.filter(product=product)
+        # for sub in subproducts:
+        #     sub.objects.annotate(price= F("pricing__price")).filter(price__is_active=True).values('id', 'name', 'desc', 'stock', 'price')
         context['subs'] = subproducts
         list_image =[]
         for sub in subproducts:
