@@ -9,7 +9,7 @@ from .models import Address
 class ObtainTokenSerializer(serializers.Serializer):
   username = serializers.CharField()
   password = serializers.CharField()
-  otp_code = serializers.CharField()
+  # otp_code = serializers.CharField()
 
 
 class OTPCodeSerializer(serializers.Serializer):

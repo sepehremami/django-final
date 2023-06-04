@@ -31,7 +31,14 @@ class ProfileView(TemplateView):
     model = User
     template_name = "user/profile.html"
 
+    def get_context_data(self, *args, **kwargs):
+        if isinstance(self.request.user, User):
+            addresses = Address.objects.filter(user = self.request.user)
+            context['addresses'] = addresses
+        context = super().get_context_data()
 
+        return context
+# TODO: write otp authentication back
 class ObtainTokenView(ObtainAuthToken):
     permission_classes = [permissions.AllowAny]
     serializer_class = ObtainTokenSerializer
@@ -39,9 +46,7 @@ class ObtainTokenView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer: ObtainTokenSerializer = self.serializer_class(data=request.data,  context={'request': request})
         serializer.is_valid(raise_exception=True)
-        alg_otp_code = serializer.validated_data.get('otp_code')
-        print(alg_otp_code)
-        print('92572348234')
+        # alg_otp_code = serializer.validated_data.get('otp_code')
 
         username_or_phone = serializer.validated_data.get("username")
         password = serializer.validated_data.get("password")
@@ -49,9 +54,9 @@ class ObtainTokenView(ObtainAuthToken):
         if user is None or not user.check_password(password):
             return Response({"message": "Invalid Credentials"}, status=status.HTTP_403_FORBIDDEN)
 
-        real_otp_code = cache.get(user.phone_number)
-        if alg_otp_code != real_otp_code:
-            return Response({'Error': 'otp code not right!'}, status=status.HTTP_403_FORBIDDEN)
+        # real_otp_code = cache.get(user.phone_number)
+        # if alg_otp_code != real_otp_code:
+        #     return Response({'Error': 'otp code not right!'}, status=status.HTTP_403_FORBIDDEN)
 
         jwt_token = JWTAuthBackend.create_jwt(user)
 
