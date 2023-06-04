@@ -12,7 +12,7 @@ from apps.shop.models import Product
 from django.db.models import Q
 
 def load_category_globally(request):
-    category = Category.objects.all()
+    category = Category.objects.filter(parent__isnull=True)
     return {'category':category}
 
 class CategoryMixin:
@@ -76,7 +76,7 @@ def wishlist(request):
     return HttpResponse("added")
 
 
-class CategoryListView(CategoryMixin, ListView):
+class CategoryListView(ListView):
     model = Category
     template_name = 'shop/category_list.html'
     context_object_name = 'categories'
@@ -87,7 +87,7 @@ class CategoryListView(CategoryMixin, ListView):
         return qs.filter(parent__isnull=True)
 
 
-class CategoryDetailView(CategoryMixin, DetailView):
+class CategoryDetailView(DetailView):
     model = Category
     template_name = 'shop/category_detail.html'
     context_object_name = 'category_detail'
