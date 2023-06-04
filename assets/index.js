@@ -1,6 +1,7 @@
 import config from './config.js';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
 class DjangoClient {
   constructor(overrides) {
@@ -105,12 +106,11 @@ if (a) {
 
   window.addEventListener('resize', slideImage);
   const cartBtn = document.getElementById('cart-button')
-  if (cartBtn) {
+  if (!cartBtn) {
     cartBtn.addEventListener('click', function (e) {
       e.preventDefault()
       const value = document.getElementById('cart-value');
       let quantity = value.value;
-      console.log(this);
       console.log(quantity);
       const url = window.location.href;
       let productId = url.slice(-2, -1);
@@ -132,26 +132,97 @@ if (a) {
   }
 }
 
-document.querySelectorAll('.add-to-cart').forEach(button => {
-  button.addEventListener('click', async () => {
-    const subproductId = button.dataset.subproductId;
-    const response = await fetch(config.apiURL+'/api/add-to-cart/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ subproduct: subproductId, quantity: 1 }),
-    });
+function addToCart(itemName, itemPrice, itemQuantity) {
+  // Get existing cart data from cookie or create empty array if none is found
+  let cartData = JSON.parse(Cookies.get("cart") || "[]");
 
-    if (response.ok) {
-      // Handle successful addition to cart, e.g., show a message or update cart count
-    } else {
-      // Handle error, e.g., show an error message
+  // Check if item already exists in the shopping cart
+  let existingItemIndex = -1;
+  for (let i = 0; i < cartData.length; i++) {
+    if (cartData[i].name === itemName) {
+      existingItemIndex = i;
+      break;
     }
-  });
+  }
+
+  // If item exists, update its quantity. Otherwise, add it to the shopping cart.
+  if (existingItemIndex >= 0) {
+    cartData[existingItemIndex].quantity += parseInt(itemQuantity);
+    showNotification(`${itemQuantity} ${itemName}(s) have been added to your shopping-cart.`);
+
+  } else {
+    let newItem = { name: itemName, price: parseFloat(itemPrice), quantity: parseInt(itemQuantity) };
+    cartData.push(newItem);
+    showNotification(`${itemName} has been added to your shopping-cart.`);
+  }
+
+  // Store updated shopping car data back into cookie 
+  Cookies.set("cart", JSON.stringify(cartData));
+}
+
+function showNotification(message) {
+  // Create notification element and append it somewhere on page where user can see it.
+  const notificationElm = document.getElementById('notification');
+  notificationElm.style.display = 'block'
+  notificationElm.classList.add('notification');
+  notificationElm.textContent = message;
+
+  // document.body.appendChild(notificationElm);
+
+  setTimeout(() => {
+    // Remove notification after some time
+    // document.body.removeChild(notificationElm)
+    notificationElm.style.display = 'none'
+  }, 3000)
+
+}
+
+document.querySelectorAll('.add-to-cart').forEach(button => {
+  button.addEventListener('click', async (e) => {
+
+    const subproductId = button.dataset.subproductId;
+    const subproductPrice = button.dataset.subproductPrice;
+    const body = { order: 1, product: subproductId, count: 1 }
+    addToCart(subproductId, subproductPrice, 1);
+  })
 });
 
 
+
+
+function getCart() {
+  let cartData = JSON.parse(getCookie("cart") || "[]");
+  return cartData;
+}
+
+function displayCart(cart) {
+  // Iterate over items in the shopping cart and display them on the page.
+  for (let i = 0; i < cart.length; i++) {
+    let itemHTML = `
+      <div class="cart-item">
+        <span class="item-name">${cart[i].name}</span>
+        <span class="item-quantity">${cart[i].quantity} x </span>
+        <span class="item-price">$${(cart[i].price * cart[i].quantity).toFixed(2)}</span>
+      </div>`;
+    document.getElementById("shopping-cart").innerHTML += itemHTML;
+  }
+}
+
+
+function saveCartToDatabase() {
+  // Retrieve saved shopping-cart data from cookies
+  let cartData = JSON.parse(getCookie("cart") || "[]");
+
+  // Send POST request to server with updated cart data, then remove cookie if successful.
+  axios.post('/cart/add-to-cart', { items: cartData })
+    .then(response => {
+      console.log('Successfully saved shopping cart:', response.data);
+      deleteCookie('cart');
+    })
+    .catch(error => {
+      console.error('Error while saving shopping cart:', error.response.data);
+    });
+}
 export default DjangoClient;
 
 

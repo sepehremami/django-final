@@ -80,10 +80,12 @@
                     {% endif %}
                     <td>
                         <button type="button" class="btn add-to-cart" id="cart-button"
-                            data-subproduct-id="{{ subproduct.id }}">
+                            data-subproduct-id="{{ subproduct.id }}"
+                            data-subproduct-price="{{ subproduct.get_active_price }}">
                             اضافه به سبد خرید <i class="fas fa-shopping-cart"></i>
                         </button>
                     </td>
+                    <div id="notification"></div>
                 </tr>
                 {% endfor %}
             </table>
