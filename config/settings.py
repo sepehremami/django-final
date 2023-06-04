@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "apps.shop.apps.ShopConfig",
     "apps.user.apps.UserConfig",
     "apps.cart.apps.CartConfig",
-    "drf_yasg"
+    "drf_yasg",
+    "easy_thumbnails",
 ]
 SITE_ID = 1
 
@@ -353,4 +354,10 @@ SWAGGER_SETTINGS  = {
                'name': 'Authorization',
                'in': 'header'
          }}
+}
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'thumbnail': {'size': (50, 50)},
+    },
 }

@@ -19,6 +19,10 @@
     font-weight: bolder;
 
   }
+
+  .list-group-item p {
+    margin: 2px;
+  }
 </style>
 {% endblock %}
 
@@ -75,6 +79,29 @@
               <div id="success-alert" class="alert alert-success" role="alert" style="display: none;">
                 آدرس با موفقیت انتخاب شد
               </div>
+
+              {% regroup addresses by city as address_group %}
+
+              {% for address in address_group %}
+              <div class="list-group">
+                <h4>{{address.grouper}}</h4>
+                {% for x in address.list %}
+                <div class="list-group-item d-flex justify-content-between align-items-center" style="align-items: center;">
+                 
+                    <p class="address-id">{{x.id}}</p>
+                    <p>{{x.province}}</p>
+                    <p>{{x.zip_code}}</p>
+                    <p>{{x.phone}}</p>
+                  
+                  <input class="" type="checkbox" >
+                  <button type="button" class="btn btn-primary">edit</button>
+                  <button type="button" class="btn btn-danger">delete</button>
+                </div>
+                {% endfor %}
+
+              </div>
+              {% endfor %}
+
               <div id="address-holder" class=""></div>
 
             </div>

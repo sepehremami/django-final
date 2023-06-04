@@ -1,6 +1,6 @@
 import DjangoClient from './index';
 import config from './config';
-
+import Cookies from 'js-cookie';
 
 
 const djangoClient = new DjangoClient(config);

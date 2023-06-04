@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
-{% block content %}
 
+{% block style %}
+
+<style>
+
+
+</style>
+
+{% endblock %}
+
+{% block content %}
 
 <div class="card-wrapper">
     <div class="card-image">
@@ -59,14 +68,19 @@
                 {% endcomment %}
             </div>
 
-            <table>
+            <table id="address-table">
                 {% for subproduct in product.subproduct_set.all %}
                 <tr>
                     <td>{{ subproduct.sku }}</td>
-                    <td>{{ subproduct.colour }}</td>
-                    <td>{{ subproduct.size }}</td>
+                    <td>رنگ: {{ subproduct.colour }}</td>
+                    <td>اندازه: {{ subproduct.size }}</td>
+                    <td>قیمت: {{ subproduct.get_active_price }}</td>
+                    {% if product.get_discount %}
+                    <p>{{ product.get_discount.value }}{{ product.get_discount.unit }}</p>
+                    {% endif %}
                     <td>
-                        <button type="button" class="btn add-to-cart" id="cart-button" data-subproduct-id="{{ subproduct.id }}">
+                        <button type="button" class="btn add-to-cart" id="cart-button"
+                            data-subproduct-id="{{ subproduct.id }}">
                             اضافه به سبد خرید <i class="fas fa-shopping-cart"></i>
                         </button>
                     </td>
@@ -75,7 +89,7 @@
             </table>
 
 
-           
+
 
             <div class="social-links">
                 <a href="#">

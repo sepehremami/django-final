@@ -1955,12 +1955,15 @@ a.navbar-brand {
     }
 }
 
-.sub-product {
-    
-} 
 
 .subproduct-attrs {
     margin: 1rem;
     justify-content: center;
     align-items: center;
+}
+
+td {
+    margin: 10px;
+    padding: 5px;
+    font-size: 1rem;
 }

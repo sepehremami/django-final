@@ -79,7 +79,11 @@ function CookieInterceptor(config) {
   return config;
 };
 const a = true
+
+
 // cart functionality
+
+
 if (a) {
   const imgs = document.querySelectorAll('.img-select a');
   const imgBtns = [...imgs];
