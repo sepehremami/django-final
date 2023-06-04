@@ -6,7 +6,7 @@ from django.utils.text import Truncator
 from django.utils.html import format_html
 from django.forms.models import inlineformset_factory
 from .forms import MediaForm
-
+from easy_thumbnails.templatetags.thumbnail import thumbnail_url
 
 
 class PricingInline(admin.TabularInline):
@@ -43,8 +43,10 @@ class ProductAdmin(admin.ModelAdmin):
             25
         )  # Use Truncator class and call words() method with desired word
 
+
     def image_tag(self, obj):
-        return format_html('<img src="{}" width="150"/>'.format(obj.image.url))
+            thumbnail = thumbnail_url(obj.image, 'thumbnail')
+            return format_html('<img src="{}" width="50"/>'.format(thumbnail))
 
 
 @admin.register(Pricing)
@@ -67,7 +69,18 @@ class SubprodctAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['parent' ,'name' ,'short_desc' ,'image_tag']
     inlines = (SubCategoryInline,)
+
+    def short_desc(self, obj):
+        return Truncator(obj.desc).words(
+            25
+        ) 
+        
+    def image_tag(self, obj):
+            thumbnail = thumbnail_url(obj.image, 'thumbnail')
+            return format_html('<img src="{}" width="50"/>'.format(thumbnail))
+
 
 
 @admin.register(Media)
@@ -75,9 +88,10 @@ class MediaAdmin(admin.ModelAdmin):
     list_display = ("name", "subproduct", "image_tag")
 
     def image_tag(self, obj):
-        return format_html('<img src="{}" width="50"/>'.format(obj.img.url))
-
+        thumbnail = thumbnail_url(obj.img, 'thumbnail')
+        return format_html('<img src="{}" width="50"/>'.format(thumbnail))
 
 admin.site.register(ProductColour)
 admin.site.register(CartItem)
 admin.site.register(ProductReview)
+
