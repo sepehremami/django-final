@@ -54,10 +54,16 @@ from .serializer import CartItemSerializer
 from .models import OrderInfo
 
 
-class AddToCartView(generics.CreateAPIView):
-    queryset = CartItem.objects.all()
+class AddToCartViewSet(viewsets.ModelViewSet):
     serializer_class = CartItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    def perform_create(self, serializer):
-        cart = OrderInfo.objects.get(user=self.request.user)
-        serializer.save(cart=cart)
+    def get_queryset(self):
+        a = CartItem
+        user = self.request.user
+        cart = OrderInfo.objects.select_related().filter(user=user)
+        cartitem = CartItem.objects.filter(cart__user=user)
+        return cartitem 
+
+
+
