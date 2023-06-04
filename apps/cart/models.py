@@ -33,15 +33,20 @@ class OrderInfo(BaseModel):
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     order_status = models.SmallIntegerField(choices=ORDER_STATUS_CHOICES, default=1)
 
+    def __str__(self) -> str:
+        return f'{self.order_id}'
+
 
 class OrderItem(BaseModel):
     """
     Order item is each Sub-product user buys
     """
     order = models.ForeignKey('OrderInfo', on_delete=models.CASCADE)
-    sku = models.ForeignKey('shop.SubProduct', on_delete=models.CASCADE)
+    product = models.ForeignKey('shop.SubProduct', on_delete=models.CASCADE)
     count = models.IntegerField(default=1)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self) -> str:
+        return f'{self.product.product.name}'
 
 
 class DiscountBase(BaseModel):
@@ -67,14 +72,14 @@ class CategoryDiscount(DiscountBase):
     """
     this specific kind of discount can be applied to a category of products
     """
-    category = models.ForeignKey('shop.Category', on_delete=models.CASCADE)
+    category = models.ForeignKey('shop.Category', on_delete=models.CASCADE, related_name='discount')
 
 
 class ProductDiscount(DiscountBase):
     """
     this specific kind of discount is applied only on one Sub-product
     """
-    product = models.ForeignKey('shop.Product', on_delete=models.CASCADE)
+    product = models.ForeignKey('shop.Product', on_delete=models.CASCADE, related_name='discount')
 
 # TODO: WISHLIST implementation
 # TODO: Fix Eternal Migration Loop
