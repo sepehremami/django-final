@@ -27,6 +27,16 @@ class Userfield(serializers.RelatedField):
     def to_internal_value(self, data):
         return data.get('id')
 
+class OrderField(serializers.RelatedField):
+    def get_queryset(self):
+        return OrderInfo.objects.all()
+
+    def to_representation(self, value):
+        return OrderInfoSerializer(value).data
+
+    def to_internal_value(self, data):
+        return int(data.get('id'))
+
 
 class OrderInfoSerializer(serializers.ModelSerializer):
     addr = AddressFiled()
@@ -37,15 +47,27 @@ class OrderInfoSerializer(serializers.ModelSerializer):
         model = OrderInfo
         fields = "__all__"
 
+class OrderInfoPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderInfo
+        fields = "__all__"
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    order = OrderInfoSerializer()
-    product = ProductSerializer()
+    order = OrderField()
+    product = SubproductSerializer()
 
     class Meta:
         model = OrderItem
         fields = "__all__"
-        depth= 1
+
+
+
+
+class OrderItemPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = "__all__"
 
 
 class CategoryDiscountSerializer(serializers.ModelSerializer):
