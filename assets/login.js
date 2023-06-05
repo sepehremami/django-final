@@ -14,12 +14,9 @@ document.getElementById("submitBtn").addEventListener("click", (e) => {
     formData.append('password', password.value);
     formData.append('otp_code', otpCode.value);
 
-    console.log(otpCode, otpCode.value)
-    console.log('entering')
 
     axios.post(`${config.apiURL}/user/api/token/obtain/`, formData)
         .then(function (response) {
-            console.log(response)
             if (response.status === 200) {
 
                 Cookies.set('access', response.data.token);
@@ -35,36 +32,6 @@ document.getElementById("submitBtn").addEventListener("click", (e) => {
 
 });
 
-document.getElementById("registerButton").addEventListener("click", (e) => {
-    e.preventDefault();
-    var formData = new FormData();
-    const username = document.getElementById('username');
-    const password = document.getElementById('password');
-    formData.append('username', username.value);
-    formData.append('password', password.value);
-
-    const config1 = {
-        headers: {
-            "AUTHORIZATION": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkZW50aWZpZXIiOiJub2xpbWF4IiwiZXhwIjoxNjg1MjE0OTcwLCJpYXQiOjE2ODUyMTEzNzAuMzY5MDY3LCJ1c2VybmFtZSI6Im5vbGltYXgiLCJwaG9uZV9udW1iZXIiOm51bGx9.0fDcSGUJz6k_NPbWt6m72wxtwpvBg3OZHMU7m8le6Pg"
-        }
-    };
-
-    axios.post(
-        'http://127.0.0.1:8000/user/token/obtain/', formData
-    )
-        .then(function (response) {
-            console.log(response);
-
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-
-    let form2 = document.forms[1];
-    form.submit();
-    // console.log(form)
-    console.log('salam')
-});
 
 
 function toggleResetPswd(e) {
