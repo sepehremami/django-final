@@ -10,33 +10,13 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/config.js":
-/*!**************************!*\
-  !*** ./assets/config.js ***!
-  \**************************/
+/***/ "./assets/cart.js":
+/*!************************!*\
+  !*** ./assets/cart.js ***!
+  \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nvar config = {\n  apiURL: window.BASE_URL\n};\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (config);\n\n//# sourceURL=webpack://django-final/./assets/config.js?");
-
-/***/ }),
-
-/***/ "./assets/navbar.js":
-/*!**************************!*\
-  !*** ./assets/navbar.js ***!
-  \**************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ \"./node_modules/js-cookie/dist/js.cookie.mjs\");\n/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jwt-decode */ \"./node_modules/jwt-decode/build/jwt-decode.esm.js\");\n/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config */ \"./assets/config.js\");\n\n\n\nvar login = document.getElementById('login');\nvar routes = {\n  \"loggedIn\": \"/user/profile/\",\n  \"notLoggedIn\": \"/user/login/\"\n};\nvar authCookie = js_cookie__WEBPACK_IMPORTED_MODULE_0__[\"default\"].get('access');\nif (authCookie) {\n  var decoded = (0,jwt_decode__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(authCookie);\n  var expire = decoded.exp * 1000 - Date.now();\n  console.log(expire);\n  if (decoded.exp < Date.now() / 1000) {\n    js_cookie__WEBPACK_IMPORTED_MODULE_0__[\"default\"].remove('access'); // Delete expired token immediately\n    window.location.href = _config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].apiURL + notLoggedIn;\n  } else {\n    setTimeout(function () {\n      js_cookie__WEBPACK_IMPORTED_MODULE_0__[\"default\"].remove('access');\n      window.location.href = _config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].apiURL + notLoggedIn;\n    }, 5000);\n    login.href = _config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].apiURL + routes.loggedIn;\n  }\n} else {\n  login.href = _config__WEBPACK_IMPORTED_MODULE_2__[\"default\"].apiURL + routes.notLoggedIn;\n}\n\n//# sourceURL=webpack://django-final/./assets/navbar.js?");
-
-/***/ }),
-
-/***/ "./node_modules/jwt-decode/build/jwt-decode.esm.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/jwt-decode/build/jwt-decode.esm.js ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   InvalidTokenError: () => (/* binding */ n),\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nfunction e(e){this.message=e}e.prototype=new Error,e.prototype.name=\"InvalidCharacterError\";var r=\"undefined\"!=typeof window&&window.atob&&window.atob.bind(window)||function(r){var t=String(r).replace(/=+$/,\"\");if(t.length%4==1)throw new e(\"'atob' failed: The string to be decoded is not correctly encoded.\");for(var n,o,a=0,i=0,c=\"\";o=t.charAt(i++);~o&&(n=a%4?64*n+o:o,a++%4)?c+=String.fromCharCode(255&n>>(-2*a&6)):0)o=\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\".indexOf(o);return c};function t(e){var t=e.replace(/-/g,\"+\").replace(/_/g,\"/\");switch(t.length%4){case 0:break;case 2:t+=\"==\";break;case 3:t+=\"=\";break;default:throw\"Illegal base64url string!\"}try{return function(e){return decodeURIComponent(r(e).replace(/(.)/g,(function(e,r){var t=r.charCodeAt(0).toString(16).toUpperCase();return t.length<2&&(t=\"0\"+t),\"%\"+t})))}(t)}catch(e){return r(t)}}function n(e){this.message=e}function o(e,r){if(\"string\"!=typeof e)throw new n(\"Invalid token specified\");var o=!0===(r=r||{}).header?0:1;try{return JSON.parse(t(e.split(\".\")[o]))}catch(e){throw new n(\"Invalid token specified: \"+e.message)}}n.prototype=new Error,n.prototype.name=\"InvalidTokenError\";/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (o);\n//# sourceMappingURL=jwt-decode.esm.js.map\n\n\n//# sourceURL=webpack://django-final/./node_modules/jwt-decode/build/jwt-decode.esm.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-cookie */ \"./node_modules/js-cookie/dist/js.cookie.mjs\");\n\nwindow.onload = function () {\n  var cart = getCart();\n  displayCart(cart);\n};\nfunction getCart() {\n  var cartData = JSON.parse(js_cookie__WEBPACK_IMPORTED_MODULE_0__[\"default\"].get(\"cart\") || \"[]\");\n  return cartData;\n}\nfunction displayCart(cart) {\n  // Iterate over items in the shopping cart and display them on the page.\n  for (var i = 0; i < cart.length; i++) {\n    var itemHTML = \"\\n        <div class=\\\"card cart-item\\\">\\n          <span class=\\\"item item-name\\\">\\u0646\\u0627\\u0645 \\u06A9\\u0627\\u0644\\u0627: \".concat(cart[i].name, \"</span>\\n          <span class=\\\"item item-quantity\\\">\\u062A\\u0639\\u062F\\u0627\\u062F: \").concat(cart[i].quantity, \"x </span>\\n          <span class=\\\"item item-price\\\">\\u0642\\u06CC\\u0645\\u062A \\u06A9\\u0644: \").concat((cart[i].price * cart[i].quantity).toFixed(2), \"</span>\\n        </div>\");\n    document.getElementById(\"shopping-cart\").innerHTML += itemHTML;\n  }\n}\ndocument.getElementById('order-btn').addEventListener('click', function (e) {\n  e.preventDefault();\n});\n\n//# sourceURL=webpack://django-final/./assets/cart.js?");
 
 /***/ }),
 
@@ -110,7 +90,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./assets/navbar.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./assets/cart.js");
 /******/ 	
 /******/ })()
 ;

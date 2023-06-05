@@ -1,10 +1,15 @@
 import DjangoClient from './index';
 import config from './config';
 import Cookies from 'js-cookie';
-
+import axios from 'axios';
 
 const djangoClient = new DjangoClient(config);
-djangoClient.getClientAddresses().then(response => {
+
+
+
+
+djangoClient.getClientAddresses()
+.then(response => {
     console.log(response)
     const addressList = document.getElementById('address-holder'); // Get reference to DOM element where we will append our created elements.
     let count = 0;
@@ -105,7 +110,7 @@ djangoClient.getClientAddresses().then(response => {
         showMoreBtnDiv.appendChild(showMoreBtn);
         addressList.after(showMoreBtnDiv);
     }
-});
+})
 
 
 const container = document.querySelector('#address-holder');
@@ -167,4 +172,11 @@ djangoClient.getClientInfo().then(response=> {
 })
 .catch(error=> {
     console.log(error)
+})
+
+
+document.getElementById('test-btn').addEventListener('click', function(e){
+    e.preventDefault();
+    console.log('deleted');
+    Cookies.remove('access')
 })

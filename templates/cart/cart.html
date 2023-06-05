@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div>
+    <div id="shopping-cart">
+        <h1> سبد خرید</h1>
+    </div>
+    <button id="order-btn"class="btn btn-primary">قبت سفارس</button>
+</div>
+<script src="{% static 'js/cart-bundle.js' %}"></script>
+{% endblock %}
