@@ -11,7 +11,7 @@ from .serializer import OrderInfoSerializer, OrderItemSerializer, ProductDiscoun
 from .models import OrderInfo, OrderItem, ProductDiscount, CategoryDiscount
 from rest_framework import permissions, status
 from rest_framework.response import Response
-
+from rest_framework.decorators import api_view, permission_classes
 
 @login_required(login_url='user/login')
 def add_to_cart(request, product_id):
@@ -63,25 +63,13 @@ class CategoryDiscountViewSet(viewsets.ModelViewSet):
     permission_classes =[permissions.IsAuthenticated]
 
 
-from django.views.generic import FormView
-from django.urls import reverse_lazy
-from rest_framework import generics
 from apps.shop.models import CartItem
-from .serializer import CartItemSerializer
-from .models import OrderInfo
-from rest_framework.decorators import api_view, permission_classes
+from django.contrib.auth import authenticate
+from django.core.exceptions import PermissionDenied
 
-class AddToCartViewSet(viewsets.ModelViewSet):
-    serializer_class = CartItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
-        a = CartItem
-        user = self.request.user
-        cart = OrderInfo.objects.select_related().filter(user=user)
-        cartitem = CartItem.objects.filter(cart__user=user)
-        return cartitem 
-
+def cart_view(request):
+    return render(request, 'cart/cart.html')
 
 
 @api_view(['GET'])

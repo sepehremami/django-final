@@ -11,9 +11,9 @@ router.register(r'category-discount', views.CategoryDiscountViewSet, basename="c
 # router.register(r'cart-item', views.AddToCartViewSet, basename='cart-item')
 
 urlpatterns = [
-    path('<int:product_id>', views.add_to_cart, name='add-to-cart'),
+    path('', views.cart_view, name='view_cart'),
+    path('cart-item/<int:product_id>', views.add_to_cart, name='add-to-cart'),
     path('home', views.add_to_cart, name='home'),
     path("api/", include(router.urls)),
     path('cart-item', views.get_users_cart_items, name='cart-item'), 
-
 ]
