@@ -67,10 +67,13 @@ class DjangoClient {
 function CookieInterceptor(config) {
   const headers = {};
   const authToken = Cookies.get('access');
-  console.log(authToken)
   const decoded = jwt_decode(authToken);
-  Cookies.set('id', decoded.id);
+
   if (authToken) {
+    if (isTokenExpired(decoded)) {
+      console.log(decoded)
+      
+    }
     headers['Authorization'] = `Bearer ${authToken}`;
   }
   else {
@@ -79,12 +82,19 @@ function CookieInterceptor(config) {
   config['headers'] = headers;
   return config;
 };
-const a = true
 
+function isTokenExpired(token) {
+  const currentTime = Date.now() / 1000
+  return token.exp < currentTime
+}
+
+
+const djangoClient = new DjangoClient(config);
 
 // cart functionality
 
 
+const a = true
 if (a) {
   const imgs = document.querySelectorAll('.img-select a');
   const imgBtns = [...imgs];
@@ -106,7 +116,7 @@ if (a) {
 
   window.addEventListener('resize', slideImage);
   const cartBtn = document.getElementById('cart-button')
-  if (!cartBtn) {
+  if (cartBtn) {
     cartBtn.addEventListener('click', function (e) {
       e.preventDefault()
       const value = document.getElementById('cart-value');
@@ -222,6 +232,17 @@ function saveCartToDatabase() {
     .catch(error => {
       console.error('Error while saving shopping cart:', error.response.data);
     });
+}
+
+const makeOrder = document.getElementById('order-btn');
+if (makeOrder) {
+  makeOrder.addEventListener('click', function (e) {
+    e.preventDefault();
+    console.log('man')
+    djangoClient.apiClient.get('/order')
+
+
+  })
 }
 export default DjangoClient;
 

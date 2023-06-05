@@ -5,7 +5,8 @@ module.exports = {
     index: './assets/index.js',
     profile: './assets/profile.js',
     login: './assets/login.js',
-    navbar: './assets/navbar.js'
+    navbar: './assets/navbar.js',
+    cart: './assets/cart.js'
   },
   
   output: {
