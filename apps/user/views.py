@@ -20,11 +20,20 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.core.cache import cache
 from rest_framework import status
+from django.contrib.auth.decorators import login_required
 User = get_user_model()
 
 
-class UserLoginView(TemplateView):
+class UserLoginView(LoginRequiredMixin,TemplateView):
     template_name = "registration/login.html"
+
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+
+from functools import wraps
+from django.core.exceptions import PermissionDenied
 
 
 class ProfileView(TemplateView):
@@ -32,12 +41,16 @@ class ProfileView(TemplateView):
     template_name = "user/profile.html"
 
     def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data()
         if isinstance(self.request.user, User):
             addresses = Address.objects.filter(user = self.request.user)
             context['addresses'] = addresses
-        context = super().get_context_data()
-
+        print(context)
         return context
+
+
+
+
 # TODO: write otp authentication back
 class ObtainTokenView(ObtainAuthToken):
     permission_classes = [permissions.AllowAny]
