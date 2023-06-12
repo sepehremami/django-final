@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View, CreateView, ListView, TemplateView, DetailView
 from django.core.cache import cache
+
+from apps.cart.models import OrderInfo, OrderItem
 from .forms import ProductForm
 from .models import Media, Product, Category, SubProduct
 from django.db.models import F
@@ -41,10 +43,42 @@ class ProductListView(ListView):
         )
         return object_list
 
+from django.shortcuts import redirect
+from django.contrib import messages
+
+
 class ProductDetailView(TemplateView):
     model = Product
     template_name = "shop/product_detail.html"
-    
+
+    def post(self, request,*args, **kwargs):
+        price = self.request.POST.get('price')
+        try:
+            subid = int(self.request.POST.get('id'))
+            count = int(self.request.POST.get('count'))
+        except Exception as e: 
+            messages.error(self.request,'something went wrong')
+            return render(self.request, 'shop/product_detail.html')
+        
+        try:
+            cart, created = OrderInfo.objects.get_or_create(user=self.request.user, order_status=2)
+            order_item, created = OrderItem.objects.get_or_create(product_id=subid, order=cart)
+        except Exception as e:
+            print(e)
+        # subproduct = SubProduct.objects.get(id=id)
+        
+        print(order_item)
+        if created:
+            order_item.count = count
+        else:
+            order_item.count += count
+
+        order_item.save()
+        self.request.session['order_id'] = cart.id
+        messages.success(request,"Your item has been added to cart.")
+        context = self.get_context_data()
+        return render(self.request, 'shop/product_detail.html', context)
+
 
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
