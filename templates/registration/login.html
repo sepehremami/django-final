@@ -19,12 +19,6 @@
         <div id="login-input">
             <input type="password" id="password" class="login-input form-control" placeholder="پسورد" required="">
         </div>
-
-        <div id="login-input" style="display: flex; ">
-            <input type="text" id="otp" class="form-control" placeholder="کد پیامکی" required="">
-            <button class="otp-button" onclick="startTimer(event)">ارسال</button>
-        </div>
-
      
         <a href="" class="btn btn-success btn-block" id="submitBtn" type="submit"><i
                 class="fas fa-sign-in-alt" style="margin: 5px;"></i>ورود</a>
@@ -35,13 +29,16 @@
     </form>
 
     <form action="/reset/password/" class="form-reset">
-        <input type="email" id="resetEmail" class="form-control" placeholder="ایمیل" required="" autofocus="">
-        <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
+        <div id="otp-input" style="display: flex; ">
+            <input type="text" id="otp" class="form-control" placeholder="کد پیامکی" required autofocus="">
+            <button class="otp-button" onclick="startTimer(event)">ارسال</button>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">تایید</button>
         <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
     </form>
 
     <form action="/signup/" class="form-signup">
-        <input type="email" id="user-email" class="form-control" placeholder="ایمیل" required autofocus="">
+        <input type="username" id="user-email" class="form-control" placeholder="ایمیل" required autofocus="">
         <input type="password" id="user-pass" class="form-control" placeholder="رمز" required autofocus="">
         <input type="password" id="user-repeatpass" class="form-control" placeholder="تکرار رمز" required autofocus="">
 
@@ -49,6 +46,8 @@
                 class="fas fa-user-plus"></i>ثبت‌نام</button>
         <a href="#" id="cancel_signup"><i class="fas fa-angle-left"></i> ورود</a>
     </form>
+
+   
     <br>
 
 </div>

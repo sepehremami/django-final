@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-
+{% load chunker %}
+{% load jformat %}
 {% load static %}
 {% block styles %}
 <style>
@@ -28,93 +29,224 @@
 
 {% block content %}
 
-<section class="vh-100" style="">
-  <div class="row d-flex justify-content-center align-items-center" style="margin-top: 30px;">
+<div class="accordion" id="accordionPanelsStayOpenExample" style="width: 100%;">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse"
+        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+        اطلاعات کاربر
+      </button>
+    </h2>
 
-    <div class="col">
-
-      <div class="card mb-3" style="border-radius: .5rem;">
-        <div class="row g-0">
-
-
-          <div class="col-4 gradient-custom text-center text-white d-flex" style="align-items: center;
+    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+      aria-labelledby="panelsStayOpen-headingOne">
+      <div class="accordion-body">
+        <div class="col">
+          <div class="row g-0">
+            <div class="col-4 gradient-custom text-center text-white d-flex" style="align-items: center;
             justify-content: center; flex-direction: column;">
-            <div>
-              <h5 style="text-align: center;" id="username"></h5>
+              <div>
+                <h5 style="text-align: center;" id="username"></h5>
+              </div>
+              <div>
+                <i class="far fa-edit mb-5"></i>
+              </div>
             </div>
-
-            <div>
-              <i class="far fa-edit mb-5"></i>
-            </div>
-          </div>
-
-
-          <div class="col-8 d-flex">
-            <div class="card-body p-4 justify-content-center">
-              <div class="row pt-1">
-
-
-                <div class="col-6 mb-3">
-                  <h6>ایمیل</h6>
-                  <p class="text-muted" id="email"></p>
+            <div class="col-8 d-flex">
+              <div class="card-body p-4 justify-content-center">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>ایمیل</h6>
+                    <p class="text-muted" id="email"></p>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>تلفن</h6>
+                    <p class="text-muted" id="phone_number"></p>
+                  </div>
                 </div>
-
-
-                <div class="col-6 mb-3">
-                  <h6>تلفن</h6>
-                  <p class="text-muted" id="phone_number"></p>
+                <h6>آدرس</h6>
+                <hr class="mt-0 mb-4">
+                <div id="loading-message" class="spinner-border" role="status" style="display: none;">
+                  <span class="visually-hidden"></span>
                 </div>
-
-
-              </div>
-
-
-              <h6>آدرس</h6>
-              <hr class="mt-0 mb-4">
-
-              <div id="loading-message" class="spinner-border" role="status" style="display: none;">
-                <span class="visually-hidden"></span>
-              </div>
-
-              <div id="success-alert" class="alert alert-success" role="alert" style="display: none;">
-                آدرس با موفقیت انتخاب شد
-              </div>
-
-              {% regroup addresses by city as address_group %}
-
-              {% for address in address_group %}
-              <div class="list-group">
-                <h4>{{address.grouper}}</h4>
-                {% for x in address.list %}
-                <div class="list-group-item d-flex justify-content-between align-items-center" style="align-items: center;">
-                 
-                    <p class="address-id">{{x.id}}</p>
-                    <p>{{x.province}}</p>
-                    <p>{{x.zip_code}}</p>
-                    <p>{{x.phone}}</p>
-                  
-                  <input class="" type="checkbox" >
-                  <button type="button" class="btn btn-primary">edit</button>
-                  <button type="button" class="btn btn-danger">delete</button>
+                <div id="success-alert" class="alert alert-success" role="alert" style="display: none;">
+                  آدرس با موفقیت انتخاب شد
                 </div>
-                {% endfor %}
-
+                <div id="address-holder" class=""></div>
+                <button id='test-btn' class="btn btn-danger">logout</button><br />
               </div>
-              {% endfor %}
-
-              <div id="address-holder" class=""></div>
-
-              <button id='test-btn' class="btn btn-danger">logout</button>
-
             </div>
           </div>
         </div>
       </div>
     </div>
-
-  </div>
   </div>
 
-</section>
-<script src="{% static 'js/profile-bundle.js' %}"></script>
-{% endblock %}
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+        Accordion Item #2
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+      aria-labelledby="panelsStayOpen-headingTwo">
+      <div class="accordion-body">
+        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin
+        adds the appropriate classes that we use to style each element. These classes control the overall appearance, as
+        well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our
+        default variables. It's also worth noting that just about any HTML can go within the
+        <code>.accordion-body</code>, though the transition does limit overflow.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+        aria-controls="panelsStayOpen-collapseThree">
+        Accordion Item #3
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+      aria-labelledby="panelsStayOpen-headingThree">
+      <div class="accordion-body">
+        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin
+        adds the appropriate classes that we use to style each element. These classes control the overall appearance, as
+        well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our
+        default variables. It's also worth noting that just about any HTML can go within the
+        <code>.accordion-body</code>, though the transition does limit overflow.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row d-flex justify-content-center align-items-center" style="margin-top: 30px;">
+</div>
+
+
+
+
+<button id="toggle-btn">اضافه کردن آدرس</button>
+<div id="my-div" class="row">
+  <div class="col-md-8 mb-4">
+    <div class="card mb-4">
+      <div class="card-header py-3">
+        <h5 class="mb-0">جزئیات آدرس</h5>
+      </div>
+      <div class="card-body">
+        <form>
+          <!-- 2 column grid layout with text inputs for the first and last names -->
+          <div class="row mb-4">
+
+            <!-- Text input -->
+            <div class="form-outline mb-4">
+              <input type="text" id="form7Example4" class="form-control" />
+              <label class="form-label" for="form7Example4">آدرس</label>
+            </div>
+
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <input type="email" id="form7Example5" class="form-control" />
+              <label class="form-label" for="form7Example5">ایمیل</label>
+            </div>
+
+            <!-- Number input -->
+            <div class="form-outline mb-4">
+              <input type="number" id="form7Example6" class="form-control" />
+              <label class="form-label" for="form7Example6">شماره تلفن</label>
+            </div>
+
+            <!-- Message input -->
+            <div class="form-outline mb-4">
+              <textarea class="form-control" id="form7Example7" rows="4"></textarea>
+              <label class="form-label" for="form7Example7"></label>
+            </div>
+
+            <!-- Checkbox -->
+            <div class="form-check d-flex justify-content-center mb-2">
+              <input class="form-check-input me-2" type="checkbox" value="" id="form7Example8" checked />
+              <label class="form-check-label" for="form7Example8">
+                آدرس پیش فرض؟
+              </label>
+            </div>
+        </form>
+      </div>
+
+
+      <div class="order w-100" style="margin: 1rem; margin-bottom: 40rem; margin-top: 4rem;">
+        <h1 class="text-center" style="border-bottom: 1px solid white; border-top: 1px solid white; margin: 1rem;">
+          سفارشات
+        </h1>
+        {% for chunk in orders|as_chunk:3 %}
+        <div class="row">
+          {% for order in chunk %}
+          <div class="col-4">
+            <ol class="list-group list-group-numbered">
+
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">{{order.create_date|jformat:"%A %d %B %Y %H:%M"}}</div>
+              </div>
+
+              {% for order_item in order.order_item.all %}
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">{{ order_item }}</div>
+                </div>
+                <span class="badge bg-primary rounded-pill">{{ order_item.count }}</span>
+              </li>
+              {% endfor %}
+              {% if order.order_status == 2 %}
+              <button class="btn btn-primary">خرید</button>
+              {% else %}
+              <h5 class="text-center">انجام شده</h5>
+              {% endif %}
+            </ol>
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% comment %}
+    {% regroup addresses by city as address_group %}
+    {% for address in address_group %}
+    <div class="list-group">
+      <h4>{{address.grouper}}</h4>
+      {% for x in address.list %}
+      <div class="list-group-item d-flex justify-content-between align-items-center" style="align-items: center;">
+
+        <p class="address-id">{{x.id}}</p>
+        <p>{{x.province}}</p>
+        <p>{{x.zip_code}}</p>
+        <p>{{x.phone}}</p>
+
+        <input class="" type="checkbox">
+        <button type="button" class="btn btn-primary">edit</button>
+        <button type="button" class="btn btn-danger">delete</button>
+      </div>
+      {% endfor %}
+
+    </div>
+    {% endfor %}
+    {% endcomment %}
+
+
+    <script>
+      function toggleDiv() {
+        const div = document.getElementById("my-div");
+        if (div.style.display === "none") {
+          div.style.display = "block";
+        } else {
+          div.style.display = "none";
+        }
+      }
+
+      const btn = document.getElementById("toggle-btn");
+      btn.addEventListener("click", toggleDiv);
+    </script>
+    <script src="{% static 'js/profile-bundle.js' %}"></script>
+    {% endblock %}
