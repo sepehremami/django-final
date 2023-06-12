@@ -1,5 +1,6 @@
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
+from apps.cart.models import OrderInfo
 from apps.user.backends import JWTAuthBackend
 from apps.user.models import User, Address
 from django.contrib.auth.views import TemplateView
@@ -7,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from apps.user.tasks import send_otp_code
-from .serializers import ObtainTokenSerializer, UserSerializer, AddressSerializer, OTPCodeSerializer
+from .serializers import ObtainTokenSerializer, UserRegisterSerializer, UserSerializer, AddressSerializer, OTPCodeSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import generics
 from rest_framework import permissions, views as api_views
@@ -16,36 +17,39 @@ from django.contrib.auth import authenticate, login
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import permission_classes, api_view
-from rest_framework.authentication import SessionAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.core.cache import cache
 from rest_framework import status
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.urls import reverse
+
+
 User = get_user_model()
 
+from django.contrib.auth.middleware import AuthenticationMiddleware
 
-class UserLoginView(LoginRequiredMixin,TemplateView):
-    template_name = "registration/login.html"
-
-
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-
-
-from functools import wraps
-from django.core.exceptions import PermissionDenied
+class AuthenticationRequiredMixin:
+    def dispatch(self, request, *args, **kwargs):
+        auth_cookie = request.COOKIES.get('access')
+        if auth_cookie is None:
+            return redirect(reverse('landing'))
+        return super().dispatch(request, *args, **kwargs)
+        
 
 
-class ProfileView(TemplateView):
+class ProfileView(AuthenticationRequiredMixin, TemplateView):
     model = User
     template_name = "user/profile.html"
 
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data()
-        if isinstance(self.request.user, User):
-            addresses = Address.objects.filter(user = self.request.user)
+        user = self.request.user
+        if isinstance(user, User):
+            addresses = Address.objects.filter(user=user)
             context['addresses'] = addresses
-        print(context)
+            orders = OrderInfo.objects.filter(user=user)
+            context['orders'] =orders      
         return context
 
 
@@ -60,10 +64,13 @@ class ObtainTokenView(ObtainAuthToken):
         serializer: ObtainTokenSerializer = self.serializer_class(data=request.data,  context={'request': request})
         serializer.is_valid(raise_exception=True)
         # alg_otp_code = serializer.validated_data.get('otp_code')
-
         username_or_phone = serializer.validated_data.get("username")
         password = serializer.validated_data.get("password")
+        print(username_or_phone)
+        print(password)
         user = User.objects.get(username=username_or_phone)
+        print(user)
+        print(user.check_password(password))
         if user is None or not user.check_password(password):
             return Response({"message": "Invalid Credentials"}, status=status.HTTP_403_FORBIDDEN)
 
@@ -99,11 +106,9 @@ class AddressViewSet(viewsets.ModelViewSet):
         data = request.data.copy()
         data['is_default'] = True
 
-        # Update all other addresses of the user to is_default=
         user = request.user
         Address.objects.filter(user=user).exclude(id=instance.id).update(is_default=False)
 
-        # Call the update method with the modified data
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
@@ -149,4 +154,41 @@ def send_otp(request):
 
     return Response({'success':'OTP code sent!'}, status=200)
 
+
+@api_view()
+@permission_classes([permissions.IsAuthenticated])
+def my_login(request):
+    user = request.user
     
+    if user:
+        # Set User ID into session.
+        request.session["member_id"] = user.id
+        
+        # Log in the authenticated user using Django's built-in login() method.
+        django_request = request._request  # Get underlying HttpRequest from DRF Request instance.
+        login(django_request, user)
+        
+        return Response(" You're logged in.")
+    
+    else:
+        return Response("Your username and password didn't match.")
+
+
+
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from .serializers import UserSerializer
+from rest_framework.generics import CreateAPIView
+
+
+class RegisterViewSet(CreateAPIView):
+    model = User
+    serializer_class = UserRegisterSerializer
+
+
+    def create(self, request):
+        serializer = UserRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({'success': True, 'user_id': user.id}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

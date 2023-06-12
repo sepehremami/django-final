@@ -11,7 +11,7 @@ router.register(r"profile", views.ProfileViewSet, basename="profile")
 
 urlpatterns = [
    
-    path("login/", views.UserLoginView.as_view(), name="login"),
+    path("login/", views.my_login, name="login"),
     # path("api/register/", views.RegisterUserAPIView.as_view(), name='register'),
     path(
         "api/token/refresh/",
@@ -23,5 +23,6 @@ urlpatterns = [
     path("api/token/obtain/", view=views.ObtainTokenView.as_view(), name="otoken"),
     path("test/", view=views.index, name="otest"),
     path("api/", include(router.urls)),
+    path('api/register/', views.RegisterViewSet.as_view(), name='register'),
     path("otp/", view=views.send_otp, name="otp"),
 ]
