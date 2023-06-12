@@ -2,24 +2,31 @@
 import axios from 'axios';
 import config from './config.js';
 import Cookies from 'js-cookie';
+import DjangoClient from './index.js';
 
+
+const djangoClient = new DjangoClient(config);
 document.getElementById("submitBtn").addEventListener("click", (e) => {
     e.preventDefault();
     var formData = new FormData();
     const username = document.getElementById('username');
     const password = document.getElementById('password');
-    const otpCode = document.getElementById('otp');
 
     formData.append('username', username.value);
     formData.append('password', password.value);
-    formData.append('otp_code', otpCode.value);
 
 
     axios.post(`${config.apiURL}/user/api/token/obtain/`, formData)
         .then(function (response) {
+            console.log(response)
             if (response.status === 200) {
 
                 Cookies.set('access', response.data.token);
+                console.log(this)
+                djangoClient.apiClient.get(config.apiURL+'/user/login/')
+                .then(res=> {console.log(res)})
+                .catch(err=>{console.log(err)})
+
                 window.location.assign(config.apiURL + '/user/profile/')
             }
         })
@@ -46,12 +53,19 @@ function toggleSignUp(e) {
     $('#logreg-forms .form-signup').toggle(); // display:block or none
 }
 
+function toggleOTP(e){
+    e.preventDefault();
+    $('#logreg-forms .form-signin').toggle();
+    $('#logreg-froms .form-otp').toggle();
+}
+
 $(() => {
     // Login Register Form
     $('#logreg-forms #forgot_pswd').click(toggleResetPswd);
     $('#logreg-forms #cancel_reset').click(toggleResetPswd);
     $('#logreg-forms #btn-signup').click(toggleSignUp);
     $('#logreg-forms #cancel_signup').click(toggleSignUp);
+    $('#logreg-forms #otp-enter').click(toggleOTP)
 })
 
 const unauth = document.getElementById("danger");
@@ -93,3 +107,27 @@ otpButton.addEventListener('click', (event) => {
 
     event.preventDefault(); // Prevent default form submission
 });
+
+
+const registerBtn = document.getElementById('registerButton');
+registerBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var formData = new FormData();
+
+    const username = document.getElementById('user-email');
+    const password = document.getElementById('user-pass');
+    console.log(username)
+    formData.append('username', username.value);
+    formData.append('password', password.value);
+
+    axios.post(config.apiURL + '/user/api/register/',  formData)
+    .then(res => {
+        console.log(res)
+        if (res.status===201){
+            window.location.assign(config.apiURL + '/accounts/login/')
+        }
+    })
+    .catch ( err => {
+        console.log(err)
+    })
+})
