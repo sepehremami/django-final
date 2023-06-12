@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "apps.cart.apps.CartConfig",
     "drf_yasg",
     "easy_thumbnails",
+    'django_jalali'
 ]
 SITE_ID = 1
 
@@ -57,7 +58,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    "apps.user.backends.JwtMiddleWare"
+    "apps.user.backends.JwtMiddleWare",
 ]
 ROOT_URLCONF = "config.urls"
 
