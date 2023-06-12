@@ -6,16 +6,19 @@ from apps.user.serializers import UserSerializer, AddressSerializer
 from apps.user.models import User, Address
 
 
+
+
+
 class AddressFiled(serializers.RelatedField):
     def get_queryset(self):
         return Address.objects.all()
-
     
     def to_representation(self, value):
         return AddressSerializer(value).data
 
     def to_internal_value(self, data):
         return data.get('id')
+
 
 class Userfield(serializers.RelatedField):
     def get_queryset(self):
@@ -67,7 +70,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class OrderItemPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = "__all__"
+        fields = ["product"]
 
 
 class CategoryDiscountSerializer(serializers.ModelSerializer):
@@ -90,3 +93,10 @@ class CartItemSerializer(serializers.ModelSerializer):
         model=CartItem
         fields="__all__"
         depth=1
+
+
+class CartSpecialSerailizer(serializers.Serializer):
+    product_id = serializers.CharField()
+    price = serializers.CharField()
+    quantity = serializers.CharField()
+    
