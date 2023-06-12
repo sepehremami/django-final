@@ -20,7 +20,6 @@ from django.contrib.auth.middleware import AuthenticationMiddleware
 class JWTAuthBackend(authentication.TokenAuthentication):
     def authenticate(self, request: Optional[HttpRequest]):
         jwt_token = request.META.get("HTTP_AUTHORIZATION")
-        print(jwt_token)
         if jwt_token is None:
             return
 
@@ -77,30 +76,33 @@ class JWTAuthBackend(authentication.TokenAuthentication):
     def authenticate_header(self, request):
         return "Bearer"
 
+from django.utils.deprecation import MiddlewareMixin
 
-class JwtMiddleWare:
-    def __init__(self, get_response):
-        self.get_response = get_response
+class JwtMiddleWare(MiddlewareMixin):
+    def process_request(self, request):
+        jwt_token = request.META.get("HTTP_AUTHORIZATION")
+        if jwt_token is None:
+            return
 
-
-    def __call__(self, request):
-        jwt_auth = JWTAuthBackend()
+        jwt_token = JWTAuthBackend.get_token_from_header(jwt_token)
 
         try:
-            user_jwt_tuple = jwt_auth.authenticate(request)
-
-            if user_jwt_tuple is not None:
-                # Extract User object from tuple returned by authenticate() method
-                # (It returns a tuple of 'User' instance and corresponding valid token)
-
-                user, _ = user_jwt_tuple
-
-                # Set this User object as current authenticated User in Request Object.
-                request.user = user
-
+            payload = jwt.decode(jwt_token, settings.SECRET_KEY, algorithms=["HS256"])
+        except jwt.exceptions.InvalidSignatureError:
+            raise AuthenticationFailed("Invalid signature")
         except Exception as e:
-            print("JWT Middleware Error: ", str(e))
+            print(e)
+            raise ParseError()
 
-        response = self.get_response(request)
+        user_identifier = payload.get("user_identifier")
+        if user_identifier is None:
+            raise AuthenticationFailed("User identifier not found")
 
-        return response
+        user = User.objects.filter(username=user_identifier).first()
+        if user is None:
+            user = User.objects.filter(phone_number=user_identifier).first()
+            if user is None:
+                raise AuthenticationFailed("User not found")
+        print('hi')
+        print(user)
+        request.user = user
