@@ -16,10 +16,21 @@ class OTPCodeSerializer(serializers.Serializer):
   username = serializers.CharField()
   password = serializers.CharField()
 
+
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
     fields = ["id", "username", "email", "first_name", "last_name", "phone_number"]
+
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ['username', 'password']
+
+  def create(self, validated_data):
+    return User.objects.create_user(**validated_data)
+
 
 
 class AddressSerializer(serializers.ModelSerializer):
