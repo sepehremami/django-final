@@ -11,11 +11,24 @@ html {
     --border: .1rem solid rgba(0, 0, 0, .1);
     --border-hover: .1rem solid var(--black);
     --box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
-    font-size: 62.5%;
-
-    scroll-padding-top: 5rem;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    scroll-padding-top: 7.5rem;
+    scroll-behavior: smooth;
+    font-size: large;
 }
+
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #f6d365;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+}
+
 
 a:link {
     text-decoration: none
@@ -64,18 +77,11 @@ html::-webkit-scrollbar-thumb {
     outline: none;
     border: none;
     text-decoration: none;
-    text-transform: capitalize;
     transition: .2s linear;
     text-align: right;
     direction: rtl;
 }
 
-html {
-    font-size: 85.5%;
-    overflow-x: hidden;
-    scroll-padding-top: 7.5rem;
-    scroll-behavior: smooth;
-}
 
 html::-webkit-scrollbar {
     width: 1rem;
@@ -92,8 +98,17 @@ html::-webkit-scrollbar-thumb {
 
 body {
     background: #eee;
+    width: 100%;
+    max-width: 100vw;
+    height: auto;
 }
 
+
+
+body.swal2-shown {
+    padding-right: unset !important;
+  }
+  
 body.active {
     --white-color: #111;
     --black-color: #fff;
@@ -713,28 +728,7 @@ a.navbar-brand {
     gap: 1.5rem;
 }
 
-.home .row .content-book {
-    flex: 1 1 42rem;
-}
 
-.home .row .books-slider {
-    flex: 1 1 42rem;
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.home .row .books-slider a img {
-    height: 25rem;
-}
-
-.home .row .books-slider a:hover img {
-    transform: scale(.9);
-}
-
-.home .row .books-slider .stand {
-    width: 100%;
-    margin-top: -2rem;
-}
 
 .home .row .content-book h3 {
     color: var(--black);
@@ -1388,7 +1382,7 @@ a.navbar-brand {
 
 .img {
     max-width: 100%;
-    object-fit:contain;
+    object-fit: contain;
 }
 
 .img-display {
@@ -1398,18 +1392,18 @@ a.navbar-brand {
 .img-showcase {
     display: flex;
 
-    overflow:visible;
+    overflow: visible;
     transition: all 0.5s ease;
-    
+
 }
 
 .img-showcase img {
-    min-width: 100%;
+    max-width: 100%;
 }
 
 .img-select {
     display: flex;
-    
+
 }
 
 .img-item {
@@ -1607,7 +1601,6 @@ a.navbar-brand {
     .product-imgs {
         display: flex;
         flex-direction: column;
-        justify-content: center;
     }
 
     .product-content {
@@ -1632,6 +1625,7 @@ td {
 .item {
     font-size: 1rem;
 }
+
 .item-name {
     font-size: 2rem;
 }
