@@ -60,10 +60,6 @@
 
 </section>
 
-
-
-
-
 <div class="row">
     <section class="col category" style="margin-top: 2rem; margin-bottom: 2rem;">
         <h1 class="heading"> لباس‌های <span>روز</span></h1>
@@ -144,32 +140,6 @@
 </div>
 
 
-<section class="category" style="margin-top:2rem;">
-    <h1 class="heading"> زنانه <span>مردانه </span></h1>
-
-    <div class="box-clothe-container">
-
-        <div class="box-clothe">
-            <img src="{% static 'images/default.jpg' %}" alt="">
-            <div class="content-clothe">
-                <span>50٪ تخفیف</span>
-                <h3>برای زنان</h3>
-                <a href="#" class="btn">الان خرید کن</a>
-            </div>
-        </div>
-
-        <div class="box-clothe">
-            <img src="{% static 'images/default.jpg' %}" alt="">
-            <div class="content-clothe">
-                <span>50٪ تخفیف</span>
-                <h3>برای مردها</h3>
-                <a href="#" class="btn">الان خرید کن</a>
-            </div>
-        </div>
-
-    </div>
-</section>
-
 <section class="category">
     <h1 class="heading">بیشترین <span>فروش</span></h1>
     {% for chunk in best_sellers|as_chunk:3 %}
@@ -207,6 +177,33 @@
     </div>
     {% endfor %}
 </section>
+
+<section class="category" style="margin-top:2rem;">
+    <h1 class="heading"> زنانه <span>مردانه </span></h1>
+
+    <div class="box-clothe-container">
+
+        <div class="box-clothe">
+            <img src="{% static 'images/default.jpg' %}" alt="">
+            <div class="content-clothe">
+                <span>50٪ تخفیف</span>
+                <h3>برای زنان</h3>
+                <a href="#" class="btn">الان خرید کن</a>
+            </div>
+        </div>
+
+        <div class="box-clothe">
+            <img src="{% static 'images/default.jpg' %}" alt="">
+            <div class="content-clothe">
+                <span>50٪ تخفیف</span>
+                <h3>برای مردها</h3>
+                <a href="#" class="btn">الان خرید کن</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 
 
 <script>
