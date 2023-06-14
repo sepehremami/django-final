@@ -117,31 +117,6 @@ function slideImage() {
 
 window.addEventListener('resize', slideImage);
 
-
-const cartBtn = document.getElementById('cart-button')
-if (cartBtn) {
-  cartBtn.addEventListener('click', function (e) {
-    e.preventDefault()
-    const url = window.location.href;
-    let productId = url.slice(-2, -1);
-    console.log('p', productId)
-    let shoppingCart = Cookies.get('shoppingCart');
-
-    if (!shoppingCart) {
-      const cart = `[{${productId} : ${quantity}}]`
-      const cartJson = JSON.stringify(cart)
-      console.log(cartJson)
-      Cookies.set('shoppingCart', cartJson);
-    } else {
-      console.log(shoppingCart)
-    }
-    const cookie = Cookies.get('shoppingCart');
-    const data = JSON.parse(cookie);
-    console.log(data)
-
-  });
-}
-
 function addToCart(itemName, itemPrice, itemQuantity) {
   // Get existing cart data from cookie or create empty array if none is found
   let cartData = JSON.parse(Cookies.get("cart") || "[]");
