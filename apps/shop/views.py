@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View, CreateView, ListView, TemplateView, DetailView
 from django.core.cache import cache
-
 from apps.cart.models import OrderInfo, OrderItem
 from .forms import ProductForm
 from .models import Media, Product, Category, SubProduct
@@ -45,11 +44,28 @@ class ProductListView(ListView):
 
 from django.shortcuts import redirect
 from django.contrib import messages
-
+from .models import Pricing
+from plotly.offline import plot
+import plotly.graph_objs as go
 
 class ProductDetailView(TemplateView):
     model = Product
     template_name = "shop/product_detail.html"
+
+    def get(self, request, *args, **kwargs):
+        product = Product.objects.get(pk=kwargs.get('pk'))
+        subproduct = SubProduct.objects.filter(product=product).first()
+        pricing_data = Pricing.objects.filter(subproduct=subproduct).order_by('create_date')
+
+        # plotly
+        trace = go.Scatter(x=[p.create_date for p in pricing_data], y=[p.price for p in pricing_data])
+        layout = go.Layout(title='Price over Time', xaxis=dict(title='Date'), yaxis=dict(title='Price'))
+        fig = go.Figure(data=[trace], layout=layout)
+
+        graph = fig.to_html(full_html=True, default_height=500, default_width=700)
+        context = self.get_context_data()
+        context['chart'] = graph
+        return render(self.request, 'shop/product_detail.html', context)
 
     def post(self, request,*args, **kwargs):
         price = self.request.POST.get('price')
@@ -137,5 +153,4 @@ class CategoryDetailView(DetailView):
         context['products'] = product
         return context
         
-
 
