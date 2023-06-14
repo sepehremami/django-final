@@ -1,6 +1,7 @@
 import config from './config.js';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
 class DjangoClient {
   constructor(overrides) {
@@ -48,7 +49,7 @@ class DjangoClient {
   }
 
   getClientInfo() {
-    let id = Cookies.get('id')
+    const id = Cookies.get('id');
     return new Promise((resolve, reject) => {
       this.apiClient.get(`user/api/profile/${id}/`)
         .then(response => {
@@ -66,10 +67,15 @@ class DjangoClient {
 function CookieInterceptor(config) {
   const headers = {};
   const authToken = Cookies.get('access');
-  console.log(authToken)
   const decoded = jwt_decode(authToken);
-  Cookies.set('id', decoded.id);
+  const id = decoded.id;
+  Cookies.set('id', id)
+
   if (authToken) {
+    if (isTokenExpired(decoded)) {
+      console.log(decoded)
+
+    }
     headers['Authorization'] = `Bearer ${authToken}`;
   }
   else {
@@ -78,74 +84,97 @@ function CookieInterceptor(config) {
   config['headers'] = headers;
   return config;
 };
-const a = true
-// cart functionality
-if (a) {
-  const imgs = document.querySelectorAll('.img-select a');
-  const imgBtns = [...imgs];
-  let imgId = 1;
 
-  imgBtns.forEach((imgItem) => {
-    imgItem.addEventListener('click', (event) => {
-      event.preventDefault();
-      imgId = imgItem.dataset.id;
-      slideImage();
-    });
-  });
-
-  function slideImage() {
-    const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
-
-    document.querySelector('.img-showcase').style.transform = `translateX(${(imgId - 1) * displayWidth}px)`;
-  }
-
-  window.addEventListener('resize', slideImage);
-  const cartBtn = document.getElementById('cart-button')
-  if (cartBtn) {
-    cartBtn.addEventListener('click', function (e) {
-      e.preventDefault()
-      const value = document.getElementById('cart-value');
-      let quantity = value.value;
-      console.log(this);
-      console.log(quantity);
-      const url = window.location.href;
-      let productId = url.slice(-2, -1);
-      console.log('p', productId)
-      let shoppingCart = Cookies.get('shoppingCart');
-
-      if (!shoppingCart) {
-        const cart = `[{${productId} : ${quantity}}]`
-        const cartJson = JSON.stringify(cart)
-        console.log(cartJson)
-        Cookies.set('shoppingCart', cartJson);
-      } else {
-        console.log(shoppingCart)
-      }
-      const cookie = Cookies.get('shoppingCart');
-      const data = JSON.parse(cookie);
-      console.log(data)
-    });
-  }
+function isTokenExpired(token) {
+  const currentTime = Date.now() / 1000
+  return token.exp < currentTime
 }
 
-document.querySelectorAll('.add-to-cart').forEach(button => {
-  button.addEventListener('click', async () => {
-    const subproductId = button.dataset.subproductId;
-    const response = await fetch(config.apiURL+'/api/add-to-cart/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ subproduct: subproductId, quantity: 1 }),
-    });
 
-    if (response.ok) {
-      // Handle successful addition to cart, e.g., show a message or update cart count
-    } else {
-      // Handle error, e.g., show an error message
-    }
+const djangoClient = new DjangoClient(config);
+
+
+// cart functionality
+
+
+const imgs = document.querySelectorAll('.img-select a');
+const imgBtns = [...imgs];
+let imgId = 1;
+
+imgBtns.forEach((imgItem) => {
+  imgItem.addEventListener('click', (event) => {
+    event.preventDefault();
+    imgId = imgItem.dataset.id;
+    slideImage();
   });
 });
+
+function slideImage() {
+  const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
+
+  document.querySelector('.img-showcase').style.transform = `translateX(${(imgId - 1) * displayWidth}px)`;
+}
+
+window.addEventListener('resize', slideImage);
+
+function addToCart(itemName, itemPrice, itemQuantity) {
+  // Get existing cart data from cookie or create empty array if none is found
+  let cartData = JSON.parse(Cookies.get("cart") || "[]");
+
+  // Check if item already exists in the shopping cart
+  let existingItemIndex = -1;
+  for (let i = 0; i < cartData.length; i++) {
+    if (cartData[i].name === itemName) {
+      existingItemIndex = i;
+      break;
+    }
+  }
+
+  // If item exists, update its quantity. Otherwise, add it to the shopping cart.
+  if (existingItemIndex >= 0) {
+    cartData[existingItemIndex].quantity += parseInt(itemQuantity);
+    showNotification(`${itemQuantity} ${itemName}(s) have been added to your shopping-cart.`);
+
+  } else {
+    let newItem = { product_id: itemName, price: parseFloat(itemPrice), quantity: parseInt(itemQuantity) };
+    cartData.push(newItem);
+    showNotification(`${itemName} has been added to your shopping-cart.`);
+  }
+
+  Cookies.set("cart", JSON.stringify(cartData));
+}
+
+function showNotification(message) {
+  const notificationElm = document.getElementById('notification');
+  notificationElm.style.display = 'block'
+  notificationElm.classList.add('notification');
+  notificationElm.textContent = message;
+
+  setTimeout(() => {
+    notificationElm.style.display = 'none'
+  }, 3000)
+
+}
+
+
+const makeOrder = document.getElementById('order-btn');
+if (makeOrder) {
+  makeOrder.addEventListener('click', function (e) {
+    e.preventDefault();
+    const cartData = Cookies.get('cart');
+    const cartJSON = JSON.parse(cartData);
+    const cartjava = JSON.stringify(cartJSON)
+    console.log(cartjava)
+    console.log(cartJSON)
+    djangoClient.apiClient.post('cart/api/make-order/', cartJSON)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
+}
 
 
 export default DjangoClient;

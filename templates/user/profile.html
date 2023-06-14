@@ -1,91 +1,410 @@
 {% extends 'base.html' %}
-
+{% load chunker %}
+{% load jformat %}
 {% load static %}
+
 {% block styles %}
 <style>
-  .gradient-custom {
-    /* fallback for old browsers */
-    background: #f6d365;
-
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
-
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
-  }
-
   .active {
     color: green;
     font-weight: bolder;
 
   }
+
+  .list-group-item p {
+    margin: 2px;
+  }
 </style>
 {% endblock %}
 
 {% block content %}
-
-<section class="vh-100" style="">
-  <div class="row d-flex justify-content-center align-items-center" style="margin-top: 30px;">
-
-    <div class="col">
-
-      <div class="card mb-3" style="border-radius: .5rem;">
-        <div class="row g-0">
+<div class="row w-100" style="margin-top: 2rem;">
+  <p id="user_id" style="display: none;">{{ request.user.id }}</p>
 
 
-          <div class="col-4 gradient-custom text-center text-white d-flex" style="align-items: center;
-            justify-content: center; flex-direction: column;">
-            <div>
-              <h5 style="text-align: center;" id="username"></h5>
+  <div class="col-4">
+    <div class="text-center d-flex" style="align-items: center; 
+      justify-content: center; flex-direction: column;">
+      <div>
+
+      </div>
+    </div>
+
+
+    <div class="d-flex">
+      <div class="card-body p-4 justify-content-center">
+
+        <div class="row">
+          <div class="col">
+            <h5>نام کاربری</h5>
+            <p class="text bold">{{user.username}}</p>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-6 mb-3">
+            <h6>ایمیل</h6>
+            <p class="text-muted" id="email"></p>
+          </div>
+          <div class="col-6 mb-3">
+            <h6>تلفن</h6>
+            <p class="text-muted" id="phone_number"></p>
+          </div>
+        </div>
+
+
+        <a href="#editProfile" class="btn btn-primary" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+          aria-controls="panelsStayOpen-collapseThree" onclick="navigateTo('#editProfile')">
+          ویرایش اطلاعات
+        </a>
+        <a href="#editProfile" class="btn btn-success" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+          aria-controls="panelsStayOpen-collapseThree" onclick="navigateTo('#editProfile')">
+          سفارشات
+        </a>
+        <button id='test-btn' class="btn btn-danger">خروج</button>
+        <h6>آدرس</h6>
+        <hr class="mt-0 mb-4">
+        <div id="loading-message" class="spinner-border" role="status" style="display: none;">
+          <span class="visually-hidden"></span>
+        </div>
+
+        <div id="alert-container">
+
+        </div>
+
+
+        <div id="address-holder" class="">
+          {% comment %}
+
+          this is where addresses are injected
+
+          {% endcomment %}
+        </div>
+
+
+        <button class="btn btn-primary">انتخاب همه</button>
+        <button id="deleteModalBtn" class="btn btn-danger">حذف</button>
+        <button id="editModalBtn" type="button" class="btn btn-warning" data-bs-target="#exampleModal">ویرایش</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h5 class="modal-title">ویرایش آدرس</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="model"></button>
+              </div>
+              <!-- Modal Body with Form-->
+              <form action="#" method="POST" id="modalFormEdit">
+                <!-- add your action URL and HTTP method here-->
+                <div class="modal-body">
+                  <!-- Add other fields as needed -->
+                  <label class="form-label" for="modalReceiver">نام دریافت‌کننده</label>
+                  <input type="text" name="receiver" id="modalReceiver" class="form-control" />
+
+                  <!-- Text input -->
+                  <label class="form-label" for="modalProvince">استان</label>
+                  <input type="text" name="province" id="modalProvince" class="form-control" />
+
+                  <!-- Text input -->
+                  <label class="form-label" for="modalCity">شهر</label>
+                  <input type="text" name="city" id="modalCity" class="form-control" />
+
+                  <!-- Text input -->
+                  <label class="form-label" for="modalZipcode">کدپستی</label>
+                  <input type="text" name="zip_code" id="modalZipcode" class="form-control" />
+
+                  <!-- Text input -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="modalPhone">شماره تلفن</label>
+                    <input type="text" name="phone" id="modalPhone" class="form-control" />
+                  </div>
+
+
+                  <!-- modal input -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="modalAddress">جزئیات آدرس</label>
+                    <textarea class="form-control" name="addr" id="modalAddress" rows="4"></textarea>
+                  </div>
+
+
+                </div>
+                <!-- Modal Footer with Submit & Close Buttons-->
+                <div class="modal-footer">
+                  <!-- submit button sends the form data to server -->
+                  <button id="modalFormSubmit" type='submit' name='submit' value='Submit'
+                    class='btn btn-primary'>ذخیره</button>
+
+                  <button type='reset' class='btn btn-secondary' data-bs-dismiss='model'>بستن</button>
+                </div>
+              </form>
+              <!--End of Form-->
+            </div><!-- End of Modal Content-->
+          </div><!-- End of Dialog -->
+        </div>
+
+
+
+        <table class="table" id="addressTable">
+          <thead>
+            <tr>
+              <th scope="col">شهر</th>
+              <th scope="col">استان</th>
+              <th scope="col">کدپستی</th>
+              <th scope="col">دریافت‌کننده</th>
+              <th scope="col">پیش فرض؟</th>
+              <th scope="col">انتخاب</th>
+            </tr>
+          </thead>
+
+          <tbody id="addressTableBody">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-8 accordion" id="accordionPanelsStayOpenExample">
+    <div class="accordion-item">
+      <h1 class="accordion-header" id="panelsStayOpen-headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+          اضافه کردن آدرس
+        </button>
+      </h1>
+
+      <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+        aria-labelledby="panelsStayOpen-headingOne">
+        <div class="accordion-body">
+
+          <div id="my-div">
+            <div class="d-flex justify-content-center">
+
+              <form id="addressForm" style="width: 60%; text-align: center;">
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="addressReciever">نام دریافت‌کننده</label>
+                  <input type="text" id="addressReciever" class="form-control" />
+                </div>
+
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="addressProvince">استان</label>
+                  <input type="text" id="addressProvince" class="form-control" />
+                </div>
+
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="addressCity">شهر</label>
+                  <input type="text" id="addressCity" class="form-control" />
+                </div>
+
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="addressZipcode">کدپستی</label>
+                  <input type="text" id="addressZipcode" class="form-control" />
+                </div>
+
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="addressPhone">شماره تلفن</label>
+                  <input type="text" id="addressPhone" class="form-control" />
+                </div>
+
+
+                <!-- Address input -->
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="addressAddress">جزئیات آدرس</label>
+                  <textarea class="form-control" id="addressAddress" rows="4"></textarea>
+                </div>
+
+                <!-- Default -->
+
+                <input type="submit" id="addressSubmit" class="btn btn-primary " style="width: 30%; " value="ثبت">
+              </form>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div>
-              <i class="far fa-edit mb-5"></i>
+
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+            aria-controls="panelsStayOpen-collapseTwo">
+            سفارشات
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+          aria-labelledby="panelsStayOpen-headingTwo">
+          <div class="accordion-body">
+            <div class="order w-100" style="margin: 1rem; margin-bottom: 40rem; margin-top: 4rem;">
+              <h1 class="text-center"
+                style="border-bottom: 1px solid white; border-top: 1px solid white; margin: 1rem;">
+                سفارشات
+              </h1>
+              {% for chunk in orders|as_chunk:2 %}
+              <div class="row">
+                {% for order in chunk %}
+                <div class="col-6">
+                  <ol class="list-group list-group-numbered">
+
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">{{order.create_date|jformat:"%A %d %B %Y %H:%M"}}</div>
+                    </div>
+
+                    {% for order_item in order.order_item.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">{{ order_item }}</div>
+                      </div>
+                      <span class="badge bg-primary rounded-pill">{{ order_item.count }}</span>
+                    </li>
+                    {% endfor %}
+                    {% if order.order_status == 2 %}
+                    <a hre class="btn btn-primary">خرید</a>
+                    {% else %}
+                    <h5 class="text-center">انجام شده</h5>
+                    {% endif %}
+                  </ol>
+                </div>
+                {% endfor %}
+              </div>
+              {% endfor %}
             </div>
           </div>
 
 
-          <div class="col-8 d-flex">
-            <div class="card-body p-4 justify-content-center">
-              <div class="row pt-1">
+        </div>
+      </div>
+    </div>
 
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+          aria-controls="panelsStayOpen-collapseThree">
+          ویرایش اطلاعات کاربری
+        </button>
+      </h2>
 
-                <div class="col-6 mb-3">
-                  <h6>ایمیل</h6>
-                  <p class="text-muted" id="email"></p>
+      <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+        aria-labelledby="panelsStayOpen-headingThree">
+
+        <div class="accordion-body">
+
+          <div class="row w-100 d-flex justify-content-center">
+
+            <div class="col-6 form-content ">
+              <form method="post" enctype="multipart/form-data" id="editProfile">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label class="small mb-1" for="old_password">کلمه عبور قبلی :</label>
+                      <input class="form-control" type="text" id="old_password">
+                      <label class="small mb-1" for="new_password">کلمه عبور جدید:</label>
+                      <input class="form-control" type="text" id="new_password">
+                    </div>
+                  </div>
+                  <br><br>
+                  <button type="submit" class="btn btn-dark btn-lg" id="profileEdit">ثبت اطلاعات</button>
                 </div>
+              </form>
+            </div>
 
-
-                <div class="col-6 mb-3">
-                  <h6>تلفن</h6>
-                  <p class="text-muted" id="phone_number"></p>
+            <div class="col-6 form-content">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label class="small mb-1">نام کاربری:</label>
+                      {{ user_form.username }}
+                      <label class="small mb-1">ایمیل:</label>
+                      {{ user_form.email }}
+                      <label class="small mb-1">تلفن همراه:</label>
+                      {{ user_form.phone }}
+                    </div>
+                  </div>
+                  <br><br>
+                  <button type="submit" class="btn btn-dark btn-lg" id="profileEdit">ثبت اطلاعات</button>
                 </div>
-
-
-              </div>
-
-
-              <h6>آدرس</h6>
-              <hr class="mt-0 mb-4">
-
-              <div id="loading-message" class="spinner-border" role="status" style="display: none;">
-                <span class="visually-hidden"></span>
-              </div>
-
-              <div id="success-alert" class="alert alert-success" role="alert" style="display: none;">
-                آدرس با موفقیت انتخاب شد
-              </div>
-              <div id="address-holder" class=""></div>
-
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
-  </div>
+</div>
 
-</section>
+
+
+<div class="row d-flex justify-content-center align-items-center" style="margin-top: 30px;">
+</div>
+
+
+
+
+
+
+{% comment %}
+{% regroup addresses by city as address_group %}
+{% for address in address_group %}
+<div class="list-group">
+  <h4>{{address.grouper}}</h4>
+  {% for x in address.list %}
+  <div class="list-group-item d-flex justify-content-between align-items-center" style="align-items: center;">
+
+    <p class="address-id">{{x.id}}</p>
+    <p>{{x.province}}</p>
+    <p>{{x.zip_code}}</p>
+    <p>{{x.phone}}</p>
+
+    <input class="" type="checkbox">
+    <button type="button" class="btn btn-primary">edit</button>
+    <button type="button" class="btn btn-danger">delete</button>
+  </div>
+  {% endfor %}
+
+</div>
+
+
+{% endfor %}
+{% endcomment %}
+</div>
+
+<script>
+  function toggleDiv() {
+    const div = document.getElementById("my-div");
+    if (div.style.display === "none") {
+      div.style.display = "block";
+    } else {
+      div.style.display = "none";
+    }
+  }
+
+  const btn = document.getElementById("toggle-btn");
+  btn.addEventListener("click", toggleDiv);
+
+
+  function navigateTo(panelId) {
+    $(panelId).click();
+
+    // Scroll smoothly to its contents using jQuery animation.
+    $('html, body').animate({
+      scrollTop: $(panelId).offset().top - 100 // -100 is the offset from top
+    }, '');
+  }
+
+</script>
 <script src="{% static 'js/profile-bundle.js' %}"></script>
 {% endblock %}

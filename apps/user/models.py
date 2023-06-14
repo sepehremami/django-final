@@ -56,6 +56,21 @@ class Address(BaseModel):
 
     objects = AddressManager()
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # deactivate all previous prices for this product.
+            try:
+                Address.objects.filter(user=self.user).update(is_default=False)
+            except Exception as e:
+                pass
+        super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['-is_default']
+        verbose_name_plural = "Addresses"
+
+
+
 
 class Membership(BaseModel):
     """
@@ -84,3 +99,5 @@ class UserRewardLog(BaseModel):
     reward_type = models.CharField(max_length=50)
     reward_point = models.IntegerField()
     operation_type = models.CharField(max_length=100)
+
+

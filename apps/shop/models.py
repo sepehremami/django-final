@@ -8,7 +8,7 @@ from apps.user.models import User
 from profanity.validators import validate_is_profane
 from django_jalali.db import models as jmodels
 from apps.cart.models import CategoryDiscount, ProductDiscount, OrderInfo
-from .managers import SubproductManager
+from .managers import SubproductManager, ProductManager
 
 class Category(BaseModel):
     """
@@ -41,6 +41,7 @@ class Category(BaseModel):
 
     class Meta:
         app_label = "shop"
+        verbose_name_plural = 'Categories'
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -54,6 +55,8 @@ class Product(BaseModel):
     desc = models.TextField(validators=[validate_is_profane])
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     image = models.ImageField(null=True)
+    objects = ProductManager()
+
     
     class Meta:
         app_label = 'shop'
@@ -130,11 +133,10 @@ class ProductColour(BaseModel):
     def __str__(self):
         return f"{self.colour}"
 
-
 class CartItem(BaseModel):
     """
     """
-    cart = models.ForeignKey(OrderInfo, on_delete=models.CASCADE, null=True)
+    cart = models.ForeignKey(OrderInfo, on_delete=models.CASCADE, related_name='cart_item', null=True)
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)
     quantity = models.SmallIntegerField()
 
@@ -146,6 +148,9 @@ class Media(BaseModel):
     name = models.CharField(max_length=50, null=True)
     subproduct = models.ForeignKey(SubProduct, on_delete=models.CASCADE, null=True, blank=True)
     img = models.ImageField(upload_to="media/media", null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Media'
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -170,3 +175,13 @@ class ProductReview(BaseModel):
 
     def __str__(self):
         return f"{self.user.username}:{self.product}:{self.pk}"
+
+'''
+
+class Tag(BaseModel):
+    """
+    product tags
+    """
+    name = models.CharField(max_length=100)
+    product = models.ManyToManyField(Product, through='ProductTag')
+'''

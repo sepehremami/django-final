@@ -7,55 +7,7 @@
     url("../webfonts/IRANSansWeb_Medium.ttf") format("truetype"); /* Safari, Android, iOS */
     font-weight: normal;
   }
-:root{
-    --orange:#ff9500;
-    --white-color:#fff;
-    --black-color:#333;
-    --light-color:rgba(0,0,0,.3);
-}
 
-*{
-    font-family: "Vazir";
-    margin:0; padding:0;
-    box-clothe-sizing: border-box-clothe;
-    outline: none; border:none;
-    text-decoration: none;
-    text-transform: capitalize;
-    transition:.2s linear;
-    text-align: right;
-    direction: rtl;
-}
-
-html{
-    font-size: 62.5%;
-    overflow-x: hidden;
-    scroll-padding-top: 7.5rem;
-    scroll-behavior: smooth;
-}
-
-html::-webkit-scrollbar{
-    width:1rem;
-}
-
-html::-webkit-scrollbar-track{
-    background:var(--white-color);
-}
-
-html::-webkit-scrollbar-thumb{
-    background:var(--black-color);
-    border-radius: 5rem;
-}
-
-body{
-    background:#eee;
-}
-
-body.active{
-    --white-color:#111;
-    --black-color:#fff;
-    --light-color:rgba(255,255,255,.3);
-    background:#222;
-}
 
 section-clothe{
     padding:1rem 9%;

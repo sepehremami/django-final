@@ -11,7 +11,7 @@ class BaseModel(models.Model):
     All models extend BaseModel
     """
 
-    is_deleted = models.BooleanField(default=False, editable=False)
+    is_deleted = models.BooleanField(default=False)
     create_date = jmodels.jDateField(auto_now_add=True)
     modified_date = jmodels.jDateField(auto_now=True)
 

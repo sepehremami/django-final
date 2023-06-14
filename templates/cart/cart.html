@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+<section class="h-100">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">سبد خرید - {{cart.order_item.all|length}} آیتم</h5>
+          </div>
+
+          {% for order in cart.order_item.all %}
+          <input id="order_id" value="{{cart.id}}" style="display: none;">
+          <div class="card-body">
+            <hr class="my-4" />
+            <!-- Single item -->
+            <div class="row">
+              <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                <!-- Image -->
+                <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                  {% if order.product.media_set.first.img.url %}
+                  <img src="{{ order.product.media_set.first.img.url }}" class="w-100">
+                  {% else %}
+                  <img src="{% static 'images/default.jpg' %}" class="w-100">
+                  {% endif %}
+                  <a href="#!">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                  </a>
+                </div>
+                <!-- Image -->
+              </div>
+
+              <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                <!-- Data -->
+                <p><strong>{{order.product.product.name}}</strong></p>
+                <p>رنگ: {{order.product.colour}}</p>
+                <p>سایز : {{order.product.size}}</p>
+                <div>
+                  
+                  <button class="increase btn btn-primary" type="submit"
+                  id="increase-cart{{forloop.counter}}">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                      fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                      <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                  </svg>
+              </button>
+
+              <input id="product-detail-cart-count" class="product-detail-cart-count"
+                  style="width:40px; text-align: center;" type="text" 
+                  value="{{ order.count }}"
+                  data-subproduct-id="{{ order.product.id }}"
+                  data-order-item ="{{ order.id }}"
+                  >
+
+              <button class="decrease btn btn-primary" type="submit" id="decrease-cart">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                      fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+                      <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                  </svg>
+              </button>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                  title="Remove item">
+                  <i class="fas fa-trash"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
+                  title="Move to the wish list">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <!-- Data -->
+              </div>
+
+              <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+
+
+                <!-- Price -->
+                <p class="text-start text-md-center" id="price-of-subpro">
+                  قیمت : {{order.product.get_active_price}}
+                </p>
+                <!-- Price -->
+              </div>
+            </div>
+            <!-- Single item -->
+            {% endfor %}
+          </div>
+        </div>
+
+
+      </div>
+      {% comment %}
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">چک</h5>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+
+                <span></span>
+              </li>
+             
+              <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                <div>
+                  <strong>فی کل</strong>
+                  <strong>
+                    <p class="mb-0"></p>
+                  </strong>
+                </div>
+                <span id="total-price"><strong>{{ cart.get_total_price }}</strong></span>
+
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                <div>
+                  <strong>تعداد کل</strong>
+                  <strong>
+                    <p class="mb-0"></p>
+                  </strong>
+                </div>
+                <span id="totalCount">{{ cart.get_total_count }}</span>
+
+              </li>
+            </ul>
+            <form method="POST" action="{% ">
+              {% csrf_token %}
+              <div class="">
+                <label for="discount_code" class="form-label">کد تخفیف</label>
+                <input type="text" name="discount_code" id="discount_code" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-secondary">اعمال</button>
+            </form>
+            {% endcomment %}
+
+            <button id="buy" type="button" class="btn btn-dark btn-lg btn-block">
+              ثبت سفارش
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+<script src="{% static 'js/cart-bundle.js' %}"></script>
+{% endblock %}

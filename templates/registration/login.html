@@ -6,7 +6,14 @@
 {% block content %}
 
 <div id="logreg-forms">
-    <form class="form-signin" action="{% url 'profile' %}">
+    <div id="successSend" class="alert alert-success" role="alert" style="display: none;">
+        با موفقیت ارسال شد
+    </div>
+    <div id="failedMisi" class="alert alert-danger" role="alert" style="display: none;">
+        ارور! مشکلی پیش آمده
+    </div>
+    
+    <form class="form-signin" action="">
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">ورود</h1>
         <div class="social-login">
         </div>
@@ -20,14 +27,8 @@
             <input type="password" id="password" class="login-input form-control" placeholder="پسورد" required="">
         </div>
 
-        <div id="login-input" style="display: flex; ">
-            <input type="text" id="otp" class="form-control" placeholder="کد پیامکی" required="">
-            <button class="otp-button" onclick="startTimer(event)">ارسال</button>
-        </div>
-
-     
-        <a href="" class="btn btn-success btn-block" id="submitBtn" type="submit"><i
-                class="fas fa-sign-in-alt" style="margin: 5px;"></i>ورود</a>
+        <a href="" class="btn btn-success btn-block" id="submitBtn" type="submit"><i class="fas fa-sign-in-alt"
+                style="margin: 5px;"></i>ورود</a>
         <a href="#" id="forgot_pswd">فراموش کردید؟</a>
         <hr>
         <button class="btn btn-primary btn-block" type="button" id="btn-signup"><i class="fas fa-user-plus"></i>ساخت
@@ -35,13 +36,22 @@
     </form>
 
     <form action="/reset/password/" class="form-reset">
-        <input type="email" id="resetEmail" class="form-control" placeholder="ایمیل" required="" autofocus="">
-        <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
+
+        <div>
+            <input type="text" id="phone" class="form-control" placeholder="شماره تلفن" required autofocus="">
+        </div>
+
+        <div  style="display: flex; ">
+            <input type="text" id="otp" class="form-control" placeholder="کد پیامکی" required autofocus="">
+            <button class="otp-button" onclick="startTimer(event)">ارسال</button>
+        </div>
+        
+        <button id="submitOTP" class="btn btn-primary btn-block" type="submit">تایید</button>
         <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
     </form>
 
     <form action="/signup/" class="form-signup">
-        <input type="email" id="user-email" class="form-control" placeholder="ایمیل" required autofocus="">
+        <input type="username" id="user-email" class="form-control" placeholder="ایمیل" required autofocus="">
         <input type="password" id="user-pass" class="form-control" placeholder="رمز" required autofocus="">
         <input type="password" id="user-repeatpass" class="form-control" placeholder="تکرار رمز" required autofocus="">
 
@@ -49,6 +59,8 @@
                 class="fas fa-user-plus"></i>ثبت‌نام</button>
         <a href="#" id="cancel_signup"><i class="fas fa-angle-left"></i> ورود</a>
     </form>
+
+
     <br>
 
 </div>
