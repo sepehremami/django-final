@@ -6,7 +6,14 @@
 {% block content %}
 
 <div id="logreg-forms">
-    <form class="form-signin" action="{% url 'profile' %}">
+    <div id="successSend" class="alert alert-success" role="alert" style="display: none;">
+        با موفقیت ارسال شد
+    </div>
+    <div id="failedMisi" class="alert alert-danger" role="alert" style="display: none;">
+        ارور! مشکلی پیش آمده
+    </div>
+    
+    <form class="form-signin" action="">
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">ورود</h1>
         <div class="social-login">
         </div>
@@ -19,9 +26,9 @@
         <div id="login-input">
             <input type="password" id="password" class="login-input form-control" placeholder="پسورد" required="">
         </div>
-     
-        <a href="" class="btn btn-success btn-block" id="submitBtn" type="submit"><i
-                class="fas fa-sign-in-alt" style="margin: 5px;"></i>ورود</a>
+
+        <a href="" class="btn btn-success btn-block" id="submitBtn" type="submit"><i class="fas fa-sign-in-alt"
+                style="margin: 5px;"></i>ورود</a>
         <a href="#" id="forgot_pswd">فراموش کردید؟</a>
         <hr>
         <button class="btn btn-primary btn-block" type="button" id="btn-signup"><i class="fas fa-user-plus"></i>ساخت
@@ -29,11 +36,17 @@
     </form>
 
     <form action="/reset/password/" class="form-reset">
-        <div id="otp-input" style="display: flex; ">
+
+        <div>
+            <input type="text" id="phone" class="form-control" placeholder="شماره تلفن" required autofocus="">
+        </div>
+
+        <div  style="display: flex; ">
             <input type="text" id="otp" class="form-control" placeholder="کد پیامکی" required autofocus="">
             <button class="otp-button" onclick="startTimer(event)">ارسال</button>
         </div>
-        <button class="btn btn-primary btn-block" type="submit">تایید</button>
+        
+        <button id="submitOTP" class="btn btn-primary btn-block" type="submit">تایید</button>
         <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
     </form>
 
@@ -47,7 +60,7 @@
         <a href="#" id="cancel_signup"><i class="fas fa-angle-left"></i> ورود</a>
     </form>
 
-   
+
     <br>
 
 </div>

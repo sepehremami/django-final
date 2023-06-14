@@ -17,159 +17,178 @@
         margin-bottom: 0;
         /* Remove any bottom margin to prevent pushing down content below */
     }
+
+    .alert {
+        padding: 20px;
+        background-color: #f44336;
+        color: white;
+        opacity: 1;
+        transition: opacity 0.6s;
+        margin-bottom: 15px;
+    }
+
+    .alert.success {
+        background-color: #04AA6D;
+    }
+
+    .alert.info {
+        background-color: #2196F3;
+    }
+
+    .alert.warning {
+        background-color: #ff9800;
+    }
+
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .closebtn:hover {
+        color: black;
+    }
 </style>
 
 {% endblock %}
 
 {% block content %}
 
-<div class="product-imgs" style="width: 50%;">
-    <div class="img-display">
-        <div class="img-showcase">
-            {% for image in images %}
-            <img class="img" src="{{image.img.url}}" alt="shoe image">
-            {% endfor %}
-        </div>
-    </div>
 
-    <div class="img-select">
+<div class="row" style="margin-top: 10px;">
 
-        {% for image in images %}
-        <div class="img-item">
-            <a href="#" data-id="{{ forloop.counter }}">
+    <div class="col-4 product-imgs">
+        <div class="img-display">
+            <div class="img-showcase">
+                {% for image in images %}
                 <img class="img" src="{{image.img.url}}" alt="shoe image">
-            </a>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
 
-    </div>
-</div>
+        <div class="img-select">
 
+            {% for image in images %}
+            <div class="img-item">
+                <a href="#" data-id="{{ forloop.counter }}">
+                    <img class="img" src="{{image.img.url}}" alt="shoe image">
+                </a>
+            </div>
+            {% endfor %}
 
-<!-- card right -->
-<div class="product-content">
-    <h2 class="product-title">{{product.name}}</h2>
-    <div class="product-rating">
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star"></i>
-        <i class="fas fa-star-half-alt"></i>
-        <span></span>
+        </div>
     </div>
 
 
-    {% comment %}
-    <div class="product-price">
-        <p class="last-price">Old Price: <span>$257.00</span></p>
-        <p class="new-price">New Price: <span>$249.00 (5%)</span></p>
-    </div>
-    {% endcomment %}
+    <!-- card right -->
+    <div class="col-6 product-content d-flex h-100" style="flex-direction: column; align-items: stretch; ">
 
-    <div class="product-detail">
-        <p>{{product.desc}}</p>
+        <h2 class="product-title">{{product.name}}</h2>
+        <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <span></span>
+        </div>
+
+
         {% comment %}
-        <ul>
-            <li>رنگ: <span></span></li>
-            <li>دسته: <span>{{product.category}}</span></li>
-        </ul>
-    </div>
-    {% endcomment %}
+        <div class="product-price">
+            <p class="last-price">Old Price: <span>$257.00</span></p>
+            <p class="new-price">New Price: <span>$249.00 (5%)</span></p>
+        </div>
+        {% endcomment %}
 
-    <table class="w-100" id="address-table">
-        {% for subproduct in product.subproduct_set.all %}
-        <tr>
-            <td>{{ subproduct.sku }}</td>
-            <td>رنگ: {{ subproduct.colour }}</td>
-            <td>اندازه: {{ subproduct.size }}</td>
-            <td>قیمت: {{ subproduct.get_active_price }}</td>
-            {% if product.get_discount %}
-            <p>{{ product.get_discount.value }}{{ product.get_discount.unit }}</p>
-            {% endif %}
+        <div>
+            <div class="product-detail" style="margin-bottom: 10px;">
+                <p>{{product.desc}}</p>
+                
+            <div>
 
-            <td>
-                <div>
-                    <button type="button" class="btn add-to-cart" id="cart-button"
-                        data-subproduct-id="{{ subproduct.id }}"
-                        data-subproduct-price="{{ subproduct.get_active_price }}">
-                        اضافه به سبد خرید <i class="fas fa-shopping-cart"></i>
-                    </button>
-                </div>
-            </td>
-            <td>
-
-                <div class="" id="added-to-cart">
-
-                    <button class="increase btn btn-primary" type="submit" id="increase-cart{{forloop.counter}}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-plus" viewBox="0 0 16 16">
-                            <path
-                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                        </svg>
-                    </button>
-
-                    <input id="product-detail-cart-count" class="product-detail-cart-count"
-                        style="width:40px; text-align: center;" type="text" value="0">
-
-                    <button class="decrease btn btn-primary" type="submit" id="decrease-cart">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-dash" viewBox="0 0 16 16">
-                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                        </svg>
-                    </button>
+                <div id="success" class="alert success" style="display:none;">
+                    <span class="closebtn">&times;</span>
+                    <strong>اضافه شد!</strong> با موفقیت به سبد اضافه شد
                 </div>
 
-            </td>
-            <div id="notification"></div>
-        </tr>
-        {% endfor %}
-    </table>
+                <div id="notification">
+
+                </div>
+
+                <table class=" table" id="address-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">کد کالا</th>
+                            <th scope="col">رنگ</th>
+                            <th scope="col">اندازه</th>
+                            <th scope="col">قیمت</th>
+                            <th scope="col">تعداد</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subproduct in product.subproduct_set.all %}
+                        <tr>
+                            <th>{{ subproduct.sku }}</td>
+                            <td>{{ subproduct.colour }}</td>
+                            <td>{{ subproduct.size }}</td>
+                            <td>{{ subproduct.get_active_price }}</td>
+
+
+                            <td>
+                                <div class="" id="added-to-cart">
+
+                                    <button class="increase btn btn-primary" type="submit"
+                                        id="increase-cart{{forloop.counter}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                        </svg>
+                                    </button>
+
+                                    <input id="product-detail-cart-count" class="product-detail-cart-count"
+                                        style="width:40px; text-align: center;" type="text" value="0"
+                                        data-subproduct-id="{{ subproduct.id }}"
+                                        data-subproduct-price="{{ subproduct.get_active_price }}"
+                                        >
+
+                                    <button class="decrease btn btn-primary" type="submit" id="decrease-cart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+                                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
 
 
+                <button type="button" class="btn add-to-cart" id="cartButton">
+                    اضافه به سبد خرید <i class="fas fa-shopping-cart"></i>
+                </button>
+            </div>
+        </div>
+        <div>
+            {{chart|safe}}
 
-    {% comment %}
-    {% for subproduct in product.subproduct_set.all %}
-    <form class="" action="" method="post">
-        {% csrf_token %}
-        <input name="id" type="text" style="display: none;" value="{{subproduct.id}}" readonly>
-        <input name="sku" type="text" value="{{ subproduct.sku }}" readonly></input>
-        <input name="colour" type="text" value="{{ subproduct.colour }}" readonly></input>
-        <input name="size" type="text" value="{{ subproduct.size }}" readonly></input>
-        <input name="price" type="text" value="{{ subproduct.get_active_price }}" readonly></input>
-        <input name="count" type="number" value=1 placeholder="تعداد"></input>
-
-        {% if product.get_discount %}
-        <p>{{ product.get_discount.value }}{{ product.get_discount.unit }}</p>
-        {% endif %}
-
-        <input type="submit" value=" اضافه به سبد خرید">
-
-        <div id="notification"></div>
-    </form>
-    {% endfor %}
-    {% endcomment %}
-
-
-
-    <div class="social-links">
-        <a href="#">
-            <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="#">
-            <i class="fab fa-twitter"></i>
-        </a>
-        <a href="#">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="#">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="#">
-            <i class="fab fa-pinterest"></i>
-        </a>
+        </div>
     </div>
 </div>
+
+
+</div>
+
 
 <script src="{% static 'js/productDetail-bundle.js' %}"></script>
 {% endblock content %}
