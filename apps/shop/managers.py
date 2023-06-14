@@ -9,3 +9,4 @@ class SubproductManager(models.Manager):
 class ProductManager(models.Manager):
     def get_discount(self):
         return self.discount.first(valid_until__gte=datetime.now())
+

@@ -7,8 +7,8 @@ from django.core.cache import cache
 from apps.shop.models import SubProduct
 from apps.shop.models import Product
 from rest_framework import viewsets
-from .serializer import OrderInfoSerializer, OrderItemSerializer, ProductDiscountSerializer, CategoryDiscountSerializer, OrderInfoPostSerializer, OrderItemPostSerializer
-from .models import OrderInfo, OrderItem, ProductDiscount, CategoryDiscount
+from .serializer import CartDiscountSerializer, OrderInfoSerializer, OrderItemSerializer, ProductDiscountSerializer, CategoryDiscountSerializer, OrderInfoPostSerializer, OrderItemPostSerializer
+from .models import CartDiscount, OrderInfo, OrderItem, ProductDiscount, CategoryDiscount
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -35,6 +35,7 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         product = self.request.data.get('product')
         count = int(self.request.data.get('count'))
+        user = request.user
         
         try:
             order = OrderInfo.objects.get(user=request.user, order_status=2)
@@ -63,16 +64,21 @@ class OrderItemViewSet(viewsets.ModelViewSet):
 
 
 class ProductDiscountViewSet(viewsets.ModelViewSet):
-    queryset = ProductDiscount.objects.all()
+    queryset = ProductDiscount.objects.filter(is_deleted=False)
     serializer_class = ProductDiscountSerializer
     permission_classes =[permissions.IsAuthenticated]
 
 
 class CategoryDiscountViewSet(viewsets.ModelViewSet):
-    queryset = CategoryDiscount.objects.all()
+    queryset = CategoryDiscount.objects.filter(is_deleted=False)
     serializer_class = CategoryDiscountSerializer
     permission_classes =[permissions.IsAuthenticated]
 
+
+class CartDiscountViewSet(viewsets.ModelViewSet):
+    queryset = CartDiscount.objects.filter(is_deleted=False)
+    serializer_class = CartDiscountSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 from apps.shop.models import CartItem
 from django.contrib.auth import authenticate
@@ -82,17 +88,28 @@ from django.core.exceptions import PermissionDenied
 def cart_view(request):
     return render(request, 'cart/cart.html')
 
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from apps.user.views import AuthenticationRequiredMixin
 from django.shortcuts import redirect
+from django.urls import reverse
+
+from django.db import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 
 
-
-class CartTemplateView(AuthenticationRequiredMixin, TemplateView):
+class CartTemplateView(TemplateView):
+    model = OrderInfo
     template_name = 'cart/cart.html'
 
     def get(self, request , *args, **kwargs):
+
         user = self.request.user
+        try:
+            order_info = OrderInfo.objects.get(pk=kwargs.get('pk'))
+            if order_info.user != user:
+                return redirect(reverse('landing'))
+        except:
+            pass
 
         return super().get(request, *args, **kwargs)
 
@@ -109,13 +126,22 @@ class CartTemplateView(AuthenticationRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         order_id = self.request.session.get('order_id')
         print(order_id)
-        if user.is_authenticated:
-            try:
-                cart = OrderInfo.objects.get(user=user, order_status=2)
-            except Exception:
-                cart = OrderInfo.objects.create(user=self.request.user, order_status=2)
-
-            context['cart'] = cart
+        try:
+            cart = OrderInfo.objects.get(id=int(kwargs.get('pk')))
+            
+            # If cart already belongs to authenticated User then proceed further otherwise raise some custom exception or redirect back.
+            if user == cart.user: 
+                context['cart'] = cart
+                
+            # Redirecting back incase Cart doesn't belong to current authenticated User instance.
+            else:     
+                return redirect("some_redirect_url")
+            
+        except (ObjectDoesNotExist, IntegrityError):
+          # If Cart doesn't exist with given id(pk) value then create new one for Authenticated User Instance.
+            # cart = OrderInfo.objects.create(user=user, order_status=2)      
+            # context['cart'] = cart
+            pass
         return context
 
 
@@ -154,4 +180,12 @@ def final_order(request):
     return Response({'hi':'hi'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
     
-    
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def validate_discount(request, *args, **kwargs):
+    code = kwargs.get('code')
+    print(code)
+
+    discount = CartDiscount.objects.get(code=code)
+    serializer = CartDiscountSerializer(instance=discount)
+    return Response(serializer.data)

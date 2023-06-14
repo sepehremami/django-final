@@ -56,6 +56,7 @@ class Product(BaseModel):
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     image = models.ImageField(null=True)
     objects = ProductManager()
+
     
     class Meta:
         app_label = 'shop'
@@ -174,3 +175,13 @@ class ProductReview(BaseModel):
 
     def __str__(self):
         return f"{self.user.username}:{self.product}:{self.pk}"
+
+'''
+
+class Tag(BaseModel):
+    """
+    product tags
+    """
+    name = models.CharField(max_length=100)
+    product = models.ManyToManyField(Product, through='ProductTag')
+'''
