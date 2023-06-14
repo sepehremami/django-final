@@ -5,114 +5,117 @@ import config from './config';
 
 
 
-function getCart() {
-  let cartData = JSON.parse(Cookies.get("cart") || "[]");
-  return cartData;
-}
-
-
-function displayCart(cart) {
-  // Clear previous items before iterating over new ones.
-  document.getElementById("shopping-cart").innerHTML = "";
-
-  // Iterate over items in the shopping cart and display them on the page.
-  for (let i = 0; i < cart.length; i++) {
-    let itemHTML = `
-        <div class="card cart-item">
-          <span class="item item-name">نام کالا: ${cart[i].name}</span>
-          <span class="item item-quantity">تعداد: ${cart[i].quantity}x </span>
-          <span class="item item-price">قیمت کل: ${(cart[i].price * cart[i].quantity).toFixed(2)}</span>
-          <button class="btn btn-danger delete-cart-item" data-index="${i}">حذف</button>
-          <button class="btn btn-danger remove-item-btn" data-index="${i}">کاهش تعداد</button>
-        </div>`;
-    document.getElementById("shopping-cart").innerHTML += itemHTML;
-  }
-
-  // Add event listeners to all Delete buttons with 'delete-cart-item' class.
-  const deleteButtons = document.querySelectorAll('.delete-cart-item');
-  for (let j = 0; j < deleteButtons.length; j++) {
-    deleteButtons[j].addEventListener('click', function (event) {
-      const indexToDelete = parseInt(this.getAttribute('data-index'));
-      console.log(`Deleting Item at Index: ${indexToDelete}`);
-
-      // Remove corresponding object from cartData array
-      const cartData = getCart();
-      cartData.splice(indexToDelete, 1);
-      Cookies.set('cart', JSON.stringify(cartData));
-
-      // Update the view by re-displaying the shopping cart with updated data
-      displayCart(getCart());
-    });
-  }
-  const removeButtons = document.querySelectorAll('.remove-item-btn');
-  for (let j = 0; j < removeButtons.length; j++) {
-    removeButtons[j].addEventListener('click', function (event) {
-      const indexToRemove = parseInt(this.getAttribute('data-index'));
-      console.log(`Removing Item at Index: ${indexToRemove}`);
-
-      // Decrement quantity of corresponding object in cartData array by 1 (if not already 0)
-      const cartData = getCart();
-      if (cartData[indexToRemove].quantity > 1) {
-        cartData[indexToRemove].quantity--;
-        Cookies.set('cart', JSON.stringify(cartData));
-
-        // Update view by re-displaying shopping cart with updated data
-        displayCart(getCart());
-      }
-    });
-  }
-}
-
-
-
-
-// Call displayCart() once to show initial shopping cart contents.
-
-
-displayCart(getCart());
-
-
 const prices = document.querySelectorAll('#price-of-subpro');
-console.log(prices)  
+console.log(prices)
 
 let total = 0;
-prices.forEach(function(price) {
-    // Extract number from text content of each p tag using regex
-    const priceValue = parseInt(price.textContent.match(/\d+/)[0]);
-    
-    // Add extracted number to total
-    total += priceValue;
+prices.forEach(function (price) {
+  const priceValue = parseInt(price.textContent.match(/\d+/)[0]);
+
+  total += priceValue;
 });
 
 
-const totalPrice = document.getElementById('total-price');
-console.log(totalPrice)
-totalPrice.innerText = total
-console.log(total);
-
-const counts  = document.querySelectorAll('input#form1');
+const counts = document.querySelectorAll('input#form1');
 console.log(counts)
 
-counts.forEach(function(count) {
-  // Extract number from text content of each p tag using regex
+counts.forEach(function (count) {
   const countValue = count.value;
-  
-  // Add extracted number to total
+
   console.log(countValue);
 });
 
 
 const djangoClient = new DjangoClient(config);
 
+
+let incrBtn = document.querySelectorAll('.increase');
+let decrBtn = document.querySelectorAll('.decrease');
+let inputCarts = document.querySelectorAll('.product-detail-cart-count')
+
+incrBtn.forEach(function (Btn, i) {
+  Btn.addEventListener('click', function (e) {
+
+    e.preventDefault()
+    let value = parseInt(inputCarts[i].value);
+    value += 1
+    inputCarts[i].value = value
+  })
+})
+
+decrBtn.forEach(function (Btn, i) {
+  Btn.addEventListener('click', function (e) {
+    e.preventDefault()
+
+    var innerValue = parseInt(inputCarts[i].value);
+    console.log(innerValue)
+    if (innerValue != 0) {
+      let value = parseInt(inputCarts[i].value);
+      value -= 1
+      inputCarts[i].value = value
+    }
+  })
+})
+
+
 document.getElementById('buy').addEventListener('click', (e) => {
   e.preventDefault();
-  const id = document.getElementById('order_id');
-  djangoClient.apiClient.patch(config.apiURL + `/cart/api/order/${id.value}/`, {'order_status':1})
-  .then(res=> {
-    window.location.assign(config.apiURL+'/user/profile/')
+  inputCarts.forEach((inputCart, i) => {
+
+    let formData = new FormData();
+    let productId = inputCart.getAttribute('data-subproduct-id');
+    let count = inputCart.value;
+    let orderID = inputCart.getAttribute('data-order-item');
+    console.log(orderID)
+    const userId = Cookies.get('id')
+
+
+    if (count != 0) {
+      formData.append('product', productId)
+      formData.append('count', count)
+      djangoClient.apiClient.patch(config.apiURL + `/cart/api/order-item/${orderID}/`, formData)
+        .then(res => {
+          console.log(res)
+          window.location.assign(`${config.apiURL}/user/order/${userId}`)
+
+        })
+        .catch(err => {
+          console.log(err)
+
+        })
+    }
   })
-  .catch(err=>{
+})
+
+function reduceByPercent(x, percent, maximum) {
+  console.log(x, percent, maximum)
+  let maxReduction = x * (percent/100);
+  console.log(maxReduction)
+  let reduction = Math.min(maxReduction, maximum);
+  console.log(reduction)
+  return x - reduction;
+}
+
+document.getElementById('discount').addEventListener('click', (e)=> {
+  e.preventDefault();
+  const discountCode = document.getElementById('discount_code')
+  const price = document.getElementById('totalPrice');
+
+  djangoClient.apiClient.get(`${config.apiURL}/cart/api/discount-validate/${discountCode.value}`)
+  .then(res=> {
+    console.log(res)
+    const {discount_value, maximum_discount_amount} = res.data;
+    const disPrice = reduceByPercent(price.innerText, discount_value, maximum_discount_amount);
+    console.log(disPrice)
+    price.style.textDecoration = 'line-through';
+    let span = document.createElement('span')
+    span.innerText = disPrice;
+    price.parentElement.append(span)
+
+  })
+  .catch(err => {
     console.log(err)
   })
   
+
 })
