@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from apps.shop.serializer import SubproductSerializer, ProductSerializer, CategorySerializer
 from apps.shop.models import CartItem 
-from .models import OrderInfo, OrderItem, CategoryDiscount, ProductDiscount
+from .models import OrderInfo, OrderItem, CategoryDiscount, ProductDiscount, CartDiscount
 from apps.user.serializers import UserSerializer, AddressSerializer
 from apps.user.models import User, Address
 
@@ -65,7 +65,10 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
+class CartDiscountSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = CartDiscount
+        fields = '__all__'
 
 class OrderItemPostSerializer(serializers.ModelSerializer):
     class Meta:
