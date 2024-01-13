@@ -206,7 +206,7 @@ addressSubmit.addEventListener('click', (e) => {
     formData.append('phone', addressPhone.value)
     formData.append('addr', addressAddress.value)
     // formData.append('is_default', addressDefault.checked)
-
+    console.log(formData)
     djangoClient.apiClient.post(config.apiURL + '/user/api/address/', formData)
         .then(res => {
             const addressTable = document.getElementById('addressTable')

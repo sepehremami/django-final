@@ -50,7 +50,6 @@ class Address(BaseModel):
     province = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     addr = models.CharField(max_length=256)
-    zip_code = models.CharField(max_length=6, null=True)
     phone = models.CharField(max_length=11)
     is_default = models.BooleanField(default=False)
 
@@ -66,10 +65,8 @@ class Address(BaseModel):
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ['-is_default']
+        ordering = ["-is_default"]
         verbose_name_plural = "Addresses"
-
-
 
 
 class Membership(BaseModel):
@@ -99,5 +96,3 @@ class UserRewardLog(BaseModel):
     reward_type = models.CharField(max_length=50)
     reward_point = models.IntegerField()
     operation_type = models.CharField(max_length=100)
-
-
