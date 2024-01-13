@@ -44,9 +44,8 @@ INSTALLED_APPS = [
     "apps.shop.apps.ShopConfig",
     "apps.user.apps.UserConfig",
     "apps.cart.apps.CartConfig",
-    "drf_yasg",
     "easy_thumbnails",
-    'django_jalali'
+    "django_jalali",
 ]
 SITE_ID = 1
 
@@ -150,10 +149,8 @@ CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-        },
-        "KEY_PREFIX": "example"
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        "KEY_PREFIX": "example",
     }
 }
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
@@ -167,8 +164,7 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-
-      "TOKEN_OBTAIN_SERIALIZER": "apps.user.serializers.ObtainTokenSerializer",
+    "TOKEN_OBTAIN_SERIALIZER": "apps.user.serializers.ObtainTokenSerializer",
 }
 
 JWT_CONF = {"TOKEN_LIFETIME_HOURS": 1}
@@ -177,32 +173,27 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
-
 AUTHENTICATION_BACKENDS = [
     # "apps.user.backends.JWTAuthBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379/'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/'
+CELERY_BROKER_URL = "redis://localhost:6379/"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/"
 
-KAVENEGAR_KEY = '2F486E324243416270567931634D756C4256327A6E324237385038494E6953586754356F415641794532733D'
+KAVENEGAR_KEY = "2F486E324243416270567931634D756C4256327A6E324237385038494E6953586754356F415641794532733D"
 
 
-SWAGGER_SETTINGS  = {
-    'PERSIST_AUTH': True,
-    'SECURITY_DEFINITIONS': {
-         'DRF Token': {
-               'type': 'apiKey',
-               'name': 'Authorization',
-               'in': 'header'
-         }}
-}
-
-THUMBNAIL_ALIASES = {
-    '': {
-        'thumbnail': {'size': (50, 50)},
+SWAGGER_SETTINGS = {
+    "PERSIST_AUTH": True,
+    "SECURITY_DEFINITIONS": {
+        "DRF Token": {"type": "apiKey", "name": "Authorization", "in": "header"}
     },
 }
 
+THUMBNAIL_ALIASES = {
+    "": {
+        "thumbnail": {"size": (50, 50)},
+    },
+}

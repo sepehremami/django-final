@@ -21,7 +21,7 @@ class OrderInfo(BaseModel):
 
     )
 
-    order_id = models.UUIDField(default=uuid.uuid4(), editable=False)
+    
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True )
     addr = models.ForeignKey(Address, on_delete=models.CASCADE, null=True, blank=True )
     total_count = models.IntegerField(default=1, blank=True, null=True)

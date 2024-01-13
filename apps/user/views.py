@@ -29,7 +29,6 @@ from django.core.cache import cache
 from rest_framework import status
 from django.shortcuts import redirect
 from django.urls import reverse
-from drf_yasg.renderers import SwaggerUIRenderer
 
 
 User = get_user_model()
